@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .theme-selector {
+    @apply relative;
+  }
+
+  .theme-button {
+    @apply p-2 rounded-full transition-colors duration-200
+           hover:bg-gray-100 dark:hover:bg-dark-200;
+  }
+
+  .theme-menu {
+    @apply absolute right-0 mt-2 py-2 w-48 bg-white dark:bg-dark-200
+           rounded-lg shadow-lg border border-gray-200 dark:border-dark-300
+           z-50;
+  }
+
+  .theme-option {
+    @apply w-full px-4 py-2 text-left flex items-center gap-3
+           hover:bg-gray-100 dark:hover:bg-dark-300 transition-colors duration-200;
+  }
+
+  .theme-option.active {
+    @apply text-primary-500 bg-primary-50 dark:bg-dark-300;
+  }
+
+  .theme-option i {
+    @apply w-5;
+  }
+} 
