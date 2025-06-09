@@ -1,0 +1,136 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900 dark:bg-dark-100 dark:text-white;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  /* Scrollbar personalizado */
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 dark:bg-dark-300 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-400 dark:bg-dark-400;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-lg font-medium transition-colors duration-200
+           focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+
+  .btn-primary {
+    @apply btn bg-primary-500 text-white
+           hover:bg-primary-600
+           focus:ring-primary-500
+           dark:focus:ring-offset-dark-200;
+  }
+
+  .btn-secondary {
+    @apply btn bg-gray-200 text-gray-900
+           hover:bg-gray-300
+           focus:ring-gray-500
+           dark:bg-dark-300 dark:text-white dark:hover:bg-dark-400;
+  }
+
+  .btn-danger {
+    @apply btn bg-red-500 text-white
+           hover:bg-red-600
+           focus:ring-red-500;
+  }
+
+  .input {
+    @apply w-full px-4 py-2 rounded-lg border border-gray-300
+           focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent
+           dark:bg-dark-200 dark:border-dark-300 dark:text-white
+           dark:focus:ring-primary-500;
+  }
+
+  .card {
+    @apply bg-white dark:bg-dark-200 rounded-xl shadow-sm
+           transition-transform duration-200 hover:scale-[1.02];
+  }
+
+  .tag {
+    @apply px-3 py-1 rounded-full text-sm font-medium
+           transition-colors duration-200;
+  }
+
+  .tag-primary {
+    @apply tag bg-primary-50 text-primary-700
+           hover:bg-primary-100
+           dark:bg-dark-300 dark:text-primary-400 dark:hover:bg-dark-400;
+  }
+
+  .tag-secondary {
+    @apply tag bg-gray-100 text-gray-700
+           hover:bg-gray-200
+           dark:bg-dark-300 dark:text-gray-300 dark:hover:bg-dark-400;
+  }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseScale {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s ease-in-out;
+}
+
+.animate-slide-down {
+  animation: slideDown 0.3s ease-in-out;
+}
+
+.animate-pulse-scale {
+  animation: pulseScale 2s infinite;
+} 

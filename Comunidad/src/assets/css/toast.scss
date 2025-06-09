@@ -1,0 +1,163 @@
+@use "sass:color";
+
+/* Variables de tema */
+:root {
+  --toast-success: #1db954; /* Verde Spotify */
+  --toast-error: #e22134;   /* Rojo para errores */
+  --toast-warning: #ff9f43; /* Naranja */
+  --toast-info: #2d87d0;    /* Azul */
+  --toast-text: #fff;
+  --toast-border-radius: 8px;
+  --toast-font: 'Circular', sans-serif; /* Usa tu fuente */
+}
+
+/* Estructura principal */
+.Vue-Toastification__container {
+  padding: 20px;
+}
+
+/* Toast individual */
+.Vue-Toastification__toast {
+  font-family: var(--toast-font);
+  border-radius: var(--toast-border-radius) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 16px 24px;
+  min-height: 60px;
+  align-items: center;
+
+  &-body {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  /* Tipos de toast */
+  &--success {
+    background-color: var(--toast-success);
+    .Vue-Toastification__icon {
+      color: color.adjust(#1db954, $lightness: -10%);
+    }
+  }
+
+  &--error {
+    background-color: var(--toast-error);
+  }
+
+  &--warning {
+    background-color: var(--toast-warning);
+    color: #333;
+  }
+
+  &--info {
+    background-color: var(--toast-info);
+  }
+
+  /* Iconos */
+  .Vue-Toastification__icon {
+    margin-right: 12px;
+    font-size: 20px;
+  }
+
+  /* Botón de cierre */
+  .Vue-Toastification__close-button {
+    color: rgba(255, 255, 255, 0.7);
+    opacity: 1;
+    align-self: center;
+    &:hover {
+      color: white;
+    }
+  }
+}
+
+/* Animaciones personalizadas */
+.vue-toastification-enter-active,
+.vue-toastification-leave-active {
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.vue-toastification-enter-from,
+.vue-toastification-leave-to {
+  opacity: 0;
+  transform: translateY(-20px) scale(0.95);
+}
+
+/* Para móviles */
+@media (max-width: 768px) {
+  .Vue-Toastification__container {
+    width: 90vw;
+    left: 5vw;
+    right: 5vw;
+  }
+  
+  .Vue-Toastification__toast {
+    margin-bottom: 10px;
+  }
+}
+
+/* Toast con botones de acción */
+.toast-action {
+  .Vue-Toastification__toast-body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    
+    button {
+      flex: 1;
+      padding: 6px 12px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s;
+      
+      &:first-child {
+        background: white;
+        color: var(--toast-info);
+      }
+      
+      &:last-child {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+      }
+    }
+  }
+}
+
+[data-theme="dark"] {
+  .Vue-Toastification__toast {
+    &--info, &--warning {
+      color: #fff;
+    }
+    
+    &--warning {
+      background-color: #ff9f43;
+    }
+  }
+}
+
+[data-theme="light"] {
+  .Vue-Toastification__toast {
+    &--warning {
+      background-color: #ffe08a;
+      color: #333;
+    }
+  }
+}
+
+.Vue-Toastification__toast {
+  &--success {
+    .Vue-Toastification__icon::before {
+      content: "🎧"; 
+    }
+  }
+  
+  &--error {
+    .Vue-Toastification__icon::before {
+      content: "❌";
+    }
+  }
+}
