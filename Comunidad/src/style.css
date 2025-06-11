@@ -1,3 +1,4 @@
+/* Ajuste para resolver el problema de @layer base */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -18,7 +19,7 @@
     max-width: 56rem;
     margin: 0 auto;
     padding: 2rem 1rem;
-    background-color: #2c2c54; /* Morado oscuro */
+    background-color: #9b9ba3; /* Morado oscuro */
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
@@ -33,7 +34,7 @@
 
   .preference-group {
     padding: 1rem;
-    background-color: #1e1e2f; /* Negro con tono morado */
+    background-color: #dedeec; /* Negro con tono morado */
     border-radius: 0.5rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 1rem;
@@ -91,6 +92,7 @@
     border-radius: 9999px;
     transition-property: background-color, color, border-color, text-decoration-color, fill, stroke;
     transition-duration: 200ms;
+    background-color: white;
   }
   .theme-button:hover {
     background-color: #9b59b6; /* Morado */
@@ -311,7 +313,7 @@
   .meta-info i {
     font-size: 16px;
   }
-
+  
   /* Styles from PlaylistView.vue */
   .playlist-view {
     max-width: 1200px;
@@ -508,4 +510,10 @@ button:focus-visible {
 .Vue-Toastification__toast {
   border-radius: 8px !important;
   font-family: 'Arial', sans-serif !important;
+}
+
+#coverImage {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
 }

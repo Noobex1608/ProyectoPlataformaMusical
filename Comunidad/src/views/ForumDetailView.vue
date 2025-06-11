@@ -3,7 +3,6 @@
     <!-- Encabezado -->
     <div class="bg-white rounded-lg shadow p-6 mb-6">
       <div class="flex items-start space-x-4">
-        <!-- Si tienes datos de artista, muéstralos aquí, si no, elimina esta imagen -->
         <div class="flex-1">
           <h1 class="text-2xl font-bold mb-2">{{ forum.title }}</h1>
           <div class="flex items-center space-x-2 text-gray-500 mb-4">
@@ -33,7 +32,6 @@
       <h2 class="text-xl font-semibold mb-6">Comentarios</h2>
       <div class="mb-8">
         <div class="flex items-start space-x-4">
-          <!-- No hay currentUser.avatar_url, solo muestra un placeholder -->
           <div class="flex-1">
             <textarea v-model="newComment"
                       rows="3"
@@ -96,7 +94,7 @@ onMounted(async () => {
 
 async function submitComment() {
   if (!newComment.value.trim()) return;
-  // Implementa la lógica para crear comentario
+  // Implementar proximamente la lógica para crear comentario
   newComment.value = '';
 }
 
@@ -111,6 +109,3 @@ function formatDate(date: string): string {
 }
 </script>
 
-<style scoped>
-/* Las clases se definen ahora en style.css usando @layer components */
-</style>

@@ -14,21 +14,25 @@
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/vue-fontawesome": "^3.0.8",
     "@supabase/supabase-js": "^2.50.0",
+    "@tailwindcss/vite": "^4.1.9",
     "pinia": "^3.0.3",
     "vue": "^3.5.13",
     "vue-router": "^4.5.1",
     "vue-toastification": "^2.0.0-rc.5"
   },
   "devDependencies": {
-    "@types/node": "^22.15.30",
+    "@tailwindcss/postcss": "^4.1.9",
+    "@types/node": "^24.0.0",
     "@vitejs/plugin-vue": "^5.2.3",
     "@vue/tsconfig": "^0.7.0",
     "autoprefixer": "^10.4.17",
     "postcss": "^8.4.35",
+    "postcss-scss": "^4.0.9",
+    "sass": "^1.89.2",
     "sass-embedded": "^1.89.1",
-    "tailwindcss": "^3.4.1",
+    "tailwindcss": "^4.1.9",
     "typescript": "~5.8.3",
-    "vite": "^5.1.4",
-    "vue-tsc": "^2.2.8"
+    "vite": "^6.3.5",
+    "vue-tsc": "^2.2.10"
   }
 }

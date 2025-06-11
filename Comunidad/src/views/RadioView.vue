@@ -12,7 +12,7 @@
       <section class="preferences-section bg-gray-50 dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-8">
         <div class="flex justify-between items-center mb-6">
           <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-            Tus Preferencias
+            <div id="tituloPreferenciasRadio">Tus Preferencias</div>
           </h3>
           <button 
             @click="openPreferencesModal"
@@ -75,7 +75,7 @@
       </section>
       
       <!-- Reproductor -->
-      <section class="player-section bg-gray-50 dark:bg-gray-800 rounded-xl shadow-lg p-6">
+      <section class="player-section bg-gray-50 dark:bg-gray-800 rounded-xl shadow-lg p-6" id="playerSection">
         <div v-if="loading" class="flex items-center space-x-6">
           <div class="w-24 h-24 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse"></div>
           <div class="flex-1">
@@ -91,7 +91,8 @@
               :loading="currentTrack.coverUrl ? 'lazy' : 'eager'"
               :alt="currentTrack.title"
               class="w-24 h-24 rounded-lg object-cover shadow-lg transition-transform duration-300 group-hover:scale-105"
-            >
+              id="coverImage"            
+              >
             <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-300 rounded-lg"></div>
           </div>
           
@@ -623,5 +624,13 @@ input[type="text"], input[type="file"] {
 
 input[type="text"]::placeholder {
   color: #cccccc; /* Color del texto del placeholder */
+}
+.external-nav-button {
+  background-color: #1db954;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
 }
 </style>

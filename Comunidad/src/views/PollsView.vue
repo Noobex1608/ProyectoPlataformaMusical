@@ -60,13 +60,13 @@
 
     <div v-else class="empty-state">
       <p>No hay encuestas activas</p>
-      <button @click="showCreateModal = true">Crear Primera Encuesta</button>
+      <button @click="showCreateModal = true" id="botonCrearPrimeraEncuesta">Crear Primera Encuesta</button>
     </div>
 
     <!-- Modal de Creación -->
     <Modal v-if="showCreateModal" @close="showCreateModal = false">
       <template #header>
-        <h3>Nueva Encuesta</h3>
+        <div id="tituloNuevaEncuesta"><h3>Nueva Encuesta</h3></div>
       </template>
 
       <template #default>
@@ -530,5 +530,44 @@ onMounted(async () => {
     flex-direction: column;
     gap: 0.5rem;
   }
+}
+</style>
+
+<style scoped>
+.create-button {
+  color: black;
+}
+
+.add-option {
+  color: black;
+}
+
+.poll-form h3 {
+  color: black !important;
+  font-weight: bold;
+}
+#tituloNuevaEncuesta h3 {
+  color: black !important;
+  text-align: center;
+  font-size: 1.5rem;
+}
+.footer-actions button {
+  margin-top: 0.5rem;
+}
+#botonCrearPrimeraEncuesta {
+  background-color: #1db954;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+}
+.create-button{
+  background-color: #1db954;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  cursor: pointer;
 }
 </style>

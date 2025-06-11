@@ -39,6 +39,12 @@
         <p>No hay clubes de fans creados</p>
         <button @click="showCreateModal = true" class="primary-button">Crear Primer Club</button>
       </section>
+
+      <div class="footer-actions">
+        <button @click="$router.push({ name: 'Community' })" class="external-nav-button">
+          Ir a Comunidad
+        </button>
+      </div>
     </main>
 
     <!-- Modal de Creación -->
@@ -114,7 +120,7 @@
         <button @click="createClub" class="primary" :disabled="isCreating">
           {{ isCreating ? 'Creando...' : 'Crear Club' }}
         </button>
-        <button @click="showCreateModal = false" class="secondary">Cancelar</button>
+        <button @click="showCreateModal = false">Cancelar</button>
       </template>
     </Modal>
 
@@ -394,31 +400,24 @@ onMounted(async () => {
 
 .clubs-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.5rem;
 }
 
 .club-card {
   background: white;
   border-radius: 12px;
-  overflow: hidden;
+  padding: 1.5rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.club-card:hover {
-  transform: translateY(-4px);
 }
 
 .club-banner {
   width: 100%;
-  height: 160px;
-  object-fit: cover;
+  height: auto;
+  border-radius: 8px;
 }
 
 .club-info {
-  padding: 1.5rem;
+  margin-top: 1rem;
 }
 
 .club-info h3 {
@@ -434,219 +433,37 @@ onMounted(async () => {
 .club-meta {
   display: flex;
   gap: 1rem;
-  margin-top: 1rem;
   color: #888;
   font-size: 0.9rem;
+  margin-top: 0.5rem;
 }
 
 .empty-state {
   text-align: center;
-  padding: 2rem;
+  color: #666;
 }
 
 .primary-button {
   background: #1db954;
   color: white;
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
+  padding: 0.75rem;
+  border-radius: 8px;
   cursor: pointer;
-}
-
-.primary-button:hover {
-  background: #17a74a;
-}
-
-.secondary {
-  background: #f5f5f5;
-  color: #333;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  cursor: pointer;
-}
-
-.secondary:hover {
-  background: #e0e0e0;
-}
-
-.club-form {
-  padding: 1rem;
-}
-
-.form-group {
-  margin-bottom: 1.5rem;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: #333;
-}
-
-.form-group input[type="text"],
-.form-group textarea,
-.form-group select {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.club-detail-modal {
-  max-width: 900px;
-}
-
-.club-detail-header {
-  position: relative;
-}
-
-.club-detail-banner {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
-
-.club-detail-info {
-  padding: 1.5rem;
-}
-
-.club-stats {
-  display: flex;
-  gap: 1.5rem;
   margin-top: 1rem;
-  color: #666;
 }
 
-.club-actions {
-  padding: 1rem;
+.footer-actions {
+  margin-top: 2rem;
   text-align: center;
-  border-bottom: 1px solid #eee;
 }
 
-.join-button {
+.external-nav-button {
   background: #1db954;
   color: white;
   border: none;
-  padding: 0.75rem 2rem;
-  border-radius: 25px;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-.section-tabs {
-  display: flex;
-  gap: 1rem;
-  padding: 1rem;
-  border-bottom: 1px solid #eee;
-}
-
-.section-tabs button {
-  background: none;
-  border: none;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  color: #666;
-}
-
-.section-tabs button.active {
-  color: #1db954;
-  border-bottom: 2px solid #1db954;
-}
-
-.section-content {
-  padding: 1.5rem;
-}
-
-.create-post {
-  margin-bottom: 2rem;
-}
-
-.create-post textarea {
-  width: 100%;
   padding: 0.75rem;
-  border: 1px solid #ddd;
   border-radius: 8px;
-  margin-bottom: 0.5rem;
-}
-
-.club-post {
-  padding: 1rem;
-  border-bottom: 1px solid #eee;
-}
-
-.post-header {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 0.5rem;
-}
-
-.user-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.post-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.post-info span {
-  font-size: 0.9rem;
-  color: #666;
-}
-
-.members-list {
-  display: grid;
-  gap: 1rem;
-}
-
-.member-item {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.75rem;
-  border-bottom: 1px solid #eee;
-}
-
-.member-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.member-info span {
-  font-size: 0.9rem;
-  color: #666;
-}
-
-.club-rules {
-  padding: 1rem;
-  background: #f9f9f9;
-  border-radius: 8px;
-}
-
-@media (max-width: 768px) {
-  .fan-club-view {
-    padding: 1rem;
-  }
-
-  .club-header {
-    flex-direction: column;
-    gap: 1rem;
-    text-align: center;
-  }
-
-  .section-tabs {
-    overflow-x: auto;
-    white-space: nowrap;
-    padding: 0.5rem;
-  }
-
-  .club-detail-info {
-    padding: 1rem;
-  }
+  cursor: pointer;
 }
 </style>

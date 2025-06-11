@@ -3,7 +3,7 @@
     <!-- Header siempre visible -->
     <header class="community-header">
       <div class="header-content">
-        <h1>Comunidad Musical</h1>
+        <h1 id="tituloPrincipalComunidadMusical">Comunidad Musical</h1>
         <div class="header-actions">
           <NotificationBell />
         </div>
@@ -99,8 +99,9 @@ onMounted(async () => {
 
 .header-content {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
+  text-align: center;
   margin-bottom: 1.5rem;
 }
 
@@ -179,25 +180,33 @@ nav ul li:hover {
   color: #14833b;
 }
 
+
 @media (max-width: 768px) {
   .community-view {
-    padding: 1rem;
+    padding: 0; 
   }
 
   .header-content {
-    flex-direction: column;
-    text-align: center;
-    gap: 1rem;
+    margin-left: auto; /* Centrado completo */
+    margin-right: auto;
   }
 
   .navigation-tabs {
-    overflow-x: auto;
-    white-space: nowrap;
-    padding-bottom: 0.5rem;
+    overflow-x: visible; /* Ajuste para evitar scroll horizontal */
+    white-space: normal;
+    padding-bottom: 1rem; /* Mantener consistencia */
   }
 
   .navigation-tabs button {
-    padding: 0.5rem 1rem;
+    padding: 0.75rem 1.5rem; /* Restaurar tamaño original */
   }
+}
+
+#tituloPrincipalComunidadMusical {
+  font-size: 2rem;
+  color: #1db954;
+  margin: 0;
+  
+  font-weight: bold;
 }
 </style>

@@ -394,11 +394,7 @@ onMounted(loadPoll);
 </script>
 
 <style>
-.añadirOpcionesEncuesta {
-  font-size: 16px;
-  color: black;
-  cursor: pointer;
-}
+
 .poll-detail-view {
   max-width: 800px;
   margin: 0 auto;

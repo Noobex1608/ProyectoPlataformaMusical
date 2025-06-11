@@ -42,6 +42,12 @@
       <i class="fas fa-bell-slash"></i>
       <p>No tienes notificaciones</p>
     </div>
+
+    <div class="footer-actions">
+      <button @click="$router.push({ name: 'Community' })" class="external-nav-button">
+        Ir a Comunidad
+      </button>
+    </div>
   </div>
 </template>
 
@@ -146,7 +152,7 @@ onMounted(async () => {
 
 <style scoped>
 .notifications-view {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
 }
@@ -158,17 +164,21 @@ onMounted(async () => {
   margin-bottom: 2rem;
 }
 
-.mark-all-button {
-  background: none;
-  border: 1px solid #1db954;
-  color: #1db954;
+.notifications-header h2 {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.header-actions .mark-all-button {
+  background: #1db954;
+  color: white;
+  border: none;
   padding: 0.5rem 1rem;
   border-radius: 20px;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  transition: all 0.2s;
 }
 
 .mark-all-button:hover {
@@ -178,19 +188,17 @@ onMounted(async () => {
 
 .notifications-list {
   display: grid;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 .notification-item {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 1rem;
-  padding: 1rem;
   background: white;
   border-radius: 12px;
+  padding: 1.5rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  transition: transform 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .notification-item:hover {
@@ -198,33 +206,21 @@ onMounted(async () => {
 }
 
 .notification-item.unread {
-  background: #f0f9ff;
   border-left: 4px solid #1db954;
 }
 
 .notification-icon {
-  width: 40px;
-  height: 40px;
-  background: #f5f5f5;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #1db954;
-}
-
-.notification-content {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  font-size: 2rem;
+  color: #888;
 }
 
 .notification-content p {
   margin: 0;
+  font-size: 1rem;
   color: #333;
 }
 
-.notification-time {
+.notification-content .notification-time {
   font-size: 0.9rem;
   color: #666;
 }
@@ -234,44 +230,29 @@ onMounted(async () => {
   border: none;
   color: #1db954;
   cursor: pointer;
-  padding: 0.5rem;
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-
-.notification-item:hover .mark-read-button {
-  opacity: 1;
 }
 
 .empty-state {
   text-align: center;
-  padding: 3rem;
   color: #666;
 }
 
 .empty-state i {
   font-size: 3rem;
   margin-bottom: 1rem;
-  color: #ddd;
 }
 
-@media (max-width: 768px) {
-  .notifications-view {
-    padding: 1rem;
-  }
-
-  .notifications-header {
-    flex-direction: column;
-    gap: 1rem;
-    text-align: center;
-  }
-
-  .notification-item {
-    grid-template-columns: auto 1fr;
-  }
-
-  .mark-read-button {
-    display: none;
-  }
+.footer-actions {
+  margin-top: 2rem;
+  text-align: center;
 }
-</style> 
+
+.external-nav-button {
+  background: #1db954;
+  color: white;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+</style>
