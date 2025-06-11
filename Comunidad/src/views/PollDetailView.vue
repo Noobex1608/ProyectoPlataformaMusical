@@ -21,7 +21,7 @@
             </span>
           </div>
           <div class="poll-tags">
-            <!-- Si hay tags, muéstralos aquí -->
+            
           </div>
         </div>
         <!-- Acciones -->
@@ -145,7 +145,7 @@
               class="add-option-btn"
             >
               <i class="fas fa-plus"></i>
-              Añadir Opción
+              <div id="AñadirOpcionesEncuesta">Añadir Opción</div>
             </button>
           </div>
         </form>
@@ -158,6 +158,13 @@
         <button @click="showEditModal = false">Cancelar</button>
       </template>
     </Modal>
+
+    <div class="footer-actions">
+      <!-- Botón externo para navegar a CommunityView -->
+      <button @click="$router.push({ name: 'Community' })" class="external-nav-button">
+        Ir a Comunidad
+      </button>
+    </div>
   </div>
 </template>
 
@@ -386,12 +393,17 @@ function formatCommentDate(date: string) {
 onMounted(loadPoll);
 </script>
 
-<style scoped>
+<style>
+.añadirOpcionesEncuesta {
+  font-size: 16px;
+  color: black;
+  cursor: pointer;
+}
 .poll-detail-view {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
-  background: #fff;
+  background: black;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -405,6 +417,7 @@ onMounted(loadPoll);
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  color: #666;
 }
 
 .poll-info {
@@ -414,6 +427,7 @@ onMounted(loadPoll);
 .poll-info h1 {
   font-size: 28px;
   margin: 0 0 10px 0;
+  color: black;
 }
 
 .poll-info .description {
@@ -438,269 +452,26 @@ onMounted(loadPoll);
 
 .meta-info i {
   font-size: 16px;
-  color: #007bff;
 }
 
-.actions {
-  display: flex;
-  gap: 10px;
+.header-actions {
+  margin-top: 20px;
+  text-align: right;
 }
 
-.edit-btn,
-.status-btn {
-  padding: 10px 15px;
-  font-size: 14px;
+.external-nav-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: black;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  transition: background 0.3s;
-}
-
-.edit-btn {
-  background: #007bff;
-  color: #fff;
-}
-
-.edit-btn:hover {
-  background: #0056b3;
-}
-
-.status-btn {
-  background: #28a745;
-  color: #fff;
-}
-
-.status-btn.close-btn {
-  background: #dc3545;
-}
-
-.status-btn.reopen-btn {
-  background: #007bff;
-}
-
-.status-btn:hover {
-  opacity: 0.9;
-}
-
-.voting-section {
-  margin-bottom: 30px;
-}
-
-.voting-section h2 {
-  font-size: 22px;
-  margin: 0 0 15px 0;
-}
-
-.options-list {
-  background: #f9f9f9;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.option-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid #eaeaea;
-}
-
-.option-item:last-child {
-  border-bottom: none;
-}
-
-.option-content {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.option-info {
-  flex: 1;
-}
-
-.option-info h3 {
-  font-size: 18px;
-  margin: 0 0 5px 0;
-}
-
-.votes_count {
-  font-size: 14px;
-  color: #666;
-  margin: 0;
-}
-
-.progress-bar {
-  width: 100%;
-  height: 8px;
-  background: #e9ecef;
-  border-radius: 4px;
-  overflow: hidden;
-  margin: 5px 0;
-}
-
-.progress {
-  height: 100%;
-  background: #007bff;
-  transition: width 0.3s;
-}
-
-.vote-btn {
-  padding: 8px 12px;
-  font-size: 14px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  background: #007bff;
-  color: #fff;
-  transition: background 0.3s;
-}
-
-.vote-btn:disabled {
-  background: #ccc;
-  cursor: not-allowed;
-}
-
-.comments-section {
-  margin-top: 30px;
-}
-
-.comments-section h2 {
-  font-size: 22px;
-  margin: 0 0 15px 0;
-}
-
-.comments-list {
-  background: #f9f9f9;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.comment-item {
-  display: flex;
-  align-items: flex-start;
-  padding: 10px 0;
-  border-bottom: 1px solid #eaeaea;
-}
-
-.comment-item:last-child {
-  border-bottom: none;
-}
-
-.comment-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-right: 10px;
-}
-
-.comment-content {
-  flex: 1;
-}
-
-.comment-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 5px;
-}
-
-.comment-header strong {
   font-size: 16px;
-  color: #333;
 }
 
-.comment-header span {
-  font-size: 12px;
-  color: #999;
+.external-nav-button:hover {
+  background-color: #0056b3;
 }
 
-.comment-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 15px;
-}
 
-.comment-form textarea {
-  width: 100%;
-  padding: 10px;
-  font-size: 14px;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
-  resize: none;
-}
-
-.comment-form button {
-  align-self: flex-end;
-  padding: 8px 12px;
-  font-size: 14px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  background: #007bff;
-  color: #fff;
-  transition: background 0.3s;
-}
-
-.comment-form button:disabled {
-  background: #ccc;
-  cursor: not-allowed;
-}
-
-.modal {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.modal-header h3 {
-  font-size: 18px;
-  margin: 0;
-}
-
-.modal-close {
-  cursor: pointer;
-  font-size: 18px;
-  color: #999;
-}
-
-.modal-close:hover {
-  color: #333;
-}
-
-.modal-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-}
-
-.primary {
-  padding: 10px 15px;
-  font-size: 14px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  background: #007bff;
-  color: #fff;
-  transition: background 0.3s;
-}
-
-.primary:hover {
-  background: #0056b3;
-}
 </style>

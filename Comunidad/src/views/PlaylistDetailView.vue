@@ -165,6 +165,13 @@
         <button @click="showEditModal = false">Cancelar</button>
       </template>
     </Modal>
+
+    <div class="footer-actions">
+      <!-- Botón externo para navegar a CommunityView -->
+      <button @click="$router.push({ name: 'Community' })" class="external-nav-button">
+        Ir a Comunidad
+      </button>
+    </div>
   </div>
 </template>
 
@@ -289,7 +296,7 @@ const formatDuration = (duration: number): string => {
 onMounted(loadPlaylist);
 </script>
 
-<style scoped>
+<style>
 .playlist-detail-view {
   max-width: 1200px;
   margin: 0 auto;
@@ -508,6 +515,28 @@ onMounted(loadPlaylist);
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+.header-actions {
+  margin-top: 1rem;
+  text-align: right;
+}
+
+.external-nav-button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  background: #007bff;
+  color: white;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.external-nav-button:hover {
+  background: #0056b3;
 }
 
 @media (max-width: 768px) {

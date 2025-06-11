@@ -6,11 +6,9 @@ import type {
   PollOption,
   PollVote,
   CommunityEvent,
-  Notification,
   SocialPlaylist,
   RadioPreference,
-  ClubMember,
-  ClubPost
+  ClubMember
 } from '@/types/community.types';
 
 class CommunityService {
@@ -115,29 +113,50 @@ class CommunityService {
 
   // Encuestas
   async createPoll(poll: Omit<Poll, 'id' | 'created_at'>, options: Omit<PollOption, 'id' | 'poll_id' | 'votes_count'>[]) {
+    console.log('Datos recibidos en createPoll:', poll);
+    console.log('Opciones recibidas en createPoll:', options);
+
+    console.log('Datos enviados a la tabla polls:', {
+      ...poll,
+      created_at: new Date().toISOString()
+    });
+
     const { data: pollData, error: pollError } = await supabase
       .from('polls')
       .insert({
         ...poll,
-        created_at: new Date().toISOString()
+        created_at: new Date().toISOString() // Asegura que siempre se envía created_at
       })
       .select()
       .single();
 
-    if (pollError) throw pollError;
+    console.log('Resultado de la inserción en polls:', pollData);
 
-    const { error: optionsError } = await supabase
+    if (pollError) {
+      console.error('Error al insertar en polls:', pollError);
+      throw pollError;
+    }
+
+    const formattedOptions = options.map(option => ({
+      ...option,
+      poll_id: pollData.id, // Relacionar opciones con la encuesta creada
+      votes_count: 0 // Inicializar el conteo de votos
+    }));
+
+    console.log('Opciones formateadas para insertar:', formattedOptions);
+
+    const { data: optionsData, error: optionsError } = await supabase
       .from('poll_options')
-      .insert(
-        options.map(option => ({
-          ...option,
-          poll_id: pollData.id,
-          votes_count: 0
-        }))
-      );
+      .insert(formattedOptions);
 
-    if (optionsError) throw optionsError;
-    return pollData;
+    console.log('Resultado de la inserción en poll_options:', optionsData);
+
+    if (optionsError) {
+      console.error('Error al insertar en poll_options:', optionsError);
+      throw optionsError;
+    }
+
+    return { ...pollData, options: optionsData };
   }
 
   async votePoll(vote: Omit<PollVote, 'id' | 'created_at'>) {

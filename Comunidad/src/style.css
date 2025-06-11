@@ -4,12 +4,12 @@
 
 @layer base {
   body {
-        background-color: #fff;
-        color: #1a202c;
-    }
-    body.dark {
-        background-color: #111827;
-        color: #fff;
+    background-color: #1a1a1a; /* Negro */
+    color: #ffffff; /* Blanco */
+  }
+  body.dark {
+    background-color: #0d0d0d; /* Negro más oscuro */
+    color: #ffffff; /* Blanco */
   }
 }
 
@@ -18,12 +18,50 @@
     max-width: 56rem;
     margin: 0 auto;
     padding: 2rem 1rem;
+    background-color: #2c2c54; /* Morado oscuro */
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .radio-view h2 {
+    color: #ffffff; /* Blanco */
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1rem;
   }
 
   .preference-group {
     padding: 1rem;
-    background-color: rgb(249 250 251);
+    background-color: #1e1e2f; /* Negro con tono morado */
     border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+  }
+
+  .preference-group span {
+    display: inline-block;
+    background-color: #6c5ce7; /* Morado */
+    color: #fff; /* Blanco */
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    margin: 0.25rem;
+  }
+
+  button {
+    background-color: #6c5ce7; /* Morado */
+    color: #fff; /* Blanco */
+    border-radius: 8px;
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.25s;
+  }
+
+  button:hover {
+    background-color: #4834d4; /* Morado más oscuro */
   }
 
   .forum-view {
@@ -55,10 +93,10 @@
     transition-duration: 200ms;
   }
   .theme-button:hover {
-    background-color: #f3f4f6; 
+    background-color: #9b59b6; /* Morado */
   }
   body.dark .theme-button:hover {
-    background-color: #374151; 
+    background-color: #6c3483; /* Morado más oscuro */
   }
 
   .theme-menu {
@@ -79,8 +117,8 @@
     padding-top: 0.5rem;
   }
   .theme-option.active {
-    color: #3b82f6;
-    background-color: #eff6ff;
+    color: #9b59b6; /* Morado */
+    background-color: #f3e5f5; /* Blanco con tono morado */
   }
   .theme-option i {
     width: 1.25rem;
@@ -117,15 +155,263 @@
   }
 
   .theme-option.active {
-    color: #3b82f6;
-    background-color: #eff6ff;
+    color: #9b59b6; /* Morado */
+    background-color: #f3e5f5; /* Blanco con tono morado */
   }
   body.dark .theme-option.active {
-    background-color: #374151;
+    background-color: #6c3483; /* Morado más oscuro */
   }
 
   .theme-option i {
     width: 1.25rem;
+  }
+
+  .upload-modal {
+    background-color: #2c2c54; /* Morado oscuro */
+    color: #fff; /* Blanco */
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Styles from RadioView.vue */
+  input[type="text"], input[type="file"] {
+    color: #ffffff; /* Cambiar el color del texto a blanco para mejor visibilidad en temas oscuros */
+  }
+
+  input[type="text"]::placeholder {
+    color: #cccccc; /* Color del texto del placeholder */
+  }
+
+  /* Ajuste de estilo para el campo de correo electrónico */
+  input[type="email"] {
+    background-color: #f0f0f0; /* Gris claro */
+    color: #333; /* Texto oscuro */
+    border: 1px solid #ccc; /* Borde gris */
+    border-radius: 4px;
+    padding: 0.5rem;
+  }
+
+  /* Ajuste de estilo para los campos de contraseña */
+  input[type="password"] {
+    background-color: #f0f0f0; /* Gris claro */
+    color: #333; /* Texto oscuro */
+    border: 1px solid #ccc; /* Borde gris */
+    border-radius: 4px;
+    padding: 0.5rem;
+  }
+
+  /* Styles from PollsView.vue */
+  .polls-view {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .polls-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .create-button {
+    background: #1db954;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .polls-grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .poll-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .poll-info {
+    margin-bottom: 1.5rem;
+  }
+
+  .poll-info h3 {
+    margin: 0;
+    font-size: 1.25rem;
+  }
+
+  .poll-info p {
+    margin: 0.5rem 0;
+    color: #666;
+  }
+
+  /* Styles from PollDetailView.vue */
+  .poll-detail-view {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background: black;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  .añadirOpcionesEncuesta {
+    font-size: 16px;
+    color: black;
+    cursor: pointer;
+  } 
+  .poll-container {
+    margin-bottom: 40px;
+  }
+
+  .poll-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .poll-info {
+    flex: 1;
+  }
+
+  .poll-info h1 {
+    font-size: 28px;
+    margin: 0 0 10px 0;
+    color: black;
+  }
+
+  .poll-info .description {
+    font-size: 16px;
+    color: #666;
+    margin: 0 0 10px 0;
+  }
+
+  .meta-info {
+    display: flex;
+    gap: 20px;
+    font-size: 14px;
+    color: #999;
+  }
+
+  .meta-info .creator,
+  .meta-info .date {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .meta-info i {
+    font-size: 16px;
+  }
+
+  /* Styles from PlaylistView.vue */
+  .playlist-view {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .playlist-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .create-button {
+    background: #1db954;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .playlists-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .playlist-card {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  .playlist-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .playlist-card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+  }
+
+  /* Styles from PlaylistDetailView.vue */
+  .playlist-detail-view {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .playlist-header {
+    background: linear-gradient(to bottom, rgba(29, 185, 84, 0.1), transparent);
+    padding: 2rem;
+    border-radius: 16px;
+    margin-bottom: 2rem;
+  }
+
+  .playlist-info {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .playlist-cover {
+    width: 240px;
+    height: 240px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .playlist-text h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 0 0 1rem;
+  }
+
+  .description {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 1rem;
+  }
+
+  .meta-info {
+    display: flex;
+    gap: 1.5rem;
+    color: #666;
+  }
+
+  .actions {
+    display: flex;
+    gap: 1rem;
   }
 }
 
@@ -159,6 +445,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: #f0f0f0; 
 }
 
 h1 {

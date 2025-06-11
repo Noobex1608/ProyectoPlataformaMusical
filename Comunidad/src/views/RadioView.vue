@@ -164,6 +164,21 @@
                 <font-awesome-icon icon="fa-solid fa-repeat" />
               </button>
             </div>
+
+            <!-- Barra de reproducción -->
+            <div class="mt-4">
+              <input 
+                type="range" 
+                min="0" 
+                :max="audioDuration" 
+                v-model="audioCurrentTime" 
+                @input="seekAudio" 
+                class="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
+              <div class="flex justify-between text-sm text-gray-600 dark:text-gray-400 mt-1">
+                <span>{{ formatTime(audioCurrentTime) }}</span>
+                <span>{{ formatTime(audioDuration) }}</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -211,29 +226,45 @@
       </Modal>
 
       <!-- Subir Canción -->
-      <section class="upload-section bg-gray-50 dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-8">
-        <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Subir Canción</h3>
-        <form @submit.prevent="uploadSong" class="space-y-4">
-          <div>
-            <label for="song-title" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Título de la Canción</label>
-            <input id="song-title" v-model="newSong.title" type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm" required />
-          </div>
+      <div class="flex justify-end mb-4">
+        <button 
+          @click="toggleUploadModal"
+          class="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors duration-200"
+        >
+          Subir Música
+        </button>
+      </div>
 
-          <div>
-            <label for="song-artist" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Artista</label>
-            <input id="song-artist" v-model="newSong.artist" type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm" required />
-          </div>
+      <Modal v-if="showUploadModal" @close="closeUploadModal">
+        <template #header>
+          <h3>Subir Canción</h3>
+        </template>
+        <template #default>
+          <form @submit.prevent="uploadSong" class="space-y-4">
+            <div>
+              <label for="song-title" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Título de la Canción</label>
+              <input id="song-title" v-model="newSong.title" type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm" required />
+            </div>
 
-          <div>
-            <label for="song-file" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Archivo de la Canción</label>
-            <input id="song-file" type="file" @change="handleFileUpload" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border file:border-gray-300 file:text-sm file:font-medium file:bg-primary-500 file:text-white hover:file:bg-primary-600" required />
-          </div>
+            <div>
+              <label for="song-artist" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Artista</label>
+              <input id="song-artist" v-model="newSong.artist" type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm" required />
+            </div>
 
-          <div class="flex justify-end">
-            <button type="submit" class="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors duration-200">Subir</button>
-          </div>
-        </form>
-      </section>
+            <div>
+              <label for="song-file" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Archivo de la Canción</label>
+              <input id="song-file" type="file" @change="handleFileUpload" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border file:border-gray-300 file:text-sm file:font-medium file:bg-primary-500 file:text-white hover:file:bg-primary-600" required />
+            </div>
+
+            <div class="flex justify-end">
+              <button type="submit" class="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors duration-200">Subir</button>
+            </div>
+          </form>
+        </template>
+        <template #footer>
+          <button @click="closeUploadModal" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors duration-200">Cerrar</button>
+        </template>
+      </Modal>
 
       <!-- Botón de prueba de conexión Supabase -->
       <div class="flex justify-end mb-4">
@@ -244,12 +275,19 @@
           Probar Conexión Supabase
         </button>
       </div>
+
+      <!-- Botón externo para navegar a CommunityView -->
+      <div class="footer-actions">
+        <button @click="$router.push({ name: 'Community' })" class="external-nav-button">
+          Ir a Comunidad
+        </button>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useRadioStore } from '@/stores/radio.store';
 import type { RadioPreference } from '@/types/community.types';
 import ThemeSelector from '@/components/shared/ThemeSelector.vue';
@@ -269,6 +307,7 @@ const loading = ref(true);
 const isShuffle = ref(false);
 const repeatMode = ref<'off' | 'all' | 'one'>('off');
 const showPreferencesModal = ref(false);
+const showUploadModal = ref(false);
 
 const userPreferences = ref<RadioPreference>({
   id: '1',
@@ -283,6 +322,7 @@ const currentTrack = ref({
   id: '1',
   title: 'Canción de ejemplo',
   artist: 'Artista de ejemplo',
+  url: '', // Agregar la propiedad url para la reproducción
   coverUrl: coverImage,
 });
 
@@ -328,13 +368,43 @@ async function loadUserPreferences() {
 async function startRadio() {
   const track = await radioStore.getNextTrack();
   if (track) {
-    currentTrack.value = track;
+    currentTrack.value = {
+      ...track,
+      url: track.url || '', // Asegurar que la propiedad url esté presente
+    };
   }
 }
 
+let audioPlayer: HTMLAudioElement | null = null;
+
 function togglePlay() {
+  if (!currentTrack.value.url) {
+    console.error('No hay una URL de archivo para reproducir.');
+    return;
+  }
+
+  console.log('Intentando reproducir la URL:', currentTrack.value.url); // Depuración de la URL
+
+  if (!audioPlayer) {
+    // Crear un nuevo objeto Audio si no existe
+    audioPlayer = new Audio(currentTrack.value.url);
+    audioPlayer.addEventListener('timeupdate', updateAudioProgress); // Registrar el evento aquí
+    audioPlayer.addEventListener('ended', async () => {
+      // Pasar automáticamente a la siguiente canción cuando termine la actual
+      await nextTrack();
+      togglePlay(); // Reproducir automáticamente la siguiente canción
+    });
+  }
+
+  if (isPlaying.value) {
+    audioPlayer.pause();
+  } else {
+    audioPlayer.play().catch((error) => {
+      console.error('Error al reproducir el audio:', error);
+    });
+  }
+
   isPlaying.value = !isPlaying.value;
-  // Implementar lógica de reproducción
 }
 
 async function nextTrack() {
@@ -398,6 +468,14 @@ function savePreferences() {
   closePreferencesModal();
 }
 
+function closeUploadModal() {
+  showUploadModal.value = false;
+}
+
+function toggleUploadModal() {
+  showUploadModal.value = !showUploadModal.value;
+}
+
 function handleFileUpload(event: Event) {
   const target = event.target as HTMLInputElement;
   if (target.files && target.files[0]) {
@@ -441,20 +519,20 @@ async function uploadSong() {
 
     if (error) {
       console.error('Error al subir el archivo al bucket:', error);
-      console.log('Detalles del archivo:', {
-        name: file.name,
-        type: file.type,
-        size: file.size,
-      });
       throw new Error('Error al subir el archivo al bucket.');
     }
 
     console.log('Archivo subido exitosamente:', data);
 
+    // Generar URL pública completa
+    const { data: publicUrlData } = supabase.storage.from('songs').getPublicUrl(`public/${normalizedFileName}`);
+    const publicUrl = publicUrlData?.publicUrl || '';
+    console.log('URL pública generada:', publicUrl);
+
     const songData = {
       title: newSong.value.title,
       artist: newSong.value.artist,
-      file_url: data.path, 
+      file_url: publicUrl, 
     };
 
     console.log('Intentando insertar datos en la tabla:', songData);
@@ -502,9 +580,43 @@ async function testSupabaseConnection() {
     alert('Hubo un error al probar la conexión con Supabase. Revisa la consola para más detalles.');
   }
 }
+
+const audioCurrentTime = ref(0);
+const audioDuration = ref(0);
+
+function updateAudioProgress() {
+  if (audioPlayer) {
+    audioCurrentTime.value = audioPlayer.currentTime;
+    audioDuration.value = audioPlayer.duration;
+  }
+}
+
+function seekAudio() {
+  if (audioPlayer) {
+    audioPlayer.currentTime = audioCurrentTime.value;
+  }
+}
+
+function formatTime(seconds: number): string {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = Math.floor(seconds % 60);
+  return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+}
+
+onMounted(() => {
+  if (audioPlayer) {
+    audioPlayer.addEventListener('timeupdate', updateAudioProgress);
+  }
+});
+
+onUnmounted(() => {
+  if (audioPlayer) {
+    audioPlayer.removeEventListener('timeupdate', updateAudioProgress);
+  }
+});
 </script>
 
-<style scoped>
+<style>
 input[type="text"], input[type="file"] {
   color: #ffffff; /* Cambiar el color del texto a blanco para mejor visibilidad en temas oscuros */
 }

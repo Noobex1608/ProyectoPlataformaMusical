@@ -156,6 +156,13 @@
           </div>
         </template>
       </Modal>
+  
+      <div class="footer-actions">
+        <!-- Botón externo para navegar a CommunityView -->
+        <button @click="$router.push({ name: 'Community' })" class="external-nav-button">
+          Ir a Comunidad
+        </button>
+      </div>
     </div>
   </template>
   
@@ -252,7 +259,7 @@
   });
   </script>
   
-  <style scoped>
+  <style>
   .playlist-view {
     max-width: 1200px;
     margin: 0 auto;
@@ -431,4 +438,4 @@
       margin: 0 auto;
     }
   }
-  </style> 
+  </style>

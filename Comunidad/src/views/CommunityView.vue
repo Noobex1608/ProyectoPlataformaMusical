@@ -1,6 +1,6 @@
 <template>
   <div class="community-view">
-    <!-- Header mejorado -->
+    <!-- Header siempre visible -->
     <header class="community-header">
       <div class="header-content">
         <h1>Comunidad Musical</h1>
@@ -27,14 +27,8 @@
       </nav>
     </header>
 
-    <!-- Estados de carga -->
-    <div v-if="loading" class="loading-state">
-      <i class="fas fa-spinner fa-spin"></i>
-      Cargando datos...
-    </div>
-
     <!-- Contenido principal -->
-    <main v-else>
+    <main>
       <router-view v-slot="{ Component }">
         <Transition name="fade" mode="out-in">
           <component :is="Component" />
@@ -50,10 +44,12 @@ import { useToast } from 'vue-toastification';
 import NotificationBell from '../components/shared/NotificationBell.vue';
 import { useAuthStore } from '@/stores/auth.store';
 import { useCommunityStore } from '@/stores/community.store';
+import { useRouter } from 'vue-router';
 
 const toast = useToast();
 const authStore = useAuthStore();
 const communityStore = useCommunityStore();
+const router = useRouter();
 
 // Estado
 const loading = ref(true);
@@ -65,6 +61,11 @@ const tabs = [
   { id: 'polls', label: 'Encuestas', icon: 'fas fa-poll' },
   { id: 'notifications', label: 'Notificaciones', icon: 'fas fa-bell' }
 ];
+
+// // Navegación
+// const navigateTo = (routeName: string) => {
+//   router.push({ name: routeName });
+// };
 
 // Inicialización
 onMounted(async () => {
@@ -87,13 +88,13 @@ onMounted(async () => {
 
 <style scoped>
 .community-view {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
 .community-header {
-  margin-bottom: 2rem;
+  flex-shrink: 0;
 }
 
 .header-content {
@@ -110,6 +111,7 @@ onMounted(async () => {
 
 .navigation-tabs {
   display: flex;
+  justify-content: center;
   gap: 1rem;
   border-bottom: 1px solid #eee;
   padding-bottom: 1rem;
@@ -156,6 +158,25 @@ onMounted(async () => {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+nav ul {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+}
+
+nav ul li {
+  cursor: pointer;
+  color: #1db954;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+nav ul li:hover {
+  color: #14833b;
 }
 
 @media (max-width: 768px) {

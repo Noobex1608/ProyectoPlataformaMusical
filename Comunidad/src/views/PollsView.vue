@@ -1,7 +1,7 @@
 <template>
   <div class="polls-view">
     <div class="polls-header">
-      <h2>Encuestas de la Comunidad</h2>
+      <h2 class="polls-title">Encuestas de la Comunidad</h2>
       <button @click="showCreateModal = true" class="create-button">
         <i class="fas fa-plus"></i> Nueva Encuesta
       </button>
@@ -183,6 +183,13 @@
         <button @click="selectedPoll = null">Cancelar</button>
       </template>
     </Modal>
+
+    <div class="footer-actions">
+      <!-- Botón externo para navegar a CommunityView -->
+      <button @click="$router.push({ name: 'Community' })" class="external-nav-button">
+        Ir a Comunidad
+      </button>
+    </div>
   </div>
 </template>
 
@@ -222,27 +229,31 @@ const createPoll = async () => {
       title: newPoll.value.title,
       description: newPoll.value.description,
       end_date: newPoll.value.end_date,
-      creator_id: authStore.user.id,
-      created_at: new Date().toISOString(),
-      options: newPoll.value.options.map((option, index) => ({
-        id: `option-${index}`,
-        poll_id: '',
-        text: option.text,
-        votes_count: 0,
-      })),
+      creator_id: authStore.user.id
     };
 
-    await communityStore.createPoll(pollData);
+    console.log('Iniciando creación de encuesta');
+    console.log('Datos enviados a communityStore.createPoll:', pollData, newPoll.value.options);
+
+    const createdPoll = await communityStore.createPoll({
+      ...pollData,
+      options: newPoll.value.options as any 
+    });
+
+    // Forzar refresco de encuestas tras crear
+    await communityStore.fetchActivePolls();
+
+    console.log('Respuesta de communityStore.createPoll:', createdPoll);
 
     showCreateModal.value = false;
     newPoll.value = {
       title: '',
       description: '',
       end_date: '',
-      options: [{ text: '' }, { text: '' }],
+      options: [{ text: '' }, { text: '' }]
     };
   } catch (error) {
-    console.error('Error creating poll:', error);
+    console.error('Error al crear la encuesta:', error);
   } finally {
     isCreating.value = false;
   }
@@ -311,18 +322,25 @@ onMounted(async () => {
 });
 </script>
 
-<style scoped>
+<style>
 .polls-view {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
 }
 
 .polls-header {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
   margin-bottom: 2rem;
+}
+
+.polls-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1rem;
 }
 
 .create-button {

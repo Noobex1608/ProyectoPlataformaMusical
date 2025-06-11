@@ -1,43 +1,45 @@
 <template>
   <div class="fan-club-view">
-    <div class="club-header">
-      <h2>Clubes de Fans</h2>
+    <header class="club-header">
+      <h2 class="club-title">Clubes de Fans</h2>
       <button @click="showCreateModal = true" class="create-button">
         <i class="fas fa-plus"></i> Crear Club
       </button>
-    </div>
+    </header>
 
-    <div class="clubs-grid" v-if="clubs.length">
-      <div 
-        v-for="club in clubs" 
-        :key="club.id"
-        class="club-card"
-        @click="selectClub(club)"
-      >
-        <img 
-          :src="club.banner_url || '/default-club.jpg'" 
-          :alt="club.name"
-          class="club-banner"
+    <main>
+      <section v-if="clubs.length" class="clubs-grid">
+        <article 
+          v-for="club in clubs" 
+          :key="club.id"
+          class="club-card"
+          @click="selectClub(club)"
         >
-        <div class="club-info">
-          <h3>{{ club.name }}</h3>
-          <p>{{ club.description }}</p>
-          <div class="club-meta">
-            <span>
-              <i class="fas fa-users"></i> {{ clubMembers.length }} miembros
-            </span>
-            <span>
-              <i class="fas fa-star"></i> {{ club.artist_name }}
-            </span>
+          <img 
+            :src="club.banner_url || '/default-club.jpg'" 
+            :alt="club.name"
+            class="club-banner"
+          >
+          <div class="club-info">
+            <h3>{{ club.name }}</h3>
+            <p>{{ club.description }}</p>
+            <div class="club-meta">
+              <span>
+                <i class="fas fa-users"></i> {{ clubMembers.length }} miembros
+              </span>
+              <span>
+                <i class="fas fa-star"></i> {{ club.artist_name }}
+              </span>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </article>
+      </section>
 
-    <div v-else class="empty-state">
-      <p>No hay clubes de fans creados</p>
-      <button @click="showCreateModal = true">Crear Primer Club</button>
-    </div>
+      <section v-else class="empty-state">
+        <p>No hay clubes de fans creados</p>
+        <button @click="showCreateModal = true" class="primary-button">Crear Primer Club</button>
+      </section>
+    </main>
 
     <!-- Modal de Creación -->
     <Modal v-if="showCreateModal" @close="showCreateModal = false">
@@ -112,7 +114,7 @@
         <button @click="createClub" class="primary" :disabled="isCreating">
           {{ isCreating ? 'Creando...' : 'Crear Club' }}
         </button>
-        <button @click="showCreateModal = false">Cancelar</button>
+        <button @click="showCreateModal = false" class="secondary">Cancelar</button>
       </template>
     </Modal>
 
@@ -149,7 +151,7 @@
           </div>
 
           <div class="club-sections">
-            <div class="section-tabs">
+            <nav class="section-tabs">
               <button 
                 v-for="tab in ['Actividad', 'Miembros', 'Reglas']" 
                 :key="tab"
@@ -158,7 +160,7 @@
               >
                 {{ tab }}
               </button>
-            </div>
+            </nav>
 
             <div class="section-content">
               <!-- Actividad -->
@@ -270,11 +272,16 @@ const createClub = async () => {
 
   try {
     isCreating.value = true;
+
+    // Validar campos obligatorios
+    if (!newClub.value.name || !newClub.value.artist_id) {
+      throw new Error('El nombre del club y el ID del artista son obligatorios.');
+    }
+
     await communityStore.createFanClub({
-      ...newClub.value,
-      created_at: new Date().toISOString()
+      ...newClub.value
     });
-    
+
     showCreateModal.value = false;
     newClub.value = {
       name: '',
@@ -361,9 +368,16 @@ onMounted(async () => {
 
 .club-header {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
   margin-bottom: 2rem;
+}
+
+.club-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1rem;
 }
 
 .create-button {
@@ -423,6 +437,37 @@ onMounted(async () => {
   margin-top: 1rem;
   color: #888;
   font-size: 0.9rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+}
+
+.primary-button {
+  background: #1db954;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.primary-button:hover {
+  background: #17a74a;
+}
+
+.secondary {
+  background: #f5f5f5;
+  color: #333;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.secondary:hover {
+  background: #e0e0e0;
 }
 
 .club-form {

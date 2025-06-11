@@ -180,23 +180,33 @@ export const useCommunityStore = defineStore('community', {
     // Encuestas
     async createPoll(data: Partial<Poll>) {
       try {
-        if (data.options && data.options.length > 0) {
-          await CommunityService.createPoll(
-            {
-              title: data.title || '',
-              description: data.description || '',
-              creator_id: data.creator_id || '',
-              end_date: data.end_date || new Date().toISOString(),
-              options: data.options, 
-            },
-            data.options.map(option => ({
-              text: option.text || '',
-            }))
-          );
+        console.log('Ejecutando communityStore.createPoll con datos:', data);
+
+        // Validación de datos antes de enviar
+        if (!data.title || !data.description || !data.creator_id || !data.end_date || !data.options || data.options.length === 0) {
+          console.error('Datos inválidos para crear encuesta:', data);
+          throw new Error('Datos inválidos para crear encuesta');
         }
-        await this.fetchActivePolls()
+
+        // Log detallado de las opciones
+        console.log('Opciones de encuesta:', data.options);
+
+        const result = await CommunityService.createPoll(
+          {
+            title: data.title,
+            description: data.description,
+            creator_id: data.creator_id,
+            end_date: data.end_date,
+            options: data.options 
+          },
+          data.options.map(option => ({
+            text: option.text || '',
+          }))
+        );
+
+        return result;
       } catch (error) {
-        console.error('Error creating poll:', error)
+        console.error('Error creando encuesta:', error)
         throw error
       }
     },

@@ -1,83 +1,65 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import CommunityView from '@/views/CommunityView.vue';
+import RegisterView from '@/views/RegisterView.vue';
 
 const routes = [
   {
     path: '/',
-    name: 'community',
-    component: CommunityView,
-    children: [
-      {
-        path: 'radio',
-        name: 'radio',
-        component: () => import('@/views/RadioView.vue')
-      },
-      {
-        path: 'clubs',
-        name: 'clubs',
-        component: () => import('@/views/FanClubView.vue'),
-        children: [
-          {
-            path: ':id',
-            name: 'club-detail',
-            component: () => import('@/views/FanClubDetailView.vue')
-          }
-        ]
-      },
-      {
-        path: 'forums',
-        name: 'forums',
-        component: () => import('@/views/ForumView.vue'),
-        children: [
-          {
-            path: ':id',
-            name: 'forum-detail',
-            component: () => import('@/views/ForumDetailView.vue')
-          }
-        ]
-      },
-      {
-        path: 'playlists',
-        name: 'playlists',
-        component: () => import('@/views/PlaylistView.vue'),
-        children: [
-          {
-            path: ':id',
-            name: 'playlist-detail',
-            component: () => import('@/views/PlaylistDetailView.vue')
-          }
-        ]
-      },
-      {
-        path: 'events',
-        name: 'events',
-        component: () => import('@/views/EventsView.vue'),
-        children: [
-          {
-            path: ':id',
-            name: 'event-detail',
-            component: () => import('@/views/EventDetailView.vue')
-          }
-        ]
-      },
-      {
-        path: 'polls',
-        name: 'polls',
-        component: () => import('@/views/PollsView.vue'),
-        children: [
-          {
-            path: ':id',
-            name: 'poll-detail',
-            component: () => import('@/views/PollDetailView.vue')
-          }
-        ]
-      },
-      {
-        path: 'notifications',
-        name: 'notifications',
-        component: () => import('@/views/NotificationsView.vue')
-      }
-    ]
+    redirect: '/home'
+  },
+  {
+    path: '/home',
+    name: 'Home',
+    component: () => import('@/views/HomeView.vue')
+  },
+  {
+    path: '/community',
+    name: 'Community',
+    component: () => import('@/views/CommunityView.vue')
+  },
+  {
+    path: '/community/radio',
+    name: 'radio',
+    component: () => import('@/views/RadioView.vue')
+  },
+  {
+    path: '/community/clubs',
+    name: 'clubs',
+    component: () => import('@/views/FanClubView.vue')
+  },
+  {
+    path: '/community/forums',
+    name: 'forums',
+    component: () => import('@/views/ForumView.vue')
+  },
+  {
+    path: '/community/playlists',
+    name: 'playlists',
+    component: () => import('@/views/PlaylistView.vue')
+  },
+  {
+    path: '/community/events',
+    name: 'events',
+    component: () => import('@/views/EventsView.vue')
+  },
+  {
+    path: '/community/polls',
+    name: 'polls',
+    component: () => import('@/views/PollsView.vue')
+  },
+  {
+    path: '/community/notifications',
+    name: 'notifications',
+    component: () => import('@/views/NotificationsView.vue')
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import('@/views/LoginView.vue'),
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: RegisterView
   }
 ];
 
@@ -86,4 +68,4 @@ const router = createRouter({
   routes
 });
 
-export default router; 
+export default router;
