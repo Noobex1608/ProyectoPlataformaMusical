@@ -1,0 +1,13 @@
+<h2>Enviar Propina</h2>
+<form [formGroup]="form" (ngSubmit)="enviar()">
+    <label>Artista:</label>
+    <input formControlName="artista" /><br />
+
+    <label>Monto:</label>
+    <input type="number" formControlName="monto" /><br />
+
+    <label>Mensaje (opcional):</label>
+    <textarea formControlName="mensaje"></textarea><br />
+
+    <button type="submit">Enviar</button>
+</form>

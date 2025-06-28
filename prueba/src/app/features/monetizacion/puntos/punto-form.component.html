@@ -1,0 +1,13 @@
+<h2>Agregar puntos</h2>
+<form [formGroup]="form" (ngSubmit)="enviar()">
+    <label>Usuario ID:
+        <input formControlName="usuarioId" />
+    </label><br />
+    <label>Cantidad:
+        <input type="number" formControlName="cantidad" />
+    </label><br />
+    <label>Motivo:
+        <input formControlName="motivo" />
+    </label><br />
+    <button type="submit">Agregar</button>
+</form>

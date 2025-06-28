@@ -1,0 +1,7 @@
+<h2>Lista de puntos</h2>
+<ul>
+    <li *ngFor="let punto of puntos">
+        Usuario: {{ punto.usuarioId }} | Cantidad: {{ punto.cantidad }} | Motivo: {{ punto.motivo }} | Fecha: {{
+        punto.fecha | date }}
+    </li>
+</ul>

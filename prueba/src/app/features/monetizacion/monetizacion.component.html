@@ -1,0 +1,23 @@
+<div class="monetizacion">
+    <h2>Membresías disponibles</h2>
+    <div *ngFor="let m of membresias" class="card">
+        <h3>{{ m.nombre }}</h3>
+        <p>{{ m.descripcion }}</p>
+        <p>Precio: ${{ m.precio }}</p>
+        <p>Duración: {{ m.duracionDias }} días</p>
+        <ul>
+            <li *ngFor="let beneficio of m.beneficios">{{ beneficio }}</li>
+        </ul>
+        <button (click)="eliminarMembresia(m.id)">Eliminar</button>
+    </div>
+
+    <hr />
+
+    <h2>Propinas recibidas</h2>
+    <div *ngFor="let p of propinas" class="card">
+        <p><strong>Fan:</strong> {{ p.nombreFan }}</p>
+        <p><strong>Monto:</strong> ${{ p.monto }}</p>
+        <p><strong>Mensaje:</strong> {{ p.mensaje }}</p>
+    </div>
+</div>
+  
