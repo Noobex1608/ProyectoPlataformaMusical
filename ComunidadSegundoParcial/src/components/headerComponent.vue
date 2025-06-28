@@ -35,7 +35,7 @@ function logout() {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background-color: #007acc;
+  background-color:#348e91;
   color: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin: 0;

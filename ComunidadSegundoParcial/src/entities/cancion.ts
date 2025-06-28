@@ -9,4 +9,6 @@ export interface song{
     createdAt: Date;
     updatedAt: Date;
     playlistId?: number; 
+    imagenUrl?: string; // URL de la imagen de la canción
+    lyrics?: string; // Letra de la canción
 }

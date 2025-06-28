@@ -10,3 +10,4 @@ export interface radio{
     songs: song[];
     isPublic?: boolean;
 }
+
