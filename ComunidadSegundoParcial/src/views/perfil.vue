@@ -1,4 +1,5 @@
 <template>
+  <headerComponent></headerComponent>
   <div class="profile-container">
     <h2>Perfil de usuario</h2>
 
@@ -16,7 +17,7 @@
 
     <div v-else>
       <p>No hay usuario autenticado.</p>
-      <router-link to="/login">Ir a iniciar sesión</router-link>
+      <router-link to="/">Ir a iniciar sesión</router-link>
     </div>
   </div>
 </template>
@@ -24,7 +25,7 @@
 <script setup lang="ts">
 import { useUsuarioStore } from "../store/usuario";
 import { useRouter } from "vue-router";
-
+import headerComponent from "../components/headerComponent.vue";
 const usuarioStore = useUsuarioStore();
 const router = useRouter();
 

@@ -2,12 +2,22 @@ import {createRouter, createWebHistory} from 'vue-router';
 import login from '../views/login.vue'
 import perfil from '../views/perfil.vue'
 import registro from '../views/registro.vue';
+import dashboard from '../views/dashboard.vue';
+import clubes from '../views/clubes.vue';
+import playlist from '../views/playlist.vue';
+import radio from '../views/radio.vue';
 
 const router = createRouter({
     history: createWebHistory(),
     routes: [
         {
             path: '/',
+            name: 'dashboard',
+            component: dashboard
+        },
+
+        {
+            path: '/login',
             name: 'login',
             component: login
         },
@@ -20,7 +30,23 @@ const router = createRouter({
             path: '/registro',
             name: 'registro',
             component: registro
-        }]
+        },
+        {
+            path: '/clubes',
+            name: 'clubes',
+            component: clubes
+        },
+        {
+            path: '/playlist',
+            name: 'playlist',
+            component: playlist
+        },
+        {
+            path: '/radio',
+            name: 'radio',
+            component: radio
+        }
+    ]
 })
 
 export default router;
