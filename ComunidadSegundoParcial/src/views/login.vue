@@ -1,4 +1,5 @@
 <template>
+  <HeaderComponent />
   <div class="login-container" >
     <h2>Iniciar sesión</h2>
 
@@ -26,6 +27,7 @@
 import { ref } from "vue";
 import { useAuth } from "../composables/useAuth";
 import {supabase} from "../supabase";
+import HeaderComponent from "../components/headerComponent.vue";
 
 const email = ref("");
 const password = ref("");
@@ -52,8 +54,8 @@ const handleLogin = async () => {
   }
 
   if (data.user) {
-    setUser(data.user); // Guardar usuario en Pinia
-    router.push("/perfil"); // Redirigir a otra ruta
+    setUser(data.user); 
+    router.push("/dashboard"); 
   }
 };
 </script>
@@ -65,8 +67,16 @@ const handleLogin = async () => {
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+.login-container input{
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
 .form-group {
   margin-bottom: 1rem;
 }
@@ -74,5 +84,14 @@ const handleLogin = async () => {
 .error {
   color: red;
   margin-top: 1rem;
+}
+.login-container button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #348e91;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 </style>

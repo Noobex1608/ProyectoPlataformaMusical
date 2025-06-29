@@ -1,0 +1,14 @@
+<h2>💳 Membresías disponibles</h2>
+
+<div *ngFor="let membresia of membresias" class="card">
+    <h3>{{ membresia.nombre }}</h3>
+    <p><strong>Precio:</strong> ${{ membresia.precio }}</p>
+    <p><strong>Duración:</strong> {{ membresia.duracionDias }} días</p>
+    <p><strong>Descripción:</strong> {{ membresia.descripcion }}</p>
+
+    <ul>
+        <li *ngFor="let beneficio of membresia.beneficios">✔️ {{ beneficio }}</li>
+    </ul>
+
+    <button (click)="eliminarMembresia(membresia.id)">❌ Eliminar</button>
+</div>
