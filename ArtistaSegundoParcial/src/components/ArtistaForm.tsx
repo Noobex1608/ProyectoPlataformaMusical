@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { Artista } from '../types/artista';
+import type { Artista } from '../types/Artista';
 import { v4 as uuidv4 } from 'uuid';
 
 interface Props {

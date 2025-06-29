@@ -1,4 +1,4 @@
-import type { song } from './cancion';
+import type { song } from '../../../ArtistaSegundoParcial/src/types/cancion';
 export interface playlist {
     id: number;
     name: string;
