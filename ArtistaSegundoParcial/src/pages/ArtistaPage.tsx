@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import type { Artista } from '../types/artista';
+import type { Artista } from '../types/Artista';
 import ArtistaForm from '../components/ArtistaForm';
 import ArtistaList from '../components/ArtistaList';
 
@@ -36,7 +36,7 @@ const ArtistaPage = () => {
   };
 
   return (
-    <div>
+    <section className="main-content">
       {(!artista || modoEdicion) ? (
         <ArtistaForm
           artistaInicial={modoEdicion ? artistaEditando! : undefined}
@@ -53,7 +53,7 @@ const ArtistaPage = () => {
           onEliminar={handleEliminar}
         />
       )}
-    </div>
+    </section>
   );
 };
 
