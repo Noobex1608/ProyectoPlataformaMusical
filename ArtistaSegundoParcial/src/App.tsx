@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import ArtistaPage from './pages/ArtistaPage';
+import PerfilArtistaPage from './pages/PerfilArtistaPage';
 // (luego agregas PerfilPage, EventosPage, etc.)
 
 function App() {
@@ -9,7 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/artista" element={<ArtistaPage />} />
-        {/* Agrega otras entidades luego */}
+        <Route path="/estadisticas" element={<PerfilArtistaPage />} />
       </Routes>
     </Router>
   );
