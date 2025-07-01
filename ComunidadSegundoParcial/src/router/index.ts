@@ -6,12 +6,18 @@ import dashboard from '../views/dashboard.vue';
 import clubes from '../views/clubes.vue';
 import playlist from '../views/playlist.vue';
 import radio from '../views/radio.vue';
+import home from '../views/Home.vue';
 
 const router = createRouter({
     history: createWebHistory(),
     routes: [
         {
             path: '/',
+            name: 'home',
+            component: home
+        },
+        {
+            path: '/dashboard',
             name: 'dashboard',
             component: dashboard
         },

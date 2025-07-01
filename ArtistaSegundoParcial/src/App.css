@@ -6,6 +6,7 @@ html, body {
   background-color: #f9f9f9;
   color: #111;
   height: 100%;
+  box-sizing: border-box;
 }
 
 /* === Header/Nav === */
@@ -16,6 +17,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 header h1 {
@@ -26,9 +28,9 @@ header h1 {
 
 .nav-links a {
   color: #fff;
-  margin-left: 1rem;
+  margin-left: 1.2rem;
   text-decoration: none;
-  font-weight: bold;
+  font-weight: 500;
 }
 
 .nav-links a:hover {
@@ -43,28 +45,30 @@ main {
   align-items: center;
 }
 
-/* === Card Style (como en la imagen) === */
+/* === Card Grid General === */
 .card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1.5rem;
-  max-width: 800px;
+  max-width: 1000px;
   margin-top: 2rem;
   width: 100%;
 }
 
+/* === Tarjeta Reutilizable === */
 .card {
-  background-color: #fefefe;
+  background-color: #ffffff;
   border: 1px solid #e0e0e0;
-  border-radius: 10px;
-  padding: 1.2rem;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.04);
   text-align: center;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s;
 }
 
 .card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
 }
 
 .card h3 {
@@ -73,8 +77,8 @@ main {
 }
 
 .card p {
-  color: #444;
-  font-size: 0.9rem;
+  color: #555;
+  font-size: 0.95rem;
 }
 
 /* === Botón personalizado === */
@@ -87,8 +91,80 @@ main {
   font-size: 1rem;
   cursor: pointer;
   margin-top: 1rem;
+  transition: background 0.2s;
 }
 
 .btn:hover {
   background-color: #083d87;
+}
+
+/* === Contenido Principal === */
+.main-content {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* === Estilo del Dashboard === */
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  min-height: 100vh; /* Ocupar toda la altura */
+  color: #111827;
+  background-color: #f9f9f9;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  max-width: 1000px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.dashboard-card {
+  background-color: #e5f0ff;
+  padding: 1.8rem;
+  border-radius: 17px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+  text-decoration: none;
+  color: #1f2937;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s;
+}
+
+.dashboard-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+}
+
+.dashboard-card span {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 0.8rem;
+}
+
+.dashboard-card h3 {
+  font-size: 1.3rem;
+  margin: 0.5rem 0;
+}
+
+.dashboard-card p {
+  color: #374151;
+  font-size: 0.95rem;
+}
+
+.dashboard-card.disabled {
+  opacity: 0.5;
+  pointer-events: none;
 }

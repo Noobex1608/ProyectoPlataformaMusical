@@ -1,4 +1,4 @@
-import type { song } from "./cancion";
+import type { song } from "../../../ArtistaSegundoParcial/src/types/cancion";
 
 export interface radio{
     id: number;
@@ -10,3 +10,4 @@ export interface radio{
     songs: song[];
     isPublic?: boolean;
 }
+

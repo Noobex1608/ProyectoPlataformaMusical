@@ -2,6 +2,7 @@
     <h2>Proximamente</h2>
     <p>Esta sección estará disponible pronto.</p>
     <p>¡Gracias por tu paciencia!</p>
+
 </template>
 
 <script setup lang="ts">

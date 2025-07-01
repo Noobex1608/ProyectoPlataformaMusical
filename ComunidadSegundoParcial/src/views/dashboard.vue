@@ -53,6 +53,9 @@ function goToClubes() {
 </script>
 
 <style scoped>
+:root{
+  background-color: black;
+}
 .dashboard-container {
   max-width: 900px;
   margin: 2rem auto;

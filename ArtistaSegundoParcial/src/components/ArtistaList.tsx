@@ -1,4 +1,4 @@
-import type { Artista } from '../types/artista';
+import type { Artista } from '../types/Artista';
 
 interface Props {
   artistas: Artista[];
