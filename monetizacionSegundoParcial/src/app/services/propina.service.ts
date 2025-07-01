@@ -12,16 +12,20 @@ export class PropinaService {
             {
                 id: 1,
                 nombreFan: 'Laura',
-                monto: 5,
+                cantidad: 5,
                 mensaje: 'Gracias por tu música',
-                fecha: new Date('2024-05-01')
+                fecha: new Date('2024-05-01'),
+                artistaId: 101,
+                usuarioId: 201
             },
             {
                 id: 2,
                 nombreFan: 'Carlos',
-                monto: 10,
+                cantidad: 10,
                 mensaje: 'Eres genial, sigue así',
-                fecha: new Date('2024-05-10')
+                fecha: new Date('2024-05-10'),
+                artistaId: 102,
+                usuarioId: 202
             }
         ];
     
