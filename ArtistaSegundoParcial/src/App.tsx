@@ -4,7 +4,7 @@ import ArtistaPage from './pages/ArtistaPage';
 import PerfilArtistaPage from './pages/PerfilArtistaPage';
 import EventoPage from './pages/EventoPage';
 import SongPage from './pages/SongPage';
-// (luego agregas PerfilPage, EventosPage, etc.)
+import AlbumPage from './pages/AlbumPage';
 
 function App() {
   return (
@@ -15,6 +15,7 @@ function App() {
         <Route path="/estadisticas" element={<PerfilArtistaPage />} />
         <Route path="/eventos" element={<EventoPage />} />
         <Route path="/canciones" element={<SongPage />} />
+         <Route path="/albumes" element={<AlbumPage />} />
       </Routes>
     </Router>
   );
