@@ -1,34 +1,29 @@
-import { useEffect, useState } from 'react';
-import type { PerfilArtista } from '../types/PerfilArtista';
-import PerfilArtistaForm from '../components/PerfilArtistaForm';
-import PerfilArtistaList from '../components/PerfilArtistaList';
+import { useEffect, useState } from "react";
+import PerfilArtistaList from "../components/PerfilArtistaList";
+import type { PerfilArtista } from "../types/PerfilArtista";
+import type { Artista } from "../types/Artista";
 
 const PerfilArtistaPage = () => {
-  const [perfil, setPerfil] = useState<PerfilArtista | null>(() => {
-    const stored = localStorage.getItem('perfilArtista');
-    return stored ? JSON.parse(stored) : null;
+  const storedArtistas = JSON.parse(localStorage.getItem("artistas") || "[]") as Artista[];
+  const artista = storedArtistas[0]; // Asumes que hay solo un artista por usuario
+
+  const [perfil, setPerfil] = useState<PerfilArtista>({
+    iinfoartista: artista,
+    reproducciones: 123,
+    likes: 45,
+    seguidores: 78
   });
 
-  const [modoEdicion, setModoEdicion] = useState(false);
-
   useEffect(() => {
-    if (perfil) {
-      localStorage.setItem('perfilArtista', JSON.stringify(perfil));
-    }
+    // En el futuro puedes cargar estas métricas reales
+    localStorage.setItem("perfilEstadistica", JSON.stringify(perfil));
   }, [perfil]);
 
-  const handleGuardar = (nuevoPerfil: PerfilArtista) => {
-    setPerfil(nuevoPerfil);
-    setModoEdicion(false);
-  };
+  if (!artista) return <p>No hay datos de artista para mostrar estadísticas.</p>;
 
   return (
     <section className="main-content">
-      {(!perfil || modoEdicion) ? (
-        <PerfilArtistaForm onGuardar={handleGuardar} perfilInicial={perfil || undefined} />
-      ) : (
-        <PerfilArtistaList perfil={perfil} onEditar={() => setModoEdicion(true)} />
-      )}
+      <PerfilArtistaList perfil={perfil} />
     </section>
   );
 };

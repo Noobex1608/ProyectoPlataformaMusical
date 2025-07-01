@@ -1,25 +1,19 @@
-import type { PerfilArtista } from '../types/PerfilArtista';
+import type { PerfilArtista } from "../types/PerfilArtista";
 
 interface Props {
   perfil: PerfilArtista;
-  onEditar: () => void;
 }
 
-const PerfilArtistaList = ({ perfil, onEditar }: Props) => {
-  const { iinfoartista, reproducciones, likes, seguidores } = perfil;
-
+const PerfilArtistaList = ({ perfil }: Props) => {
   return (
-    <div className="card">
-      <div>
-        <h3>{iinfoartista.nombre}</h3>
-        <p><strong>Género:</strong> {iinfoartista.genero}</p>
-        <p><strong>País:</strong> {iinfoartista.pais}</p>
-        <p><strong>Descripción:</strong> {iinfoartista.descripcion}</p>
-        <hr />
-        <p><strong>Reproducciones:</strong> {reproducciones}</p>
-        <p><strong>Likes:</strong> {likes}</p>
-        <p><strong>Seguidores:</strong> {seguidores}</p>
-        <button onClick={onEditar} className="btn-agregar">Editar</button>
+    <div className="card-lista">
+      <div className="card">
+        <div style={{ textAlign: "center" }}>
+          <h2>📈 Estadísticas del Artista</h2>
+          <p><strong>Reproducciones:</strong> {perfil.reproducciones ?? 0}</p>
+          <p><strong>Likes:</strong> {perfil.likes ?? 0}</p>
+          <p><strong>Seguidores:</strong> {perfil.seguidores ?? 0}</p>
+        </div>
       </div>
     </div>
   );
