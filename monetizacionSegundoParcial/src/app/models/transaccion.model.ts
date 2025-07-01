@@ -1,3 +1,7 @@
+import { Membresia } from './membresia.model';
+import { Propina } from './propina.model';
+import { Recompensa } from './recompensa.model';
+
 export interface Transaccion {
     id: number;
     tipo: Membresia | Propina | Recompensa;
@@ -5,6 +9,3 @@ export interface Transaccion {
     monto: number;
     fecha: Date;
 }
-import { Membresia } from "./membresia.model";
-import { Propina } from "./propina.model";
-import { Recompensa } from "./recompensa.model";

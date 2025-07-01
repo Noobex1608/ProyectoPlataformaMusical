@@ -1,10 +1,10 @@
 export interface Propina {
     id: number;
-    artistaId?: number;
-    nombreFan?: string;
-    monto?: number;
-    cantidad?: number;
-    mensaje: string;
+    nombreFan?: string;       
+    mensaje: string;         
+    cantidad: number;        
+    artistaId: number;
+    usuarioId: number;
     fecha: Date;
 }
   
