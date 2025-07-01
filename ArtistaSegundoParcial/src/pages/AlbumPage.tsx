@@ -27,7 +27,7 @@ const AlbumPage: React.FC = () => {
   // Guardar nuevo álbum o editar
   const handleSave = (album: Album) => {
     if (editingAlbum) {
-      setAlbums(albums.map(a => (a.idalbum === album.idalbum ? album : a)));
+      setAlbums(albums.map(a => (a.idAlbum === album.idAlbum ? album : a)));
     } else {
       setAlbums([...albums, album]);
     }
@@ -44,7 +44,7 @@ const AlbumPage: React.FC = () => {
   // Eliminar álbum
   const handleDelete = (idalbum: number) => {
     if (window.confirm('¿Eliminar este álbum?')) {
-      setAlbums(albums.filter(a => a.idalbum !== idalbum));
+      setAlbums(albums.filter(a => a.idAlbum !== idalbum));
     }
   };
 
