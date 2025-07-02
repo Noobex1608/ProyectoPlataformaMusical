@@ -13,25 +13,23 @@
         sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
     }
 
-    #single-spa-application:not(.is-rendered) {
-      opacity: 0;
-    }
-
-    #single-spa-application.is-rendered {
-      opacity: 1;
-      transition: opacity 0.3s ease;
+    #single-spa-application {
+      height: 100vh;
+      width: 100vw;
+      position: fixed;
+      top: 0;
+      left: 0;
+      margin: 0;
+      padding: 0;
     }
 
     .navbar {
-      background-color: #1a1a1a;
-      color: white;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      display: none; /* Navbar siempre oculto */
     }
 
     .navbar h1 {
@@ -87,19 +85,19 @@
   </style>
 </head>
 <body>
-  <!-- Navbar global -->
-  <div class="navbar">
+  <!-- Navbar global - solo visible en la página de inicio -->
+  <div class="navbar" id="global-navbar">
     <h1>🎵 Plataforma Musical</h1>
     <nav>
       <a href="/" id="nav-home">Inicio</a>
       <a href="/artista" id="nav-artista">Artista</a>
-      <a href="/comunidad" id="nav-comunidad">Comunidad</a>
+      <a href="/comunidad-v2" id="nav-comunidad">Comunidad</a>
       <a href="/monetizacion" id="nav-monetizacion">Monetización</a>
     </nav>
   </div>
 
   <!-- Contenedor principal donde se montarán los microfrontends -->
-  <div id="single-spa-application" class="container">
+  <div id="single-spa-application">
     <div class="loading">Cargando aplicación...</div>
   </div>
 

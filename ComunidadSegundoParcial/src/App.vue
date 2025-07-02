@@ -9,16 +9,21 @@ onMounted(() => {
 
 <template>
   <div id="comunidad-app">
-    <h1 style="color: #6c5ce7; text-align: center; padding: 2rem;">
-      🎵 Comunidad Musical V2
-    </h1>
     <RouterView />
   </div>
 </template>
 
 <style scoped>
 #comunidad-app {
-  min-height: 100vh;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
   background: #f8f9fa;
+  overflow: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
 }
 </style>

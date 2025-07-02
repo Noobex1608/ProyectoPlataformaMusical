@@ -10,11 +10,7 @@ import home from '../views/Home.vue';
 
 // Función para obtener la base path según el entorno
 const getBasePath = () => {
-  // Si estamos en Single SPA, usar la ruta del microfrontend
-  if (typeof window !== 'undefined' && window.singleSpaNavigate) {
-    return '/comunidad-v2';
-  }
-  // Si estamos en desarrollo standalone, usar ruta raíz
+  // Siempre usar ruta raíz ya que ahora ComunidadSegundoParcial es el home
   return '/';
 };
 
