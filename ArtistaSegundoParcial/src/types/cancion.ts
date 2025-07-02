@@ -10,5 +10,6 @@ export interface song{
     updatedAt: Date;
     playlistId?: number; 
     imagenUrl?: string; // URL de la imagen de la canción
+    audioData?: string; // Datos de audio en base64
     lyrics?: string; // Letra de la canción
 }

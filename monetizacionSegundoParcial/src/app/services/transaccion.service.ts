@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Transaccion } from '../models/transaccion.model';
+import { Propina } from '../models/propina.model';
+import { Membresia } from '../models/membresia.model';
 
 @Injectable({ providedIn: 'root' })
 export class TransaccionService {
@@ -8,26 +10,43 @@ export class TransaccionService {
     private transaccionesSubject = new BehaviorSubject<Transaccion[]>([]);
 
     constructor() {
-        // Transacciones iniciales corregidas con tipos válidos
+        const membresiaEjemplo: Membresia = {
+            id: 1,
+            nombre: 'Membresía Básica',
+            descripcion: 'Acceso a contenido exclusivo',
+            precio: 10,
+            duracionDias: 30,
+            beneficios: ['beneficio1', 'beneficio2']
+        };
+
+        const propinaEjemplo: Propina = {
+            id: 2,
+            artistaId: 1,
+            usuarioId: 2,
+            cantidad: 5,
+            fecha: new Date(),
+            mensaje: ''
+        };
+
         this.transacciones = [
             {
                 id: 1,
-                tipo: 'membresia',
-                descripcion: 'Pago de membresía',
-                monto: 10,
+                tipo: membresiaEjemplo,
+                descripcion: 'Compra de membresía',
+                monto: membresiaEjemplo.precio,
                 fecha: new Date()
             },
             {
                 id: 2,
-                tipo: 'propina', // ✔️ debe coincidir con el tipo permitido
-                descripcion: 'Propina al artista',
-                monto: 5,
+                tipo: propinaEjemplo,
+                descripcion: 'Propina enviada',
+                monto: propinaEjemplo.cantidad,
                 fecha: new Date()
             }
         ];
-        this.transaccionesSubject.next(this.transacciones);
-    }
 
+        this.transaccionesSubject.next(this.transacciones);
+        } 
     obtenerTransacciones(): Observable<Transaccion[]> {
         return this.transaccionesSubject.asObservable();
     }

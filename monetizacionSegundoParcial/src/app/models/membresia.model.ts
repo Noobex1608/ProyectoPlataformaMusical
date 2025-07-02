@@ -1,8 +1,8 @@
 export interface Membresia {
     id: number;
     nombre: string;
-    precio: number;
     descripcion: string;
+    precio: number;
     duracionDias: number;
     beneficios: string[];
 }

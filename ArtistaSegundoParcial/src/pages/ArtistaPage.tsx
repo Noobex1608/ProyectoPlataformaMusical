@@ -36,7 +36,7 @@ const ArtistaPage = () => {
   };
 
   return (
-    <div>
+    <section className="main-content">
       {(!artista || modoEdicion) ? (
         <ArtistaForm
           artistaInicial={modoEdicion ? artistaEditando! : undefined}
@@ -53,7 +53,7 @@ const ArtistaPage = () => {
           onEliminar={handleEliminar}
         />
       )}
-    </div>
+    </section>
   );
 };
 

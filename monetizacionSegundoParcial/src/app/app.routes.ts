@@ -4,8 +4,6 @@ import { MembresiaListComponent } from './features/monetizacion/membresias/membr
 import { MembresiaFormComponent } from './features/monetizacion/membresias/membresia-form.component';
 import { PropinaListComponent } from './features/monetizacion/propinas/propina-list.component';
 import { PropinaFormComponent } from './features/monetizacion/propinas/propina-form.component';
-import { ContratoFormComponent } from './features/monetizacion/contratos/contrato-form.component';
-import { ContratoListComponent } from './features/monetizacion/contratos/contrato-list.component';
 import { RecompensaListComponent } from './features/monetizacion/recompensas/recompensa-list.component';
 import { RecompensaFormComponent } from './features/monetizacion/recompensas/recompensa-form.component';
 import { TransaccionListComponent } from './features/monetizacion/transacciones/transaccion-list.component';
@@ -25,13 +23,10 @@ export const routes: Routes = [
             { path: 'membresias/nueva', component: MembresiaFormComponent },
             { path: 'propinas', component: PropinaListComponent },
             { path: 'propinas/nueva', component: PropinaFormComponent },
-            { path: 'contratos', component: ContratoListComponent },
-            { path: 'contratos/nuevo', component: ContratoFormComponent },
             { path: 'recompensas', component: RecompensaListComponent },
             { path: 'recompensas/nueva', component: RecompensaFormComponent },
             { path: 'transacciones', component: TransaccionListComponent },
             { path: 'transacciones/nueva', component: TransaccionFormComponent },
-            { path: 'nuevo-contrato', loadComponent: () => import('./features/monetizacion/contratos/contrato-form.component').then(m => m.ContratoFormComponent) },
             { path: 'monetizacion/membresias', loadComponent: () => import('./features/monetizacion/membresias/membresia-list.component').then(m => m.MembresiaListComponent) }
         ]
     }
