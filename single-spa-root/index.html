@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plataforma Musical - Single SPA</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    #single-spa-application:not(.is-rendered) {
+      opacity: 0;
+    }
+
+    #single-spa-application.is-rendered {
+      opacity: 1;
+      transition: opacity 0.3s ease;
+    }
+
+    .navbar {
+      background-color: #1a1a1a;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .navbar h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: #6c5ce7;
+    }
+
+    .navbar nav {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+    }
+
+    .navbar a:hover {
+      background-color: #6c5ce7;
+    }
+
+    .navbar a.active {
+      background-color: #5a52d5;
+    }
+
+    .loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 200px;
+      font-size: 1.2rem;
+      color: #666;
+    }
+
+    .error {
+      background-color: #fee;
+      color: #c33;
+      padding: 1rem;
+      margin: 1rem;
+      border-radius: 4px;
+      border: 1px solid #fcc;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar global -->
+  <div class="navbar">
+    <h1>🎵 Plataforma Musical</h1>
+    <nav>
+      <a href="/" id="nav-home">Inicio</a>
+      <a href="/artista" id="nav-artista">Artista</a>
+      <a href="/comunidad" id="nav-comunidad">Comunidad</a>
+      <a href="/monetizacion" id="nav-monetizacion">Monetización</a>
+    </nav>
+  </div>
+
+  <!-- Contenedor principal donde se montarán los microfrontends -->
+  <div id="single-spa-application" class="container">
+    <div class="loading">Cargando aplicación...</div>
+  </div>
+
+  <!-- Script principal -->
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
