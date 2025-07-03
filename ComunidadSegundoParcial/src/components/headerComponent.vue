@@ -4,7 +4,7 @@
       <router-link to="/">
         
         <span>RawBeats</span>
-        <img src="../assets/logoBeats.svg" alt="Logo" />
+        <img :src="logoUrl" alt="Logo" />
       </router-link>
     </div>
 
@@ -24,6 +24,8 @@
 import { useUsuarioStore } from "../store/usuario";
 import { useRouter } from "vue-router";
 
+// Usar URL absoluta para desarrollo en microfrontend
+const logoUrl = new URL('../assets/logoBeats.svg', import.meta.url).href;
 const usuarioStore = useUsuarioStore();
 const router = useRouter();
 

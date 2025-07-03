@@ -5,13 +5,17 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:spa": "vite --port 5175",
     "build": "vue-tsc -b && vite build",
-    "preview": "vite preview"
+    "build:spa": "vue-tsc -b && vite build --mode spa",
+    "preview": "vite preview",
+    "serve:spa": "vite preview --port 5175"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.50.2",
     "pinia": "^3.0.3",
     "pinia-plugin-persistedstate": "^4.3.0",
+    "single-spa-vue": "^3.0.1",
     "vue": "^3.5.17",
     "vue-router": "^4.5.1"
   },

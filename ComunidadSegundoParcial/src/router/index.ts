@@ -8,8 +8,14 @@ import playlist from '../views/playlist.vue';
 import radio from '../views/radio.vue';
 import home from '../views/Home.vue';
 
+// Función para obtener la base path según el entorno
+const getBasePath = () => {
+  // Siempre usar ruta raíz ya que ahora ComunidadSegundoParcial es el home
+  return '/';
+};
+
 const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHistory(getBasePath()),
     routes: [
         {
             path: '/',
