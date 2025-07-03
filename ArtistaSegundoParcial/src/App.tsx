@@ -15,7 +15,7 @@ function App() {
         <Route path="/estadisticas" element={<PerfilArtistaPage />} />
         <Route path="/eventos" element={<EventoPage />} />
         <Route path="/canciones" element={<SongPage />} />
-         <Route path="/albumes" element={<AlbumPage />} />
+        <Route path="/albumes" element={<AlbumPage />} />
       </Routes>
     </Router>
   );

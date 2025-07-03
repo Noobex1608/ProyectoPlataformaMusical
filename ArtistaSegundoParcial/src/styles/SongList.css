@@ -1,0 +1,59 @@
+.song-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.song-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.song-card h4 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #222;
+}
+
+.song-meta {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+.song-card img {
+  width: 120px;
+  height: auto;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+}
+
+.song-card audio {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.song-actions {
+  margin-top: 0.5rem;
+}
+
+.song-actions button {
+  margin-right: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.song-actions .edit {
+  background-color: #007bff;
+  color: white;
+}
+
+.song-actions .delete {
+  background-color: #dc3545;
+  color: white;
+}
