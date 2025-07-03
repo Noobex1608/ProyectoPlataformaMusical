@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import type { Evento } from '../types/Evento';
 import EventoForm from '../components/EventoForm';
 import EventoList from '../components/EventoList';
@@ -27,6 +28,7 @@ const EventoPage = () => {
 
   return (
     <section className="main-content">
+      <Link to="/" style={{ display: 'inline-block', marginBottom: '1rem', color: '#1f9ea8', textDecoration: 'none', fontWeight: 500 }}>&larr; Volver al inicio</Link>
       <EventoForm onGuardar={handleGuardar} artistaId={artista.id} />
       <h2 style={{ marginTop: '2rem' }}>Tus eventos</h2>
       <EventoList eventos={eventosDelArtista} />

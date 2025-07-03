@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 // Ajuste el nombre importado según el miembro exportado real en '../types/Album'
 import type { album as Album } from '../types/Album';
 import AlbumForm from '../components/AlbumForm';
@@ -56,6 +57,19 @@ const AlbumPage: React.FC = () => {
 
   return (
     <div style={{ maxWidth: '700px', margin: '0 auto', padding: '1rem' }}>
+      <Link
+        to="/"
+        style={{
+          display: 'inline-block',
+          marginBottom: '1rem',
+          color: '#1f9ea8',
+          textDecoration: 'none',
+          fontWeight: 500,
+        }}
+      >
+        &larr; Volver al inicio
+      </Link>
+
       <h2>Gestión de Álbumes</h2>
 
       {!showForm && (

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import type { song as Song } from '../types/cancion';
 import SongForm from '../components/SongForm';
 import SongList from '../components/SongList';
+import { Link } from 'react-router-dom';
 
 const LOCAL_STORAGE_KEY = 'mis_canciones';
 
@@ -69,7 +70,19 @@ const SongPage: React.FC = () => {
 
   return (
     <div style={{ maxWidth: 700, margin: '0 auto', padding: '1rem' }}>
+      <Link to="/" style={{ display: 'inline-block', marginBottom: '1rem', color: '#1f9ea8', textDecoration: 'none', fontWeight: 500 }}>&larr; Volver al inicio</Link>
       <h2>Gestión de Canciones</h2>
+      {/*Mostrar número de canciones y títulos */}
+      <div style={{ background: '#f3f3f3', padding: '0.5rem', borderRadius: '5px', marginBottom: '1rem', fontSize: '0.95rem' }}>
+        <strong>Total canciones en estado:</strong> {songs.length}<br />
+        <span style={{ color: '#555' }}>
+          {songs.map((s, i) => (
+            <span key={s.id || i}>
+              {i + 1}. {s.title} <br />
+            </span>
+          ))}
+        </span>
+      </div>
       {!showForm && <button onClick={() => setShowForm(true)}>Agregar Canción</button>}
       {showForm && (
         <SongForm onSave={handleSave} onCancel={handleCancel} songToEdit={editingSong || undefined} />

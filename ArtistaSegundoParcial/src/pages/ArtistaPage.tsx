@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import type { Artista } from '../types/Artista';
 import ArtistaForm from '../components/ArtistaForm';
 import ArtistaList from '../components/ArtistaList';
@@ -37,6 +38,7 @@ const ArtistaPage = () => {
 
   return (
     <section className="main-content">
+      <Link to="/" style={{ display: 'inline-block', marginBottom: '1rem', color: '#1f9ea8', textDecoration: 'none', fontWeight: 500 }}>&larr; Volver al inicio</Link>
       {(!artista || modoEdicion) ? (
         <ArtistaForm
           artistaInicial={modoEdicion ? artistaEditando! : undefined}
