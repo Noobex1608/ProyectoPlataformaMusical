@@ -26,22 +26,48 @@ const EventoForm = ({ onGuardar, artistaId }: Props) => {
   };
 
   return (
-    <form className="formulario" onSubmit={handleSubmit}>
-      <h2>Agregar Evento</h2>
-      <div className="form-group">
-        <label>Nombre:</label>
-        <input value={nuevo.nombre} onChange={e => setNuevo({ ...nuevo, nombre: e.target.value })} required />
-      </div>
-      <div className="form-group">
-        <label>Fecha:</label>
-        <input type="date" value={nuevo.fecha} onChange={e => setNuevo({ ...nuevo, fecha: e.target.value })} required />
-      </div>
-      <div className="form-group">
-        <label>Ubicación:</label>
-        <input value={nuevo.ubicacion} onChange={e => setNuevo({ ...nuevo, ubicacion: e.target.value })} required />
-      </div>
-      <button type="submit" className="btn-agregar">Agregar</button>
-    </form>
+    <div className="evento-form">
+      <h3>🎤 Agregar Nuevo Evento</h3>
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label>Nombre del evento:</label>
+          <input 
+            type="text"
+            value={nuevo.nombre} 
+            onChange={e => setNuevo({ ...nuevo, nombre: e.target.value })} 
+            required 
+            className="form-input"
+            placeholder="Ej: Concierto Acústico en el Park"
+          />
+        </div>
+        <div className="form-group">
+          <label>Fecha del evento:</label>
+          <input 
+            type="date" 
+            value={nuevo.fecha} 
+            onChange={e => setNuevo({ ...nuevo, fecha: e.target.value })} 
+            required 
+            className="form-input"
+          />
+        </div>
+        <div className="form-group">
+          <label>Ubicación:</label>
+          <input 
+            type="text"
+            value={nuevo.ubicacion} 
+            onChange={e => setNuevo({ ...nuevo, ubicacion: e.target.value })} 
+            required 
+            className="form-input"
+            placeholder="Ej: Teatro Municipal, Ciudad de México"
+          />
+        </div>
+        <div className="form-actions">
+          <button type="submit" className="btn btn-primary">
+            ✨ Crear Evento
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 

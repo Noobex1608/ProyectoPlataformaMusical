@@ -29,7 +29,7 @@ const ArtistaPage = () => {
     setArtistaEditando(null);
   };
 
-  const handleEliminar = (id: string) => {
+  const handleEliminar = (_id: string) => {
     const confirmar = confirm('¿Eliminar artista?');
     if (confirmar) {
       setArtistas([]);
@@ -37,24 +37,45 @@ const ArtistaPage = () => {
   };
 
   return (
-    <section className="main-content">
-      <Link to="/" style={{ display: 'inline-block', marginBottom: '1rem', color: '#1f9ea8', textDecoration: 'none', fontWeight: 500 }}>&larr; Volver al inicio</Link>
-      {(!artista || modoEdicion) ? (
-        <ArtistaForm
-          artistaInicial={modoEdicion ? artistaEditando! : undefined}
-          onGuardar={modoEdicion ? handleEditar : handleAgregar}
-          onCancelar={() => setModoEdicion(false)}
-        />
-      ) : (
-        <ArtistaList
-          artistas={[artista]}
-          onEditar={(a) => {
-            setArtistaEditando(a);
-            setModoEdicion(true);
-          }}
-          onEliminar={handleEliminar}
-        />
-      )}
+    <section className="dashboard">
+      <Link 
+        to="/" 
+        className="btn btn-secondary"
+        style={{
+          position: 'absolute',
+          top: '2rem',
+          left: '2rem',
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '0.5rem',
+          textDecoration: 'none',
+        }}
+      >
+        ← Volver al Dashboard
+      </Link>
+
+      <h2 style={{ color: '#348e91', marginBottom: '2rem' }}>
+        👤 Perfil del Artista
+      </h2>
+
+      <div style={{ width: '100%', maxWidth: '800px' }}>
+        {(!artista || modoEdicion) ? (
+          <ArtistaForm
+            artistaInicial={modoEdicion ? artistaEditando! : undefined}
+            onGuardar={modoEdicion ? handleEditar : handleAgregar}
+            onCancelar={() => setModoEdicion(false)}
+          />
+        ) : (
+          <ArtistaList
+            artistas={[artista]}
+            onEditar={(a) => {
+              setArtistaEditando(a);
+              setModoEdicion(true);
+            }}
+            onEliminar={handleEliminar}
+          />
+        )}
+      </div>
     </section>
   );
 };

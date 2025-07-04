@@ -75,76 +75,127 @@ const SongForm: React.FC<Props> = ({ onSave, onCancel, songToEdit }) => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      style={{ border: '1px solid #ccc', padding: '1rem', marginBottom: '1rem', borderRadius: '5px' }}
-    >
-      <h3>{songToEdit ? 'Editar Canción' : 'Nueva Canción'}</h3>
+    <div className="album-form">
+      <form onSubmit={handleSubmit}>
+        <h3>{songToEdit ? 'Editar Canción' : 'Nueva Canción'}</h3>
 
-      <div>
-        <label>Título:</label>
-        <input value={title} onChange={e => setTitle(e.target.value)} required />
-      </div>
+        <div className="form-group">
+          <label>Título:</label>
+          <input 
+            type="text"
+            value={title} 
+            onChange={e => setTitle(e.target.value)} 
+            required 
+            className="form-input"
+          />
+        </div>
 
-      <div>
-        <label>Artista:</label>
-        <input value={artist} onChange={e => setArtist(e.target.value)} required />
-      </div>
+        <div className="form-group">
+          <label>Artista:</label>
+          <input 
+            type="text"
+            value={artist} 
+            onChange={e => setArtist(e.target.value)} 
+            required 
+            className="form-input"
+          />
+        </div>
 
-      <div>
-        <label>Álbum:</label>
-        <input value={album} onChange={e => setAlbum(e.target.value)} />
-      </div>
+        <div className="form-group">
+          <label>Álbum:</label>
+          <input 
+            type="text"
+            value={album} 
+            onChange={e => setAlbum(e.target.value)} 
+            className="form-input"
+          />
+        </div>
 
-      <div>
-        <label>Duración (segundos):</label>
-        <input
-          type="number"
-          min={0}
-          value={duration}
-          onChange={e => setDuration(Number(e.target.value))}
-        />
-      </div>
+        <div className="form-group">
+          <label>Duración (segundos):</label>
+          <input
+            type="number"
+            min={0}
+            value={duration}
+            onChange={e => setDuration(Number(e.target.value))}
+            className="form-input"
+          />
+        </div>
 
-      <div>
-        <label>Género:</label>
-        <input value={genre} onChange={e => setGenre(e.target.value)} />
-      </div>
+        <div className="form-group">
+          <label>Género:</label>
+          <input 
+            type="text"
+            value={genre} 
+            onChange={e => setGenre(e.target.value)} 
+            className="form-input"
+          />
+        </div>
 
-      <div>
-        <label>Fecha de Lanzamiento:</label>
-        <input type="date" value={releaseDate} onChange={e => setReleaseDate(e.target.value)} />
-      </div>
+        <div className="form-group">
+          <label>Fecha de Lanzamiento:</label>
+          <input 
+            type="date" 
+            value={releaseDate} 
+            onChange={e => setReleaseDate(e.target.value)} 
+            className="form-input"
+          />
+        </div>
 
-      <div>
-        <label>Imagen (jpg, png):</label>
-        <input type="file" accept="image/*" onChange={handleImageChange} />
-        {imagenBase64 && (
-          <img src={imagenBase64} alt="Preview" style={{ width: '100px', marginTop: '0.5rem' }} />
-        )}
-      </div>
+        <div className="form-group">
+          <label>Imagen (jpg, png):</label>
+          <input 
+            type="file" 
+            accept="image/*" 
+            onChange={handleImageChange} 
+            className="form-input file-input"
+          />
+          {imagenBase64 && (
+            <div className="image-preview">
+              <img src={imagenBase64} alt="Preview" />
+            </div>
+          )}
+        </div>
 
-      <div>
-        <label>Audio (mp3, wav):</label>
-        <input type="file" accept="audio/*" onChange={handleAudioChange} />
-        {audioBase64 && (
-          <audio controls style={{ display: 'block', marginTop: '0.5rem' }}>
-            <source src={audioBase64} />
-            Tu navegador no soporta audio.
-          </audio>
-        )}
-      </div>
+        <div className="form-group">
+          <label>Audio (mp3, wav):</label>
+          <input 
+            type="file" 
+            accept="audio/*" 
+            onChange={handleAudioChange} 
+            className="form-input file-input"
+          />
+          {audioBase64 && (
+            <div style={{ marginTop: '1rem' }}>
+              <audio controls style={{ width: '100%' }}>
+                <source src={audioBase64} />
+                Tu navegador no soporta audio.
+              </audio>
+            </div>
+          )}
+        </div>
 
-      <div>
-        <label>Letra:</label>
-        <textarea value={lyrics} onChange={e => setLyrics(e.target.value)} />
-      </div>
+        <div className="form-group">
+          <label>Letra:</label>
+          <textarea 
+            value={lyrics} 
+            onChange={e => setLyrics(e.target.value)} 
+            className="form-input"
+            rows={6}
+            placeholder="Escribe aquí la letra de la canción..."
+          />
+        </div>
 
-      <button type="submit">{songToEdit ? 'Guardar Cambios' : 'Agregar Canción'}</button>
-      <button type="button" onClick={onCancel} style={{ marginLeft: '1rem' }}>
-        Cancelar
-      </button>
-    </form>
+        <div className="form-actions">
+          <button type="submit" className="btn btn-primary">
+            {songToEdit ? 'Guardar Cambios' : 'Agregar Canción'}
+          </button>
+          <button type="button" onClick={onCancel} className="btn btn-secondary">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 

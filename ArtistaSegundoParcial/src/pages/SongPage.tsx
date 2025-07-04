@@ -69,30 +69,78 @@ const SongPage: React.FC = () => {
   };
 
   return (
-    <div style={{ maxWidth: 700, margin: '0 auto', padding: '1rem' }}>
-      <Link to="/" style={{ display: 'inline-block', marginBottom: '1rem', color: '#1f9ea8', textDecoration: 'none', fontWeight: 500 }}>&larr; Volver al inicio</Link>
-      <h2>Gestión de Canciones</h2>
-      {/*Mostrar número de canciones y títulos */}
-      <div style={{ background: '#f3f3f3', padding: '0.5rem', borderRadius: '5px', marginBottom: '1rem', fontSize: '0.95rem' }}>
-        <strong>Total canciones en estado:</strong> {songs.length}<br />
-        <span style={{ color: '#555' }}>
-          {songs.map((s, i) => (
-            <span key={s.id || i}>
-              {i + 1}. {s.title} <br />
-            </span>
-          ))}
-        </span>
+    <section className="dashboard">
+      <Link 
+        to="/" 
+        className="btn btn-secondary"
+        style={{
+          position: 'absolute',
+          top: '2rem',
+          left: '2rem',
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '0.5rem',
+          textDecoration: 'none',
+        }}
+      >
+        ← Volver al Dashboard
+      </Link>
+      
+      <h2 style={{ color: '#348e91', marginBottom: '2rem' }}>
+        🎶 Gestión de Canciones
+      </h2>
+      
+      <div style={{ width: '100%', maxWidth: '1000px', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+        {/* Mostrar resumen de canciones */}
+        <div style={{ 
+          background: '#f8f9fa', 
+          padding: '1.5rem', 
+          borderRadius: '12px', 
+          border: '1px solid #e1e5e9',
+          textAlign: 'center'
+        }}>
+          <strong style={{ color: '#348e91', fontSize: '1.2rem' }}>
+            📊 Total de canciones: {songs.length}
+          </strong>
+          {songs.length > 0 && (
+            <div style={{ 
+              marginTop: '1rem', 
+              color: '#666', 
+              fontSize: '0.9rem',
+              maxHeight: '100px',
+              overflowY: 'auto'
+            }}>
+              {songs.map((s, i) => (
+                <span key={s.id || i}>
+                  {i + 1}. {s.title} {i < songs.length - 1 && ' • '}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+        
+        {!showForm && (
+          <div style={{ textAlign: 'center' }}>
+            <button onClick={() => setShowForm(true)} className="btn btn-primary">
+              ➕ Crear Nueva Canción
+            </button>
+          </div>
+        )}
+        
+        {showForm && (
+          <SongForm onSave={handleSave} onCancel={handleCancel} songToEdit={editingSong || undefined} />
+        )}
+        
+        {songs.length === 0 && !showForm ? (
+          <div className="empty-state">
+            <h3>¡Hora de crear tu primera canción!</h3>
+            <p>Sube tu música y compártela con el mundo</p>
+          </div>
+        ) : (
+          <SongList songs={songs} onEdit={handleEdit} onDelete={handleDelete} />
+        )}
       </div>
-      {!showForm && <button onClick={() => setShowForm(true)}>Agregar Canción</button>}
-      {showForm && (
-        <SongForm onSave={handleSave} onCancel={handleCancel} songToEdit={editingSong || undefined} />
-      )}
-      {songs.length === 0 ? (
-        <p>No hay canciones registradas.</p>
-      ) : (
-        <SongList songs={songs} onEdit={handleEdit} onDelete={handleDelete} />
-      )}
-    </div>
+    </section>
   );
 };
 

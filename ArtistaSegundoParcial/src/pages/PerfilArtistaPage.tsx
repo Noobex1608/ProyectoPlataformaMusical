@@ -8,7 +8,7 @@ const PerfilArtistaPage = () => {
   const storedArtistas = JSON.parse(localStorage.getItem("artistas") || "[]") as Artista[];
   const artista = storedArtistas[0]; // Asumes que hay solo un artista por usuario
 
-  const [perfil, setPerfil] = useState<PerfilArtista>({
+  const [perfil] = useState<PerfilArtista>({
     iinfoartista: artista,
     reproducciones: 123,
     likes: 45,
@@ -20,12 +20,45 @@ const PerfilArtistaPage = () => {
     localStorage.setItem("perfilEstadistica", JSON.stringify(perfil));
   }, [perfil]);
 
-  if (!artista) return <p>No hay datos de artista para mostrar estadísticas.</p>;
+  if (!artista) {
+    return (
+      <section className="dashboard">
+        <div className="empty-state">
+          <h3>No hay datos de artista</h3>
+          <p>Primero configura tu perfil de artista</p>
+          <Link to="/artista" className="btn btn-primary">
+            Crear Perfil
+          </Link>
+        </div>
+      </section>
+    );
+  }
 
   return (
-    <section className="main-content">
-      <Link to="/" style={{ display: 'inline-block', marginBottom: '1rem', color: '#1f9ea8', textDecoration: 'none', fontWeight: 500 }}>&larr; Volver al inicio</Link>
-      <PerfilArtistaList perfil={perfil} />
+    <section className="dashboard">
+      <Link 
+        to="/" 
+        className="btn btn-secondary"
+        style={{
+          position: 'absolute',
+          top: '2rem',
+          left: '2rem',
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '0.5rem',
+          textDecoration: 'none',
+        }}
+      >
+        ← Volver al Dashboard
+      </Link>
+
+      <h2 style={{ color: '#348e91', marginBottom: '2rem' }}>
+        📈 Estadísticas del Artista
+      </h2>
+
+      <div style={{ width: '100%', maxWidth: '800px' }}>
+        <PerfilArtistaList perfil={perfil} />
+      </div>
     </section>
   );
 };

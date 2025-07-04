@@ -51,64 +51,83 @@ const ArtistaForm = ({ onGuardar, artistaInicial, onCancelar }: Props) => {
   };
 
   return (
-    <form className="artista-form" onSubmit={handleSubmit}>
-      <h2>{artistaInicial ? 'Editar Artista' : 'Crear Artista'}</h2>
-
-      <div className="form-grid">
+    <div className="artista-form">
+      <h3>{artistaInicial ? '✏️ Editar Perfil de Artista' : '🎨 Crear Perfil de Artista'}</h3>
+      <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>Nombre</label>
+          <label>Nombre artístico:</label>
           <input
             type="text"
             value={artista.nombre}
             onChange={e => setArtista({ ...artista, nombre: e.target.value })}
             required
+            className="form-input"
+            placeholder="Tu nombre artístico"
           />
         </div>
 
         <div className="form-group">
-          <label>Género</label>
+          <label>Género musical:</label>
           <input
             type="text"
             value={artista.genero}
             onChange={e => setArtista({ ...artista, genero: e.target.value })}
             required
+            className="form-input"
+            placeholder="Rock, Pop, Jazz, etc."
           />
         </div>
 
         <div className="form-group">
-          <label>País</label>
+          <label>País de origen:</label>
           <input
             type="text"
             value={artista.pais}
             onChange={e => setArtista({ ...artista, pais: e.target.value })}
             required
-          />
-        </div>
-
-        <div className="form-group full-width">
-          <label>Descripción</label>
-          <textarea
-            value={artista.descripcion}
-            onChange={e => setArtista({ ...artista, descripcion: e.target.value })}
-            required
+            className="form-input"
+            placeholder="Tu país"
           />
         </div>
 
         <div className="form-group">
-          <label>Imagen del Artista</label>
-          <input type="file" accept="image/*" onChange={handleImagen} required={!artistaInicial} />
+          <label>Descripción:</label>
+          <textarea
+            value={artista.descripcion}
+            onChange={e => setArtista({ ...artista, descripcion: e.target.value })}
+            required
+            className="form-input"
+            rows={4}
+            placeholder="Cuéntanos sobre tu música y tu historia..."
+          />
         </div>
-      </div>
 
-      <div className="form-buttons">
-        <button type="submit" className="btn">
-          {artistaInicial ? 'Guardar Cambios' : 'Agregar Artista'}
-        </button>
-        <button type="button" className="btn-cancel" onClick={onCancelar}>
-          Cancelar
-        </button>
-      </div>
-    </form>
+        <div className="form-group">
+          <label>Foto de perfil:</label>
+          <input 
+            type="file" 
+            accept="image/*" 
+            onChange={handleImagen} 
+            required={!artistaInicial}
+            className="form-input file-input"
+          />
+          {artista.imagen && (
+            <div className="image-preview">
+              <img src={artista.imagen} alt="Preview" />
+            </div>
+          )}
+        </div>
+
+        <div className="form-actions">
+          <button type="submit" className="btn btn-primary">
+            {artistaInicial ? '💾 Guardar Cambios' : '🚀 Crear Perfil'}
+          </button>
+          <button type="button" className="btn btn-secondary" onClick={onCancelar}>
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 

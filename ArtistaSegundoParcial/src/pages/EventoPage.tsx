@@ -23,15 +23,53 @@ const EventoPage = () => {
   const eventosDelArtista = eventos.filter(e => e.artistaId === artista?.id);
 
   if (!artista) {
-    return <p style={{ textAlign: 'center', color: 'red' }}>Debes crear tu perfil de artista primero.</p>;
+    return (
+      <section className="dashboard">
+        <div className="empty-state">
+          <h3>Perfil de artista requerido</h3>
+          <p>Debes crear tu perfil de artista antes de gestionar eventos</p>
+          <Link to="/artista" className="btn btn-primary">
+            Crear Perfil de Artista
+          </Link>
+        </div>
+      </section>
+    );
   }
 
   return (
-    <section className="main-content">
-      <Link to="/" style={{ display: 'inline-block', marginBottom: '1rem', color: '#1f9ea8', textDecoration: 'none', fontWeight: 500 }}>&larr; Volver al inicio</Link>
-      <EventoForm onGuardar={handleGuardar} artistaId={artista.id} />
-      <h2 style={{ marginTop: '2rem' }}>Tus eventos</h2>
-      <EventoList eventos={eventosDelArtista} />
+    <section className="dashboard">
+      <Link 
+        to="/" 
+        className="btn btn-secondary"
+        style={{
+          position: 'absolute',
+          top: '2rem',
+          left: '2rem',
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '0.5rem',
+          textDecoration: 'none',
+        }}
+      >
+        ← Volver al Dashboard
+      </Link>
+
+      <h2 style={{ color: '#348e91', marginBottom: '2rem' }}>
+        🎤 Gestión de Eventos
+      </h2>
+
+      <div style={{ width: '100%', maxWidth: '800px', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+        <EventoForm onGuardar={handleGuardar} artistaId={artista.id} />
+        
+        {eventosDelArtista.length > 0 && (
+          <div>
+            <h3 style={{ color: '#348e91', textAlign: 'center', marginBottom: '1.5rem' }}>
+              Tus Eventos Programados ({eventosDelArtista.length})
+            </h3>
+            <EventoList eventos={eventosDelArtista} />
+          </div>
+        )}
+      </div>
     </section>
   );
 };

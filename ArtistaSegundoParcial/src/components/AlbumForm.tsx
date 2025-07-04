@@ -57,33 +57,67 @@ const AlbumForm: React.FC<Props> = ({ onSave, onCancel, albumToEdit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ border: '1px solid #ccc', padding: '1rem', borderRadius: '5px', marginBottom: '1rem' }}>
-      <h3>{albumToEdit ? 'Editar Álbum' : 'Nuevo Álbum'}</h3>
+    <div className="album-form">
+      <form onSubmit={handleSubmit}>
+        <h3>{albumToEdit ? 'Editar Álbum' : 'Nuevo Álbum'}</h3>
 
-      <div>
-        <label>Título:</label>
-        <input value={titulo} onChange={e => setTitulo(e.target.value)} required />
-      </div>
+        <div className="form-group">
+          <label>Título:</label>
+          <input 
+            type="text"
+            value={titulo} 
+            onChange={e => setTitulo(e.target.value)} 
+            required 
+            className="form-input"
+          />
+        </div>
 
-      <div>
-        <label>Canciones (separadas por coma):</label>
-        <input value={canciones} onChange={e => setCanciones(e.target.value)} placeholder="Canción 1, Canción 2, ..." />
-      </div>
+        <div className="form-group">
+          <label>Canciones (separadas por coma):</label>
+          <input 
+            type="text"
+            value={canciones} 
+            onChange={e => setCanciones(e.target.value)} 
+            placeholder="Canción 1, Canción 2, ..." 
+            className="form-input"
+          />
+        </div>
 
-      <div>
-        <label>Fecha de lanzamiento:</label>
-        <input type="date" value={releaseDate} onChange={e => setReleaseDate(e.target.value)} />
-      </div>
+        <div className="form-group">
+          <label>Fecha de lanzamiento:</label>
+          <input 
+            type="date" 
+            value={releaseDate} 
+            onChange={e => setReleaseDate(e.target.value)} 
+            className="form-input"
+          />
+        </div>
 
-      <div>
-        <label>Portada (imagen jpg/png):</label>
-        <input type="file" accept="image/*" onChange={handleImageChange} />
-        {coverURL && <img src={coverURL} alt="Portada" style={{ width: '100px', marginTop: '0.5rem' }} />}
-      </div>
+        <div className="form-group">
+          <label>Portada (imagen jpg/png):</label>
+          <input 
+            type="file" 
+            accept="image/*" 
+            onChange={handleImageChange} 
+            className="form-input file-input"
+          />
+          {coverURL && (
+            <div className="image-preview">
+              <img src={coverURL} alt="Portada" />
+            </div>
+          )}
+        </div>
 
-      <button type="submit">{albumToEdit ? 'Guardar Cambios' : 'Agregar Álbum'}</button>
-      <button type="button" onClick={onCancel} style={{ marginLeft: '1rem' }}>Cancelar</button>
-    </form>
+        <div className="form-actions">
+          <button type="submit" className="btn btn-primary">
+            {albumToEdit ? 'Guardar Cambios' : 'Agregar Álbum'}
+          </button>
+          <button type="button" onClick={onCancel} className="btn btn-secondary">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 

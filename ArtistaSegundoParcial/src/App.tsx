@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
 import Dashboard from './pages/Dashboard';
 import ArtistaPage from './pages/ArtistaPage';
 import PerfilArtistaPage from './pages/PerfilArtistaPage';
@@ -8,15 +9,18 @@ import AlbumPage from './pages/AlbumPage';
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/artista" element={<ArtistaPage />} />
-        <Route path="/estadisticas" element={<PerfilArtistaPage />} />
-        <Route path="/eventos" element={<EventoPage />} />
-        <Route path="/canciones" element={<SongPage />} />
-        <Route path="/albumes" element={<AlbumPage />} />
-      </Routes>
+    <Router initialEntries={['/']}>
+      <Header />
+      <main className="main-content">
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/artista" element={<ArtistaPage />} />
+          <Route path="/estadisticas" element={<PerfilArtistaPage />} />
+          <Route path="/eventos" element={<EventoPage />} />
+          <Route path="/canciones" element={<SongPage />} />
+          <Route path="/albumes" element={<AlbumPage />} />
+        </Routes>
+      </main>
     </Router>
   );
 }

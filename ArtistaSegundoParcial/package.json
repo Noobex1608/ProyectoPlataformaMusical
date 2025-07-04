@@ -5,13 +5,18 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:spa": "vite --port 5178",
     "build": "tsc -b && vite build",
+    "build:spa": "tsc -b && vite build --mode spa",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "serve:spa": "vite preview --port 5178"
   },
   "dependencies": {
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-router-dom": "^7.6.3",
+    "single-spa-react": "^6.0.2",
     "uuid": "^11.1.0"
   },
   "devDependencies": {

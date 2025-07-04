@@ -55,7 +55,8 @@ const handleLogin = async () => {
 
   if (data.user) {
     setUser(data.user); 
-    router.push("/dashboard"); 
+    // Redirigir a selección de tipo de usuario como parte del proceso de login
+    router.push("/user-type-selection"); 
   }
 };
 </script>

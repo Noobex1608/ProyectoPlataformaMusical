@@ -4,39 +4,38 @@ import '../App.css';
 function Dashboard() {
   return (
     <main className="dashboard">
-      <h2>Bienvenido, Artista 🎶</h2>
-      <p>Accede a tus secciones para gestionar tu perfil musical.</p>
+      <h2>¡Bienvenido, Artista! 🎶</h2>
+      <p>Gestiona tu carrera musical desde un solo lugar. Crea, comparte y conecta con tu audiencia.</p>
 
       <div className="dashboard-grid">
         <Link to="/artista" className="dashboard-card">
           <span>👤</span>
           <h3>Perfil del Artista</h3>
-          <p>Visualiza y edita tu información artística</p>
+          <p>Configura y personaliza tu información artística</p>
         </Link>
 
         <Link to="/estadisticas" className="dashboard-card">
-            <span>📈</span>
-            <h3>Estadísticas</h3>
-            <p>Reproducciones, seguidores y más</p>
+          <span>📈</span>
+          <h3>Estadísticas</h3>
+          <p>Analiza reproducciones, seguidores y métricas</p>
         </Link>
-
 
         <Link to="/eventos" className="dashboard-card">
           <span>🎤</span>
           <h3>Eventos</h3>
-          <p>Agrega y gestiona tus presentaciones</p>
+          <p>Programa y gestiona tus presentaciones en vivo</p>
         </Link>
 
         <Link to="/canciones" className="dashboard-card">
           <span>🎵</span>
           <h3>Canciones</h3>
-          <p>Sube y administra tus temas musicales</p>
+          <p>Sube y administra tu biblioteca musical</p>
         </Link>
 
         <Link to="/albumes" className="dashboard-card">
           <span>💿</span>
           <h3>Álbumes</h3>
-          <p>Crea y organiza tus álbumes</p>
+          <p>Organiza tus canciones en colecciones</p>
         </Link>
       </div>
     </main>

@@ -19,7 +19,18 @@ const microfrontends = [
   },
   {
     name: '@plataforma/artista-segundo-parcial',
-    app: () => import('http://localhost:5177/src/main.js'),
+    app: () => {
+      console.log('🎸 Cargando ArtistaSegundoParcial...');
+      return import('http://localhost:5178/src/main.js')
+        .then(module => {
+          console.log('✅ ArtistaSegundoParcial cargado:', module);
+          return module;
+        })
+        .catch(error => {
+          console.error('❌ Error cargando ArtistaSegundoParcial:', error);
+          throw error;
+        });
+    },
     activeWhen: ['/artista-v2'],
     customProps: {
       domElement: '#single-spa-application',

@@ -56,36 +56,47 @@ const AlbumPage: React.FC = () => {
   };
 
   return (
-    <div style={{ maxWidth: '700px', margin: '0 auto', padding: '1rem' }}>
+    <section className="dashboard">
       <Link
         to="/"
+        className="btn btn-secondary"
         style={{
-          display: 'inline-block',
-          marginBottom: '1rem',
-          color: '#1f9ea8',
+          position: 'absolute',
+          top: '2rem',
+          left: '2rem',
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '0.5rem',
           textDecoration: 'none',
-          fontWeight: 500,
         }}
       >
-        &larr; Volver al inicio
+        ← Volver al Dashboard
       </Link>
 
-      <h2>Gestión de Álbumes</h2>
+      <h2 style={{ color: '#348e91', marginBottom: '2rem' }}>
+        💿 Gestión de Álbumes
+      </h2>
 
-      {!showForm && (
-        <button onClick={() => setShowForm(true)}>Agregar Álbum</button>
-      )}
+      <div style={{ width: '100%', maxWidth: '1000px', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+        {!showForm && (
+          <div style={{ textAlign: 'center' }}>
+            <button onClick={() => setShowForm(true)} className="btn btn-primary">
+              ➕ Crear Nuevo Álbum
+            </button>
+          </div>
+        )}
 
-      {showForm && (
-        <AlbumForm
-          onSave={handleSave}
-          onCancel={handleCancel}
-          albumToEdit={editingAlbum || undefined}
-        />
-      )}
+        {showForm && (
+          <AlbumForm
+            onSave={handleSave}
+            onCancel={handleCancel}
+            albumToEdit={editingAlbum || undefined}
+          />
+        )}
 
-      <AlbumList albums={albums} onEdit={handleEdit} onDelete={handleDelete} />
-    </div>
+        <AlbumList albums={albums} onEdit={handleEdit} onDelete={handleDelete} />
+      </div>
+    </section>
   );
 };
 
