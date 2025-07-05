@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-// Ajuste el nombre importado según el miembro exportado real en '../types/Album'
 import type { album as Album } from '../types/Album';
 import AlbumForm from '../components/AlbumForm';
 import AlbumList from '../components/AlbumList';
@@ -12,12 +11,23 @@ const AlbumPage: React.FC = () => {
   const [editingAlbum, setEditingAlbum] = useState<Album | null>(null);
   const [showForm, setShowForm] = useState(false);
 
-  // Cargar álbumes desde localStorage
+  // Cargar álbumes desde localStorage al montar y cuando se regrese al foco
   useEffect(() => {
-    const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (saved) {
-      setAlbums(JSON.parse(saved));
-    }
+    const cargarDesdeStorage = () => {
+      const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
+      if (saved) {
+        setAlbums(JSON.parse(saved));
+      }
+    };
+
+    cargarDesdeStorage(); // Inicial
+
+    // Volver a cargar si se vuelve a enfocar la ventana
+    window.addEventListener('focus', cargarDesdeStorage);
+
+    return () => {
+      window.removeEventListener('focus', cargarDesdeStorage);
+    };
   }, []);
 
   // Guardar en localStorage cada vez que cambia el estado
@@ -25,7 +35,6 @@ const AlbumPage: React.FC = () => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(albums));
   }, [albums]);
 
-  // Guardar nuevo álbum o editar
   const handleSave = (album: Album) => {
     if (editingAlbum) {
       setAlbums(albums.map(a => (a.idAlbum === album.idAlbum ? album : a)));
@@ -36,20 +45,17 @@ const AlbumPage: React.FC = () => {
     setEditingAlbum(null);
   };
 
-  // Editar álbum
   const handleEdit = (album: Album) => {
     setEditingAlbum(album);
     setShowForm(true);
   };
 
-  // Eliminar álbum
   const handleDelete = (idalbum: number) => {
     if (window.confirm('¿Eliminar este álbum?')) {
       setAlbums(albums.filter(a => a.idAlbum !== idalbum));
     }
   };
 
-  // Cancelar formulario
   const handleCancel = () => {
     setShowForm(false);
     setEditingAlbum(null);

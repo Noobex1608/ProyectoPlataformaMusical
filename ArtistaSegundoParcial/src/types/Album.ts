@@ -1,7 +1,9 @@
 export interface album {
     idAlbum: number;
-    canciones: string;
+    canciones: string[];
     coverURL: string;
     titulo: string;
     releaseDate: number;
+    songImages?: string[];
+    songCollaborators?: string[];
 }

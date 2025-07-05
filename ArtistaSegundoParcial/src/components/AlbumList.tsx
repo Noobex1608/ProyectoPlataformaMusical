@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import type { album as Album } from '../types/Album';
 
 interface Props {
@@ -19,32 +20,36 @@ const AlbumList: React.FC<Props> = ({ albums, onEdit, onDelete }) => {
 
   return (
     <div>
-      <h3 style={{ color: '#348e91', textAlign: 'center', marginBottom: '2rem' }}>
-        Mis Álbumes ({albums.length})
-      </h3>
-      <div className="album-list">
+      <h2 style={{ color: '#fff', fontWeight: 700, fontSize: '2rem', marginBottom: '2rem' }}>Albums</h2>
+      <div className="album-list" style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
         {albums.map(album => (
-          <div key={album.idAlbum} className="album-card">
-            {album.coverURL && (
-              <img 
-                src={album.coverURL} 
-                alt={album.titulo} 
-                className="album-cover"
-              />
-            )}
-            <h3>{album.titulo}</h3>
-            <p><strong>Fecha de lanzamiento:</strong> {new Date(album.releaseDate).toLocaleDateString()}</p>
-            <p><strong>Canciones:</strong> {album.canciones && album.canciones.length > 0 ? album.canciones : 'Ninguna'}</p>
-            
-            <div className="album-actions">
-              <button onClick={() => onEdit(album)} className="btn btn-primary">
-                ✏️ Editar
-              </button>
-              <button onClick={() => onDelete(album.idAlbum)} className="btn btn-danger">
-                🗑️ Eliminar
-              </button>
+          <Link
+            key={album.idAlbum}
+            to={`/albumes/${album.idAlbum}`}
+            style={{ textDecoration: 'none' }}
+          >
+            <div className="album-card" style={{ display: 'flex', alignItems: 'center', background: '#181818', borderRadius: '12px', padding: '1rem', gap: '1.5rem', boxShadow: '0 2px 8px rgba(0,0,0,0.15)', cursor: 'pointer', transition: 'background 0.2s' }}>
+              {album.coverURL && (
+                <img 
+                  src={album.coverURL} 
+                  alt={album.titulo} 
+                  style={{ width: '120px', height: '120px', objectFit: 'cover', borderRadius: '8px' }}
+                />
+              )}
+              <div>
+                <h3 style={{ color: '#fff', fontSize: '1.3rem', margin: 0 }}>{album.titulo}</h3>
+                <p style={{ color: '#b3b3b3', fontSize: '1.1rem', margin: 0 }}>{new Date(album.releaseDate).getFullYear()}</p>
+              </div>
+              <div style={{ marginLeft: 'auto', display: 'flex', gap: '0.5rem' }}>
+                <button onClick={e => { e.preventDefault(); onEdit(album); }} className="btn btn-primary">
+                  ✏️ Editar
+                </button>
+                <button onClick={e => { e.preventDefault(); onDelete(album.idAlbum); }} className="btn btn-danger">
+                  🗑️ Eliminar
+                </button>
+              </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
