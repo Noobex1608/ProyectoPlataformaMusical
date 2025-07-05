@@ -1,14 +1,64 @@
-<h2>💳 Membresías disponibles</h2>
+<div class="dashboard">
+    <!-- RESUMEN -->
+    <div class="resumen-grid">
+        <div class="card resumen">
+            <h4>Ganancias Totales</h4>
+            <p class="valor">$2847.5</p>
+            <p class="cambio positivo">+12% desde el mes pasado</p>
+        </div>
+        <div class="card resumen">
+            <h4>Suscriptores</h4>
+            <p class="valor">1234</p>
+            <p class="cambio positivo">+8% esta semana</p>
+        </div>
+        <div class="card resumen">
+            <h4>Propinas</h4>
+            <p class="valor">$456.75</p>
+            <p class="cambio positivo">+25% esta semana</p>
+        </div>
+        <div class="card resumen">
+            <h4>Puntos de Fidelidad</h4>
+            <p class="valor">8950</p>
+            <p class="nivel">Nivel: Gold</p>
+        </div>
+    </div>
 
-<div *ngFor="let membresia of membresias" class="card">
-    <h3>{{ membresia.nombre }}</h3>
-    <p><strong>Precio:</strong> ${{ membresia.precio }}</p>
-    <p><strong>Duración:</strong> {{ membresia.duracionDias }} días</p>
-    <p><strong>Descripción:</strong> {{ membresia.descripcion }}</p>
+    <!-- PROGRESO DEL MES -->
+    <div class="card progreso">
+        <h3>Progreso del Mes</h3>
+        <p>Meta de Suscriptores: 1234 / 1500</p>
+        <progress value="1234" max="1500"></progress>
+        <p>Meta de Ingresos: $2847 / $3000</p>
+        <progress value="2847" max="3000"></progress>
+        <p>Engagement: 78%</p>
+        <progress value="78" max="100"></progress>
+    </div>
 
-    <ul>
-        <li *ngFor="let beneficio of membresia.beneficios">✔️ {{ beneficio }}</li>
-    </ul>
+    <!-- SECCIÓN ORIGINAL: MEMBRESÍAS -->
+    <div class="monetizacion">
+        <h2>Membresías disponibles</h2>
+        <div *ngFor="let m of membresias" class="card">
+            <h3>{{ m.nombre }}</h3>
+            <p>{{ m.descripcion }}</p>
+            <p><strong>Precio:</strong> ${{ m.precio }}</p>
+            <p><strong>Duración:</strong> {{ m.duracionDias }} días</p>
+            <ul>
+                <li *ngFor="let beneficio of m.beneficios">✅ {{ beneficio }}</li>
+            </ul>
+            <button (click)="eliminarMembresia(m.id)">Eliminar</button>
+        </div>
 
-    <button (click)="eliminarMembresia(membresia.id)">❌ Eliminar</button>
+        <hr />
+
+        <h2>Propinas recibidas</h2>
+        <div *ngFor="let p of propinas" class="card">
+            <p><strong>Fan:</strong> {{ p.nombreFan }}</p>
+            <p><strong>Monto:</strong> ${{ p.cantidad }}</p>
+            <p><strong>Mensaje:</strong> {{ p.mensaje }}</p>
+        </div>
+
+        <hr />
+        <button routerLink="/membresias">Ver solo membresías</button>
+    </div>
 </div>
+  

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TransaccionService } from '../../../services/transaccion.service';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TransaccionService } from '@services/transaccion.service';
 
 @Component({
     selector: 'app-transaccion-form',
@@ -20,15 +20,21 @@ export class TransaccionFormComponent {
         private router: Router
     ) {
         this.form = this.fb.group({
-            tipo: ['membresia', Validators.required],
+            tipo: ['entrada', Validators.required],
             descripcion: ['', Validators.required],
-            monto: [0, [Validators.required, Validators.min(1)]]
+            monto: [0, [Validators.required, Validators.min(0.1)]],
+            usuarioId: ['', Validators.required]
         });
     }
 
-    registrar(): void {
+    enviar(): void {
         if (this.form.valid) {
-            this.transaccionService.agregarTransaccion(this.form.value);
+            const transaccion = {
+                ...this.form.value,
+                fecha: new Date().toISOString()
+            };
+
+            this.transaccionService.agregarTransaccion(transaccion);
             this.router.navigate(['/transacciones']);
         }
     }

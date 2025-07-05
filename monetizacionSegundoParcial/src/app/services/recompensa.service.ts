@@ -1,5 +1,7 @@
+// src/app/services/recompensa.service.ts
+
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Recompensa } from '../models/recompensa.model';
 
 @Injectable({ providedIn: 'root' })
@@ -7,32 +9,41 @@ export class RecompensaService {
     private recompensas: Recompensa[] = [
         {
             id: 1,
-            titulo: 'Sticker exclusivo',
-            descripcion: 'Un sticker digital exclusivo del artista.',
-            puntosRequeridos: 100
+            nombre: 'Sticker digital',
+            descripcion: 'Recibe un sticker exclusivo del artista',
+            tipo: 'Digital',
+            valorMinimo: 10,
+            puntos: 100
         },
         {
             id: 2,
-            titulo: 'Acceso a contenido VIP',
-            descripcion: 'Videos y demos inéditos.',
-            puntosRequeridos: 250
+            nombre: 'Video personalizado',
+            descripcion: 'El artista te graba un saludo',
+            tipo: 'Video',
+            valorMinimo: 50,
+            puntos: 500
         }
     ];
 
-    private recompensasSubject = new BehaviorSubject<Recompensa[]>(this.recompensas);
+    private recompensasSubject = new BehaviorSubject<Recompensa[]>([...this.recompensas]);
 
     obtenerRecompensas(): Observable<Recompensa[]> {
         return this.recompensasSubject.asObservable();
     }
 
-    agregarRecompensa(recompensa: Recompensa): void {
-        recompensa.id = Date.now(); // ID temporal
-        this.recompensas.push(recompensa);
-        this.recompensasSubject.next(this.recompensas);
+    agregarRecompensa(r: Recompensa): Observable<void> {
+        const nuevaRecompensa: Recompensa = {
+            ...r,
+            id: Date.now()
+        };
+        this.recompensas.push(nuevaRecompensa);
+        this.recompensasSubject.next([...this.recompensas]);
+        return of();
     }
 
-    eliminarRecompensa(id: number): void {
+    eliminarRecompensa(id: number): Observable<void> {
         this.recompensas = this.recompensas.filter(r => r.id !== id);
-        this.recompensasSubject.next(this.recompensas);
+        this.recompensasSubject.next([...this.recompensas]);
+        return of();
     }
 }

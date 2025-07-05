@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RecompensaService } from '../../../services/recompensa.service';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { RecompensaService } from '@services/recompensa.service';
 
 @Component({
     selector: 'app-recompensa-form',
@@ -20,16 +20,18 @@ export class RecompensaFormComponent {
         private router: Router
     ) {
         this.form = this.fb.group({
-            titulo: ['', Validators.required],
-            descripcion: ['', Validators.required],
-            puntos: [0, [Validators.required, Validators.min(1)]]
+            nombre: ['', Validators.required],
+            descripcion: [''],
+            tipo: ['propina', Validators.required],
+            valorMinimo: [null]
         });
     }
 
-    crear(): void {
+    enviar(): void {
         if (this.form.valid) {
-            this.recompensaService.agregarRecompensa(this.form.value);
-            this.router.navigate(['/recompensas']);
+            this.recompensaService.agregarRecompensa(this.form.value).subscribe(() => {
+                this.router.navigate(['/recompensas']);
+            });
         }
     }
 }
