@@ -1,7 +1,8 @@
 export interface Recompensa {
     id: number;
-    titulo: string;
+    nombre: string;
     descripcion: string;
-    puntosRequeridos: number;
+    tipo: string;
+    valorMinimo: number;
+    puntos: number;
 }
-  

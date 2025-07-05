@@ -25,11 +25,11 @@ export class PropinaFormComponent {
             mensaje: ['']
         });
     }
-
     enviar(): void {
         if (this.form.valid) {
-            this.propinaService.agregarPropina(this.form.value);
-            this.router.navigate(['/propinas']);
+            this.propinaService.agregarPropina(this.form.value).subscribe(() => {
+                this.router.navigate(['/propinas']);
+            });
         }
     }
 }

@@ -1,23 +1,132 @@
-<div class="monetizacion">
+<!-- TABS DE NAVEGACIÓN -->
+<div class="tabs">
+    <button class="tab" [class.active]="vistaActual === 'resumen'" (click)="vistaActual = 'resumen'">Resumen</button>
+    <button class="tab" [class.active]="vistaActual === 'membresias'"
+        (click)="vistaActual = 'membresias'">Membresías</button>
+    <button class="tab" [class.active]="vistaActual === 'propinas'" (click)="vistaActual = 'propinas'">Propinas</button>
+    <button class="tab" [class.active]="vistaActual === 'transacciones'"
+        (click)="vistaActual = 'transacciones'">Transacciones</button>
+    <button class="tab" [class.active]="vistaActual === 'recompensas'"
+        (click)="vistaActual = 'recompensas'">Recompensas</button>
+    <button class="tab" [class.active]="vistaActual === 'puntos'" (click)="vistaActual = 'puntos'">Puntos</button>
+</div>
+
+
+<!-- Aquí se mostrará el contenido cargado dinámicamente -->
+<router-outlet></router-outlet>
+  
+<!-- RESUMEN -->
+<div *ngIf="vistaActual === 'resumen'">
+    <div class="summary-grid">
+        <div class="card total">
+            <h4>Membresías activas</h4>
+            <p class="amount">{{ membresias.length }}</p>
+            <p class="growth">Total disponibles</p>
+        </div>
+        <div class="card subscribers">
+            <h4>Propinas recibidas</h4>
+            <p class="amount">{{ propinas.length }}</p>
+            <p class="growth">Desde fans</p>
+        </div>
+        <div class="card tips">
+            <h4>Promedio de propinas</h4>
+            <p class="amount">{{ promedioPropinas | number:'1.2-2' }}</p>
+            <p class="growth">Monto promedio</p>
+        </div>
+        <div class="card loyalty">
+            <h4>Total de beneficios</h4>
+            <p class="amount">{{ totalBeneficios }}</p>
+            <p class="gold">Entre todas las membresías</p>
+        </div>
+    </div>
+
+    <div class="activity-progress">
+        <div class="activity">
+            <h3>Actividad Reciente</h3>
+            <ul>
+                <li *ngFor="let p of propinas.slice(0, 3)">
+                    <span class="dot tip"></span>
+                    Propina - {{ p.nombreFan }}
+                    <span class="amount">+{{ p.cantidad }}</span>
+                    <span class="date">{{ p.fecha | date:'short' }}</span>
+                </li>
+            </ul>
+        </div>
+        <div class="progress-section">
+            <h3>Progreso de Membresías</h3>
+            <label>Número total</label>
+            <progress [value]="membresias.length" max="10"></progress>
+
+            <label>Promedio duración</label>
+            <progress [value]="promedioDuracion" max="60"></progress>
+
+            <label>Propinas recibidas</label>
+            <progress [value]="propinas.length" max="20"></progress>
+        </div>
+    </div>
+</div>
+
+<!-- MEMBRESÍAS -->
+<div *ngIf="vistaActual === 'membresias'">
     <h2>Membresías disponibles</h2>
     <div *ngFor="let m of membresias" class="card">
         <h3>{{ m.nombre }}</h3>
         <p>{{ m.descripcion }}</p>
-        <p>Precio: ${{ m.precio }}</p>
-        <p>Duración: {{ m.duracionDias }} días</p>
+        <p><strong>Precio:</strong> ${{ m.precio }}</p>
+        <p><strong>Duración:</strong> {{ m.duracionDias }} días</p>
         <ul>
-            <li *ngFor="let beneficio of m.beneficios">{{ beneficio }}</li>
+            <li *ngFor="let beneficio of m.beneficios">✅ {{ beneficio }}</li>
         </ul>
         <button (click)="eliminarMembresia(m.id)">Eliminar</button>
+        <button (click)="suscribirse(m.id)">Suscribirse</button>
     </div>
+</div>
 
-    <hr />
-
-    <h2>Propinas recibidas</h2>
+<!-- PROPINAS -->
+<div *ngIf="vistaActual === 'propinas'">
+    <h2>Propinas</h2>
     <div *ngFor="let p of propinas" class="card">
         <p><strong>Fan:</strong> {{ p.nombreFan }}</p>
-        <p><strong>Monto:</strong> ${{ p.cantidad}}</p>
+        <p><strong>Monto:</strong> ${{ p.cantidad }}</p>
         <p><strong>Mensaje:</strong> {{ p.mensaje }}</p>
     </div>
 </div>
-  
+
+<!-- TRANSACCIONES -->
+<div *ngIf="vistaActual === 'transacciones'">
+    <h2>Transacciones</h2>
+    <div *ngFor="let t of transacciones" class="card">
+        <p><strong>Descripción:</strong> {{ t.descripcion }}</p>
+        <p><strong>Monto:</strong> ${{ t.monto }}</p>
+        <p><strong>Fecha:</strong> {{ t.fecha | date }}</p>
+    </div>
+</div>
+
+<!-- RECOMPENSAS -->
+<div *ngIf="vistaActual === 'recompensas'">
+    <h2>Recompensas</h2>
+    <div *ngFor="let r of recompensas" class="card">
+        <p><strong>Título:</strong> {{ r.nombre }}</p>
+        <p><strong>Descripción:</strong> {{ r.descripcion }}</p>
+        <p><strong>Puntos requeridos:</strong> {{ r.valorMinimo }}</p>
+    </div>
+</div>
+
+<!-- PUNTOS -->
+<div *ngIf="vistaActual === 'puntos'">
+    <h2>Puntos por Usuario</h2>
+    <div *ngFor="let p of puntos" class="card">
+        <p><strong>ID Usuario:</strong> {{ p.usuarioId }}</p>
+        <p><strong>Puntos:</strong> {{ p.puntos }}</p>
+    </div>
+</div>
+
+<!-- SUSCRIPCIONES -->
+<div *ngIf="vistaActual === 'suscripciones'">
+    <h2>Suscripciones activas</h2>
+    <div *ngFor="let s of suscripciones" class="card">
+        <p><strong>ID Usuario:</strong> {{ s.usuarioId }}</p>
+        <p><strong>ID Membresía:</strong> {{ s.membresiaId }}</p>
+        <p><strong>Fecha:</strong> {{ s.fechaInicio | date }}</p>
+    </div>
+</div>
