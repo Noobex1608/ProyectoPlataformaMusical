@@ -28,12 +28,47 @@ export const mount = () => {
 
     console.log('✅ Elemento encontrado, montando aplicación...');
     
+    // FORCE SCROLL FIX FOR SINGLE-SPA
+    const forceScrollFix = () => {
+      // Force scroll styles on body and html
+      document.documentElement.style.overflowY = 'auto';
+      document.documentElement.style.height = 'auto';
+      document.body.style.overflowY = 'auto';
+      document.body.style.height = 'auto';
+      document.body.style.position = 'relative';
+      
+      // Force scroll styles on single-spa container
+      if (container) {
+        container.style.overflowY = 'auto';
+        container.style.height = 'auto';
+        container.style.minHeight = '100vh';
+        container.style.position = 'relative';
+      }
+      
+      // Force scroll on any nested containers
+      const allContainers = document.querySelectorAll('#root, .main-content, .dashboard');
+      allContainers.forEach((el: any) => {
+        el.style.overflowY = 'visible';
+        el.style.height = 'auto';
+        el.style.maxHeight = 'none';
+        el.style.position = 'relative';
+      });
+      
+      console.log('🔧 Scroll fix aplicado');
+    };
+    
     // Usar React 18+ createRoot
     import('react-dom/client').then(({ createRoot }) => {
       reactRoot = createRoot(container);
       reactRoot.render(
         React.createElement(App)
       );
+      
+      // Apply scroll fix after mounting
+      setTimeout(forceScrollFix, 100);
+      setTimeout(forceScrollFix, 500);
+      setTimeout(forceScrollFix, 1000);
+      
       console.log('🚀 ArtistaSegundoParcial montado exitosamente');
       resolve(undefined);
     }).catch((error) => {

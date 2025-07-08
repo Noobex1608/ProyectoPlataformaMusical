@@ -1,10 +1,38 @@
 import { Link, useLocation } from 'react-router-dom';
+import { supabase } from '../supabase';
+import '../styles/Header.css';
 
 const Header = () => {
   const location = useLocation();
   
   // Usar URL absoluta para desarrollo en microfrontend (igual que ComunidadSegundoParcial)
   const logoUrl = new URL('../assets/logoBeats.svg', import.meta.url).href;
+
+  const handleLogout = async () => {
+    try {
+      console.log('🔄 Cerrando sesión...');
+      
+      // Cerrar sesión en Supabase
+      const { error } = await supabase.auth.signOut();
+      
+      if (error) {
+        console.error('❌ Error al cerrar sesión:', error.message);
+        return;
+      }
+      
+      console.log('✅ Sesión cerrada exitosamente');
+      
+      // Limpiar localStorage
+      localStorage.removeItem('selectedUserType');
+      localStorage.removeItem('usuario');
+      
+      // Redirigir al home de ComunidadSegundoParcial
+      window.location.href = '/';
+      
+    } catch (err) {
+      console.error('❌ Error al cerrar sesión:', err);
+    }
+  };
 
   return (
     <header className="header">
@@ -52,6 +80,15 @@ const Header = () => {
         >
           Eventos
         </Link>
+        
+        <button 
+          onClick={handleLogout}
+          className="logout-btn"
+          title="Cerrar sesión"
+        >
+          <span className="logout-icon">🚪</span>
+          Cerrar Sesión
+        </button>
       </nav>
     </header>
   );

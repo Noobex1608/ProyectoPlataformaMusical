@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Dashboard from './pages/Dashboard';
 import ArtistaPage from './pages/ArtistaPage';
@@ -10,7 +10,7 @@ import AlbumDetailPage from './pages/AlbumDetailPage';
 
 function App() {
   return (
-    <Router>
+    <Router initialEntries={['/']} initialIndex={0}>
       <Header />
       <main className="main-content">
         <Routes>

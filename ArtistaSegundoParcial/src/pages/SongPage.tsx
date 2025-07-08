@@ -1,52 +1,36 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import type { song as Song } from '../types/cancion';
 import SongForm from '../components/SongForm';
 import SongList from '../components/SongList';
 import { Link } from 'react-router-dom';
-
-const LOCAL_STORAGE_KEY = 'mis_canciones';
+import { useCanciones } from '../hooks/useCanciones';
 
 const SongPage: React.FC = () => {
-  const [songs, setSongs] = useState<Song[]>([]);
   const [editingSong, setEditingSong] = useState<Song | null>(null);
   const [showForm, setShowForm] = useState(false);
+  
+  // Hook para gestión de canciones con Supabase
+  const {
+    canciones: songs,
+    loading,
+    error,
+    crearCancion,
+    actualizarCancion,
+    eliminarCancion
+  } = useCanciones();
 
-  // Ref para evitar guardar localStorage en el primer render
-  const isFirstRender = useRef(true);
-
-  useEffect(() => {
-    // Cargar canciones una vez al montar
-    const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (saved) {
-      const parsedSongs: Song[] = JSON.parse(saved).map((s: any) => ({
-        ...s,
-        releaseDate: s.releaseDate ? new Date(s.releaseDate) : undefined,
-        createdAt: new Date(s.createdAt),
-        updatedAt: new Date(s.updatedAt),
-      }));
-      setSongs(parsedSongs);
-    }
-  }, []);
-
-  useEffect(() => {
-    // No guardar en localStorage la primera vez que se ejecuta este efecto
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
+  const handleSave = async (song: Song) => {
     try {
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(songs));
-      console.log('Canciones guardadas en localStorage');
-    } catch (error) {
-      console.error('Error guardando canciones:', error);
-    }
-  }, [songs]);
-
-  const handleSave = (song: Song) => {
-    if (editingSong) {
-      setSongs(songs.map(s => (s.id === song.id ? song : s)));
-    } else {
-      setSongs([...songs, song]);
+      if (editingSong) {
+        await actualizarCancion(editingSong.id, song);
+      } else {
+        await crearCancion(song);
+      }
+      setShowForm(false);
+      setEditingSong(null);
+    } catch (err) {
+      console.error('Error guardando canción:', err);
+      // El error ya se maneja en el hook
     }
     setShowForm(false);
     setEditingSong(null);
@@ -57,9 +41,14 @@ const SongPage: React.FC = () => {
     setShowForm(true);
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = async (id: number) => {
     if (window.confirm('¿Eliminar esta canción?')) {
-      setSongs(songs.filter(s => s.id !== id));
+      try {
+        await eliminarCancion(id);
+      } catch (err) {
+        console.error('Error eliminando canción:', err);
+        // El error ya se maneja en el hook
+      }
     }
   };
 
@@ -89,6 +78,33 @@ const SongPage: React.FC = () => {
       <h2 style={{ color: '#348e91', marginBottom: '2rem' }}>
         🎶 Gestión de Canciones
       </h2>
+
+      {/* Mostrar estado de carga y errores */}
+      {loading && (
+        <div style={{ 
+          textAlign: 'center', 
+          padding: '2rem',
+          background: '#f8f9fa',
+          borderRadius: '8px',
+          margin: '1rem 0'
+        }}>
+          🔄 Cargando canciones...
+        </div>
+      )}
+
+      {error && (
+        <div style={{ 
+          textAlign: 'center', 
+          padding: '1rem',
+          background: '#ffe6e6',
+          borderRadius: '8px',
+          margin: '1rem 0',
+          color: '#d32f2f',
+          border: '1px solid #ffcdd2'
+        }}>
+          ❌ Error: {error}
+        </div>
+      )}
       
       <div style={{ width: '100%', maxWidth: '1000px', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
         {/* Mostrar resumen de canciones */}
@@ -121,23 +137,32 @@ const SongPage: React.FC = () => {
         
         {!showForm && (
           <div style={{ textAlign: 'center' }}>
-            <button onClick={() => setShowForm(true)} className="btn btn-primary">
+            <button 
+              onClick={() => setShowForm(true)} 
+              className="btn btn-primary"
+              disabled={loading}
+            >
               ➕ Crear Nueva Canción
             </button>
           </div>
         )}
         
         {showForm && (
-          <SongForm onSave={handleSave} onCancel={handleCancel} songToEdit={editingSong || undefined} />
+          <SongForm 
+            onSave={handleSave} 
+            onCancel={handleCancel} 
+            songToEdit={editingSong || undefined}
+            disabled={loading}
+          />
         )}
         
-        {songs.length === 0 && !showForm ? (
+        {songs.length === 0 && !showForm && !loading ? (
           <div className="empty-state">
             <h3>¡Hora de crear tu primera canción!</h3>
             <p>Sube tu música y compártela con el mundo</p>
           </div>
         ) : (
-          <SongList songs={songs} onEdit={handleEdit} onDelete={handleDelete} />
+          !loading && <SongList songs={songs} onEdit={handleEdit} onDelete={handleDelete} />
         )}
       </div>
     </section>

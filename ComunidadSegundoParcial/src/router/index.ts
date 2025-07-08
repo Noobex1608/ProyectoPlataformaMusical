@@ -8,6 +8,8 @@ import playlist from '../views/playlist.vue';
 import radio from '../views/radio.vue';
 import home from '../views/Home.vue';
 import UserTypeSelection from '../views/UserTypeSelection.vue';
+import LoginTypeSelection from '../views/LoginTypeSelection.vue';
+import RegisterTypeSelection from '../views/RegisterTypeSelection.vue';
 
 // Función para obtener la base path según el entorno
 const getBasePath = () => {
@@ -35,6 +37,11 @@ const router = createRouter({
             component: login
         },
         {
+            path: '/login-tipo',
+            name: 'login-tipo',
+            component: LoginTypeSelection
+        },
+        {
             path: '/user-type-selection',
             name: 'user-type-selection',
             component: UserTypeSelection
@@ -48,6 +55,11 @@ const router = createRouter({
             path: '/registro',
             name: 'registro',
             component: registro
+        },
+        {
+            path: '/registro-tipo',
+            name: 'registro-tipo',
+            component: RegisterTypeSelection
         },
         {
             path: '/clubes',

@@ -11,6 +11,12 @@ export default defineConfig({
       'Access-Control-Allow-Headers': 'Content-Type, Authorization'
     }
   },
+  css: {
+    modules: {
+      localsConvention: 'camelCase',
+      generateScopedName: '[name]__[local]___[hash:base64:5]'
+    }
+  },
   esbuild: {
     jsx: 'automatic',
     jsxFactory: 'React.createElement',

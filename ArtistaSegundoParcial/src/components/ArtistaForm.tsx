@@ -3,7 +3,7 @@ import type { Artista } from '../types/Artista';
 import { v4 as uuidv4 } from 'uuid';
 
 interface Props {
-  onGuardar: (artista: Artista) => void;
+  onGuardar: (artista: Artista | Omit<Artista, 'id'>) => void;
   artistaInicial?: Artista;
   onCancelar: () => void;
 }
@@ -116,6 +116,17 @@ const ArtistaForm = ({ onGuardar, artistaInicial, onCancelar }: Props) => {
               <img src={artista.imagen} alt="Preview" />
             </div>
           )}
+        </div>
+
+        <div className="form-group">
+          <label>Token de verificación:</label>
+          <input
+            type="text"
+            value={artista.tokenVerificacion}
+            onChange={e => setArtista({ ...artista, tokenVerificacion: e.target.value })}
+            className="form-input"
+            placeholder="Token de verificación (opcional)"
+          />
         </div>
 
         <div className="form-actions">

@@ -1,4 +1,6 @@
 import type { Artista } from '../types/Artista';
+import ProfileImage from './ProfileImage';
+import '../styles/PerfilArtista.css';
 
 interface Props {
   artistas: Artista[];
@@ -8,20 +10,49 @@ interface Props {
 
 const ArtistaList = ({ artistas, onEditar, onEliminar }: Props) => {
   return (
-    <div className="card-lista">
+    <div className="perfil-artista-container">
       {artistas.map((a) => (
-        <div key={a.id} className="card artista-card">
-          <img src={a.imagen} alt={a.nombre} className="artista-img" />
-          <div>
-            <h3>{a.nombre}</h3>
-            <p><strong>Género:</strong> {a.genero}</p>
-            <p><strong>País:</strong> {a.pais}</p>
-            <p><strong>Descripción:</strong> {a.descripcion}</p>
-            {a.tokenVerificacion && (
-              <p><strong>Token:</strong> {a.tokenVerificacion}</p>
-            )}
-            <button onClick={() => onEditar(a)}>Editar</button>
-            <button onClick={() => onEliminar(a.id)}>Eliminar</button>
+        <div key={a.id} className="perfil-card">
+          <div className="perfil-header">
+            <ProfileImage 
+              imageUrl={a.imagen}
+              size={120}
+              name={a.nombre}
+            />
+            
+            <div className="perfil-info">
+              <h1 className="artista-name">{a.nombre}</h1>
+              <p className="artista-genre">{a.genero || 'Género no especificado'}</p>
+              {a.pais && (
+                <p className="artista-country">📍 {a.pais}</p>
+              )}
+              {a.descripcion && (
+                <p className="artista-description">{a.descripcion}</p>
+              )}
+              {a.tokenVerificacion && (
+                <p className="artista-token">🔐 Token: {a.tokenVerificacion}</p>
+              )}
+            </div>
+
+            <div className="perfil-actions">
+              <button 
+                onClick={() => onEditar(a)}
+                className="btn-edit"
+              >
+                ✏️ Editar
+              </button>
+              <button 
+                onClick={() => onEliminar(a.id)}
+                className="btn-edit"
+                style={{ 
+                  background: '#f44336', 
+                  borderColor: '#f44336',
+                  marginTop: '0.5rem'
+                }}
+              >
+                🗑️ Eliminar
+              </button>
+            </div>
           </div>
         </div>
       ))}

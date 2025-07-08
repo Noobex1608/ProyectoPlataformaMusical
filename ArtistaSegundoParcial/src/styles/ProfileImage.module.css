@@ -1,0 +1,42 @@
+/* CSS Module para ProfileImage - Estilos optimizados para imagen circular */
+.profileImageContainer {
+  /* Los estilos principales se manejan inline, esto es solo refuerzo */
+  border-radius: 50% !important;
+  overflow: hidden !important;
+  flex-shrink: 0 !important;
+  /* Reset de propiedades que pueden ser afectadas por estilos globales */
+  position: relative !important;
+  box-sizing: border-box !important;
+}
+
+.profileImage {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+  border-radius: 0 !important;
+  /* Reset completo para evitar interferencias */
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  outline: none !important;
+  background: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+  display: block !important;
+}
+
+.profileImagePlaceholder {
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  /* Reset completo */
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+}

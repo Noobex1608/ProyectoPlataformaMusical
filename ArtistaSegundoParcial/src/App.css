@@ -7,19 +7,60 @@ html, body {
   color: #222;
   height: 100%;
   box-sizing: border-box;
+  /* FORCE SCROLL FIX */
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
 }
 
 /* === Root container === */
 #root {
   width: 100%;
   min-height: 100vh;
+  height: auto !important;
+  max-height: none !important;
+  overflow-y: visible !important;
+  position: relative !important;
 }
 
-/* === Main content layout === */
+/* === SINGLE-SPA SPECIFIC FIXES === */
+/* Force scroll for any single-spa container */
+[data-single-spa-app],
+[data-single-spa-app] *,
+.single-spa-container,
+.single-spa-app {
+  height: auto !important;
+  min-height: auto !important;
+  max-height: none !important;
+  overflow-y: visible !important;
+  position: relative !important;
+}
+
+/* Main content layout */
 .main-content {
   width: 100%;
-  min-height: calc(100vh - 70px); /* Ajustamos por la altura del header */
+  min-height: calc(100vh - 70px);
   padding-top: 0;
+  /* ENHANCED SCROLL FIX FOR SINGLE-SPA */
+  overflow-y: visible !important;
+  overflow-x: hidden !important;
+  height: auto !important;
+  max-height: none !important;
+  position: relative !important;
+  display: block !important;
+}
+
+/* Stronger override específico para single-spa environment */
+body[data-single-spa] .main-content,
+[data-single-spa-app] .main-content,
+.single-spa-app .main-content,
+#single-spa-application .main-content {
+  min-height: auto !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow-y: visible !important;
+  overflow-x: hidden !important;
+  position: static !important;
+  display: block !important;
 }
 
 /* === Header/Nav === */
@@ -171,13 +212,11 @@ main {
 
 /* === Contenido Principal === */
 .main-content {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 20px;
   width: 100%;
+  min-height: calc(100vh - 70px);
+  padding: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
   box-sizing: border-box;
 }
 
@@ -186,16 +225,34 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   text-align: center;
   padding: 3rem 2rem;
-  min-height: 100vh;
+  min-height: calc(100vh - 70px);
   color: #222;
   background-color: #f8f9fa;
-  width: 100vw;
+  width: 100%;
   box-sizing: border-box;
   margin: 0;
   position: relative;
+  /* ENHANCED SCROLL FIX */
+  height: auto !important;
+  max-height: none !important;
+  overflow-y: visible !important;
+  overflow-x: hidden !important;
+}
+
+/* STRONGER DASHBOARD SCROLL FIX FOR SINGLE-SPA */
+[data-single-spa-app] .dashboard,
+.single-spa-app .dashboard,
+#single-spa-application .dashboard,
+body[data-single-spa] .dashboard {
+  height: auto !important;
+  min-height: auto !important;
+  max-height: none !important;
+  overflow-y: visible !important;
+  overflow-x: hidden !important;
+  position: relative !important;
 }
 
 .dashboard h2 {

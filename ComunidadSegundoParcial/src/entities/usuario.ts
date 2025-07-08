@@ -7,4 +7,5 @@ export interface Usuario {
     created_at: Date;
     description?: string;
     imageUrl?: string;
+    type: string; // 'artist', 'fan'
 }

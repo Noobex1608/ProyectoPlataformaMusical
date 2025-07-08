@@ -12,8 +12,8 @@
       <router-link to="/" v-if="!isAuthenticated" class="link">Inicio</router-link>
       <router-link to="/dashboard" v-if="isAuthenticated" class="link">Explorar</router-link>
       <router-link to="/perfil" v-if="isAuthenticated" class="link">Perfil</router-link>
-      <router-link to="/login" v-if="!isAuthenticated" class="link">Iniciar sesión</router-link>
-      <router-link to="/registro" v-if="!isAuthenticated" class="link">Registrarse</router-link>
+      <router-link to="/login-tipo" v-if="!isAuthenticated"class="link">Iniciar Sesion</router-link>
+      <router-link to="/registro-tipo" v-if="!isAuthenticated" class="link">Registrarse</router-link>
       <button @click="logout" v-if="isAuthenticated" class="logout"><strong>Cerrar sesión</strong></button>
     </nav>
   </header>
