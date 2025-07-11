@@ -1,46 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import type { album as Album } from '../types/Album';
+import { useAlbumes, type Album } from '../hooks/useAlbumes';
 import AlbumForm from '../components/AlbumForm';
 import AlbumList from '../components/AlbumList';
 
-const LOCAL_STORAGE_KEY = 'mis_albumes';
-
 const AlbumPage: React.FC = () => {
-  const [albums, setAlbums] = useState<Album[]>([]);
   const [editingAlbum, setEditingAlbum] = useState<Album | null>(null);
   const [showForm, setShowForm] = useState(false);
+  
+  const { albums, loading, error, eliminarAlbum } = useAlbumes();
 
-  // Cargar álbumes desde localStorage al montar y cuando se regrese al foco
-  useEffect(() => {
-    const cargarDesdeStorage = () => {
-      const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
-      if (saved) {
-        setAlbums(JSON.parse(saved));
-      }
-    };
-
-    cargarDesdeStorage(); // Inicial
-
-    // Volver a cargar si se vuelve a enfocar la ventana
-    window.addEventListener('focus', cargarDesdeStorage);
-
-    return () => {
-      window.removeEventListener('focus', cargarDesdeStorage);
-    };
-  }, []);
-
-  // Guardar en localStorage cada vez que cambia el estado
-  useEffect(() => {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(albums));
-  }, [albums]);
-
-  const handleSave = (album: Album) => {
-    if (editingAlbum) {
-      setAlbums(albums.map(a => (a.idAlbum === album.idAlbum ? album : a)));
-    } else {
-      setAlbums([...albums, album]);
-    }
+  const handleSave = () => {
     setShowForm(false);
     setEditingAlbum(null);
   };
@@ -50,9 +20,14 @@ const AlbumPage: React.FC = () => {
     setShowForm(true);
   };
 
-  const handleDelete = (idalbum: number) => {
-    if (window.confirm('¿Eliminar este álbum?')) {
-      setAlbums(albums.filter(a => a.idAlbum !== idalbum));
+  const handleDelete = async (id: number) => {
+    if (window.confirm('¿Estás seguro de que quieres eliminar este álbum?')) {
+      try {
+        await eliminarAlbum(id);
+      } catch (error) {
+        console.error('Error eliminando álbum:', error);
+        alert('Error eliminando álbum');
+      }
     }
   };
 
@@ -60,6 +35,26 @@ const AlbumPage: React.FC = () => {
     setShowForm(false);
     setEditingAlbum(null);
   };
+
+  if (loading) {
+    return (
+      <section className="dashboard">
+        <div style={{ textAlign: 'center', padding: '2rem' }}>
+          <p>🔄 Cargando álbumes...</p>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="dashboard">
+        <div style={{ textAlign: 'center', padding: '2rem' }}>
+          <p style={{ color: 'red' }}>❌ Error: {error}</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="dashboard">

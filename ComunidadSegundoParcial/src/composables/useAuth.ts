@@ -207,7 +207,7 @@ export function useAuth() {
   }
 
   // Función para regenerar usuario con contraseña conocida
-  async function regenerateUserPassword(email: string, newPassword: string) {
+  async function regenerateUserPassword(email: string) {
     console.log(`🔄 Regenerando contraseña para: ${email}`);
     
     try {

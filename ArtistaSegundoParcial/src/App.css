@@ -652,299 +652,213 @@ audio {
   font-style: italic;
 }
 
-/* === Responsive === */
-@media (max-width: 768px) {
-  .album-form {
-    padding: 1.5rem;
-  }
-  
-  .form-actions {
-    flex-direction: column;
-  }
-  
-  .album-list {
-    grid-template-columns: 1fr;
-  }
-  
-  .dashboard-grid {
-    grid-template-columns: 1fr;
-  }
+/* === Estadísticas y Perfil === */
+.loading-spinner {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #348e91;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
 }
 
-/* === Responsive específico para Dashboard === */
-@media (max-width: 1024px) {
-  .dashboard-grid {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    max-width: 900px;
-    justify-content: center;
-  }
-  
-  .dashboard-card {
-    max-width: 280px;
-  }
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
-@media (max-width: 768px) {
-  .dashboard {
-    padding: 2rem 1rem;
-    width: 100vw;
-  }
-  
-  .dashboard h2 {
-    font-size: 2rem;
-  }
-  
-  .dashboard > p {
-    font-size: 1.1rem;
-    margin-bottom: 2rem;
-  }
-  
-  .dashboard-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-    max-width: 350px;
-    justify-items: center;
-  }
-  
-  .dashboard-card {
-    padding: 2rem 1.5rem;
-    max-width: 320px;
-    width: 100%;
-  }
-  
-  .dashboard-card span {
-    font-size: 3rem;
-  }
-  
-  .dashboard-card h3 {
-    font-size: 1.3rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .dashboard {
-    padding: 1.5rem 0.5rem;
-    width: 100vw;
-  }
-  
-  .dashboard h2 {
-    font-size: 1.8rem;
-  }
-  
-  .dashboard-grid {
-    max-width: 300px;
-  }
-  
-  .dashboard-card {
-    padding: 1.5rem 1rem;
-    max-width: 280px;
-  }
-  
-  .dashboard-card span {
-    font-size: 2.5rem;
-  }
-}
-
-/* === Reglas adicionales para centrado perfecto === */
-.dashboard-grid {
-  place-items: center;
-  place-content: center;
-}
-
-.dashboard-grid > * {
-  justify-self: center;
-  align-self: center;
-}
-
-/* === Específico para asegurar centrado en navegadores === */
-.dashboard {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-.dashboard-grid {
-  display: grid !important;
-  place-items: center !important;
-  justify-content: center !important;
-}
-
-/* === Estilos específicos para formularios de eventos === */
-.evento-form {
-  background-color: #fff;
-  border-radius: 12px;
-  padding: 2rem;
-  box-shadow: 0 4px 12px rgba(52, 142, 145, 0.1);
-  margin-bottom: 2rem;
-  border: 1px solid rgba(52, 142, 145, 0.15);
-  max-width: 600px;
-  width: 100%;
-  margin: 0 auto;
-}
-
-.evento-form h3 {
-  color: #348e91;
-  margin-bottom: 1.5rem;
-  font-size: 1.5rem;
-  font-weight: 600;
-  text-align: center;
-}
-
-/* === Estilos para listas de eventos === */
-.evento-list {
+.estadisticas-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1.5rem;
-  width: 100%;
-  max-width: 1200px;
+  margin: 2rem 0;
 }
 
-.evento-card {
-  background-color: #fff;
+.stat-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border: 2px solid #e9ecef;
   border-radius: 12px;
   padding: 1.5rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s, box-shadow 0.2s;
-  border: 1px solid rgba(52, 142, 145, 0.1);
+  text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.evento-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(52, 142, 145, 0.15);
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  border-color: #348e91;
 }
 
-.evento-card h3 {
-  color: #348e91;
-  margin-bottom: 0.5rem;
-  font-size: 1.2rem;
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 0.5rem 0;
+  line-height: 1;
 }
 
-.evento-card p {
-  color: #666;
-  margin-bottom: 0.5rem;
-  line-height: 1.4;
+.stat-card h3 {
+  margin: 0 0 1rem 0;
+  color: #6c757d;
+  font-size: 1.1rem;
 }
 
-.evento-card .evento-date {
-  background-color: #348e91;
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  font-weight: 500;
-  margin-bottom: 1rem;
-  display: inline-block;
+.canciones-populares {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid #e9ecef;
+  margin-top: 2rem;
 }
 
-.evento-card .evento-location {
+.cancion-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid #f1f3f4;
+}
+
+.cancion-item:last-child {
+  border-bottom: none;
+}
+
+.cancion-info {
+  flex: 1;
+}
+
+.cancion-titulo {
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.25rem;
+}
+
+.cancion-artista {
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.cancion-likes {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #666;
-  margin-bottom: 0.5rem;
+  color: #e74c3c;
+  font-weight: 500;
 }
 
-/* === Estilos para formularios de artistas === */
-.artista-form {
-  background-color: #fff;
-  border-radius: 12px;
-  padding: 2rem;
-  box-shadow: 0 4px 12px rgba(52, 142, 145, 0.1);
+.perfil-header {
+  text-align: center;
   margin-bottom: 2rem;
-  border: 1px solid rgba(52, 142, 145, 0.15);
-  max-width: 600px;
-  width: 100%;
-  margin: 0 auto;
-}
-
-.artista-form h3 {
-  color: #348e91;
-  margin-bottom: 1.5rem;
-  font-size: 1.5rem;
-  font-weight: 600;
-  text-align: center;
-}
-
-/* === Cards de perfil de artista === */
-.artista-card {
-  background-color: #fff;
-  border-radius: 12px;
   padding: 2rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s, box-shadow 0.2s;
-  border: 1px solid rgba(52, 142, 145, 0.1);
-  max-width: 600px;
-  width: 100%;
-  margin: 0 auto;
+  background: linear-gradient(135deg, #348e91 0%, #2c7a7b 100%);
+  color: white;
+  border-radius: 12px;
 }
 
-.artista-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(52, 142, 145, 0.15);
-}
-
-.artista-card h3 {
-  color: #348e91;
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
-  text-align: center;
-}
-
-.artista-card .artista-avatar {
+.perfil-avatar {
   width: 120px;
   height: 120px;
   border-radius: 50%;
   object-fit: cover;
-  margin: 0 auto 1rem auto;
-  display: block;
-  border: 3px solid #348e91;
+  border: 4px solid white;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
-.artista-card .artista-info {
-  text-align: center;
-  color: #666;
-  line-height: 1.6;
-}
-
-.artista-card .artista-info strong {
-  color: #348e91;
-}
-
-/* === Cards de estadísticas === */
-.stats-card {
-  background-color: #fff;
-  border-radius: 12px;
-  padding: 2rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  border: 1px solid rgba(52, 142, 145, 0.1);
-  max-width: 800px;
-  width: 100%;
-  margin: 0 auto;
-}
-
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 1.5rem;
-  margin-top: 1.5rem;
-}
-
-.stat-item {
-  text-align: center;
-  padding: 1rem;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  border: 1px solid #e1e5e9;
-}
-
-.stat-item .stat-number {
+.perfil-nombre {
   font-size: 2rem;
   font-weight: bold;
-  color: #348e91;
-  display: block;
+  margin: 0 0 0.5rem 0;
 }
 
-.stat-item .stat-label {
-  color: #666;
+.perfil-bio {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin: 0 0 1rem 0;
+}
+
+.perfil-generos {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.genero-tag {
+  background: rgba(255,255,255,0.2);
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
   font-size: 0.9rem;
-  margin-top: 0.5rem;
+  border: 1px solid rgba(255,255,255,0.3);
+}
+
+.actualizar-btn {
+  background: linear-gradient(135deg, #348e91 0%, #2c7a7b 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.actualizar-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.actualizar-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  color: #6c757d;
+}
+
+.empty-state h3 {
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+.empty-state p {
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .estadisticas-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .stat-card {
+    padding: 1rem;
+  }
+  
+  .stat-number {
+    font-size: 2rem;
+  }
+  
+  .perfil-header {
+    padding: 1.5rem;
+  }
+  
+  .perfil-nombre {
+    font-size: 1.5rem;
+  }
+  
+  .perfil-avatar {
+    width: 100px;
+    height: 100px;
+  }
 }

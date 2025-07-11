@@ -1,188 +1,302 @@
-import React, { useState, useEffect, type FormEvent } from 'react';
-import type { album as Album } from '../types/Album';
+import React, { useState, useEffect } from 'react';
+import { supabase } from '../supabase';
+import { useAlbumes, type Album, type CancionDisponible } from '../hooks/useAlbumes';
+import { useArtistaActual } from '../hooks/useArtistaActual';
 
 interface Props {
-  onSave: (album: Album) => void;
+  onSave: () => void;
   onCancel: () => void;
   albumToEdit?: Album;
 }
 
 const AlbumForm: React.FC<Props> = ({ onSave, onCancel, albumToEdit }) => {
   const [titulo, setTitulo] = useState('');
-  const [canciones, setCanciones] = useState<string>('');
-  const [songImages, setSongImages] = useState<string[]>([]);
-  const [songCollaborators, setSongCollaborators] = useState<string[]>([]);
-  const [coverURL, setCoverURL] = useState<string>('');
-  const [releaseDate, setReleaseDate] = useState('');
+  const [imagen, setImagen] = useState<File | null>(null);
+  const [imagenPreview, setImagenPreview] = useState<string | null>(null);
+  const [cancionesSeleccionadas, setCancionesSeleccionadas] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
+  
+  const { crearAlbum, actualizarAlbum, obtenerCancionesDisponibles, vincularCancionesAlAlbum } = useAlbumes();
+  const { artista } = useArtistaActual();
+  const [cancionesDisponibles, setCancionesDisponibles] = useState<CancionDisponible[]>([]);
 
   useEffect(() => {
     if (albumToEdit) {
       setTitulo(albumToEdit.titulo);
-      setCanciones(Array.isArray(albumToEdit.canciones) ? albumToEdit.canciones.join(', ') : albumToEdit.canciones || '');
-      setCoverURL(albumToEdit.coverURL);
-      // Convertimos timestamp a fecha yyyy-mm-dd para input type date
-      const dateStr = new Date(albumToEdit.releaseDate).toISOString().slice(0, 10);
-      setReleaseDate(dateStr);
-      setSongImages(albumToEdit.songImages ? [...albumToEdit.songImages] : []);
-      setSongCollaborators(albumToEdit.songCollaborators ? [...albumToEdit.songCollaborators] : []);
+      setImagenPreview(albumToEdit.cover_url);
+      // Cargar canciones del álbum si las hay
+      if (albumToEdit.canciones) {
+        setCancionesSeleccionadas(albumToEdit.canciones.map(c => c.cancion_name));
+      }
     }
   }, [albumToEdit]);
 
+  useEffect(() => {
+    const cargarCanciones = async () => {
+      try {
+        const canciones = await obtenerCancionesDisponibles();
+        setCancionesDisponibles(canciones);
+      } catch (error) {
+        console.error('Error cargando canciones:', error);
+      }
+    };
+
+    cargarCanciones();
+  }, [obtenerCancionesDisponibles]);
+
+  const subirImagen = async (file: File): Promise<string> => {
+    const fileExt = file.name.split('.').pop();
+    const fileName = `album-${Date.now()}.${fileExt}`;
+    const filePath = `albums/${fileName}`;
+
+    console.log('📤 Subiendo imagen de álbum:', filePath);
+
+    const { error } = await supabase.storage
+      .from('images')
+      .upload(filePath, file, {
+        cacheControl: '3600',
+        upsert: false
+      });
+
+    if (error) {
+      console.error('❌ Error subiendo imagen:', error);
+      throw error;
+    }
+
+    // Obtener URL pública
+    const { data: { publicUrl } } = supabase.storage
+      .from('images')
+      .getPublicUrl(filePath);
+
+    console.log('✅ Imagen subida exitosamente:', publicUrl);
+    return publicUrl;
+  };
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onloadend = () => setCoverURL(reader.result as string);
-    reader.readAsDataURL(file);
+    if (file) {
+      setImagen(file);
+      
+      // Crear preview
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setImagenPreview(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
-  const handleSongImageChange = (index: number, file: File | null) => {
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setSongImages(prev => {
-        const arr = [...prev];
-        arr[index] = reader.result as string;
-        return arr;
-      });
-    };
-    reader.readAsDataURL(file);
-  };
-
-  const handleSongCollaboratorChange = (index: number, value: string) => {
-    setSongCollaborators(prev => {
-      const arr = [...prev];
-      arr[index] = value;
-      return arr;
-    });
-  };
-
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!titulo) {
+    
+    if (!titulo.trim()) {
       alert('El título es obligatorio');
       return;
     }
 
-    const cancionesArr = canciones
-      .split(',')
-      .map(c => c.trim())
-      .filter(c => c.length > 0);
+    if (!artista?.id) {
+      alert('Error: No se pudo identificar el artista');
+      return;
+    }
 
-    const newAlbum: Album = {
-      idAlbum: albumToEdit ? albumToEdit.idAlbum : Date.now(),
-      titulo,
-      canciones: cancionesArr,
-      coverURL,
-      releaseDate: releaseDate ? new Date(releaseDate).getTime() : Date.now(),
-      songImages: songImages.slice(0, cancionesArr.length),
-      songCollaborators: songCollaborators.slice(0, cancionesArr.length),
-    };
+    setLoading(true);
+    
+    try {
+      let imageUrl: string | undefined;
+      
+      // Subir imagen si hay una nueva
+      if (imagen) {
+        setUploadingImage(true);
+        imageUrl = await subirImagen(imagen);
+      }
+      
+      let albumId: number;
+      
+      if (albumToEdit) {
+        await actualizarAlbum(albumToEdit.id, {
+          titulo: titulo.trim(),
+          cover_url: imageUrl || albumToEdit.cover_url
+        });
+        albumId = albumToEdit.id;
+      } else {
+        const nuevoAlbum = await crearAlbum({
+          titulo: titulo.trim(),
+          cover_url: imageUrl
+        });
+        albumId = nuevoAlbum.id;
+      }
+      
+      // Actualizar las canciones seleccionadas con el album_id
+      if (cancionesSeleccionadas.length > 0) {
+        await vincularCancionesAlAlbum(albumId, cancionesSeleccionadas);
+      }
+      
+      onSave();
+    } catch (error) {
+      console.error('Error guardando álbum:', error);
+      alert('Error guardando álbum');
+    } finally {
+      setLoading(false);
+      setUploadingImage(false);
+    }
+  };
 
-    onSave(newAlbum);
+  const handleCancionToggle = (cancionName: string) => {
+    setCancionesSeleccionadas(prev => 
+      prev.includes(cancionName) 
+        ? prev.filter(c => c !== cancionName)
+        : [...prev, cancionName]
+    );
   };
 
   return (
-    <div className="album-form">
-      <form onSubmit={handleSubmit}>
-        <h3>{albumToEdit ? 'Editar Álbum' : 'Nuevo Álbum'}</h3>
-
-        <div className="form-group">
-          <label>Título:</label>
-          <input 
+    <div style={{ 
+      background: '#1a1a1a', 
+      padding: '2rem', 
+      borderRadius: '12px',
+      maxWidth: '600px',
+      margin: '0 auto'
+    }}>
+      <h3 style={{ color: '#348e91', marginBottom: '1.5rem' }}>
+        {albumToEdit ? '✏️ Editar Álbum' : '➕ Crear Nuevo Álbum'}
+      </h3>
+      
+      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+        <div>
+          <label style={{ color: '#fff', display: 'block', marginBottom: '0.5rem' }}>
+            Título del Álbum *
+          </label>
+          <input
             type="text"
-            value={titulo} 
-            onChange={e => setTitulo(e.target.value)} 
-            required 
-            className="form-input"
+            value={titulo}
+            onChange={(e) => setTitulo(e.target.value)}
+            placeholder="Ingresa el título del álbum"
+            style={{
+              width: '100%',
+              padding: '0.75rem',
+              borderRadius: '6px',
+              border: '1px solid #333',
+              background: '#2a2a2a',
+              color: '#fff',
+              fontSize: '1rem'
+            }}
+            required
+            disabled={loading}
           />
         </div>
 
-        <div className="form-group">
-          <label>Canciones (separadas por coma):</label>
-          <input 
-            type="text"
-            value={canciones} 
-            onChange={e => {
-              setCanciones(e.target.value);
-              // Ajustar arrays de imágenes y colaboradores al número de canciones
-              const arr = e.target.value
-                .split(',')
-                .map(c => c.trim())
-                .filter(c => c.length > 0);
-              setSongImages(prev => prev.slice(0, arr.length));
-              setSongCollaborators(prev => prev.slice(0, arr.length));
-            }} 
-            placeholder="Canción 1, Canción 2, ..." 
-            className="form-input"
+        <div>
+          <label style={{ color: '#fff', display: 'block', marginBottom: '0.5rem' }}>
+            Imagen de Portada
+          </label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            style={{
+              width: '100%',
+              padding: '0.75rem',
+              borderRadius: '6px',
+              border: '1px solid #333',
+              background: '#2a2a2a',
+              color: '#fff',
+              fontSize: '1rem'
+            }}
+            disabled={loading}
           />
-        </div>
-
-        {/* Inputs dinámicos para imagen y colaborador por canción */}
-        {canciones
-          .split(',')
-          .map(c => c.trim())
-          .filter(c => c.length > 0)
-          .map((c, i) => (
-            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8, background: '#f7f7f7', borderRadius: 6, padding: 8 }}>
-              <input
-                type="file"
-                accept="image/*"
-                style={{ display: 'none' }}
-                id={`song-img-input-${i}`}
-                onChange={e => handleSongImageChange(i, e.target.files?.[0] || null)}
+          {imagenPreview && (
+            <div style={{ marginTop: '1rem', textAlign: 'center' }}>
+              <img
+                src={imagenPreview}
+                alt="Preview"
+                style={{
+                  maxWidth: '200px',
+                  maxHeight: '200px',
+                  borderRadius: '8px',
+                  objectFit: 'cover'
+                }}
               />
-              <label htmlFor={`song-img-input-${i}`} style={{ cursor: 'pointer' }}>
-                <img
-                  src={songImages[i] ? songImages[i] : 'https://via.placeholder.com/40x40?text=+'}
-                  alt=""
-                  style={{ width: 40, height: 40, objectFit: 'cover', borderRadius: 6, background: '#eee' }}
-                />
-              </label>
-              <span style={{ flex: 1, fontWeight: 500 }}>{c}</span>
-              <input
-                type="text"
-                placeholder="Colaborador/Cantante"
-                style={{ border: '1px solid #ccc', borderRadius: 4, padding: '0.2rem 0.5rem', fontSize: '1rem', minWidth: 120 }}
-                value={songCollaborators[i] || ''}
-                onChange={e => handleSongCollaboratorChange(i, e.target.value)}
-              />
-            </div>
-          ))}
-
-        <div className="form-group">
-          <label>Fecha de lanzamiento:</label>
-          <input 
-            type="date" 
-            value={releaseDate} 
-            onChange={e => setReleaseDate(e.target.value)} 
-            className="form-input"
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Portada (imagen jpg/png):</label>
-          <input 
-            type="file" 
-            accept="image/*" 
-            onChange={handleImageChange} 
-            className="form-input file-input"
-          />
-          {coverURL && (
-            <div className="image-preview">
-              <img src={coverURL} alt="Portada" />
             </div>
           )}
         </div>
 
-        <div className="form-actions">
-          <button type="submit" className="btn btn-primary">
-            {albumToEdit ? 'Guardar Cambios' : 'Agregar Álbum'}
-          </button>
-          <button type="button" onClick={onCancel} className="btn btn-secondary">
+        <div>
+          <label style={{ color: '#fff', display: 'block', marginBottom: '0.5rem' }}>
+            Canciones del Álbum (opcional)
+          </label>
+          <div style={{ 
+            border: '1px solid #333',
+            borderRadius: '6px',
+            background: '#2a2a2a',
+            padding: '1rem',
+            maxHeight: '200px',
+            overflowY: 'auto'
+          }}>
+            {cancionesDisponibles.length === 0 ? (
+              <p style={{ color: '#888', margin: 0 }}>
+                No hay canciones disponibles. Crea algunas canciones primero.
+              </p>
+            ) : (
+              cancionesDisponibles.map(cancion => (
+                <div key={cancion.id} style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: '0.5rem',
+                  marginBottom: '0.5rem'
+                }}>
+                  <input
+                    type="checkbox"
+                    id={`cancion-${cancion.id}`}
+                    checked={cancionesSeleccionadas.includes(cancion.title)}
+                    onChange={() => handleCancionToggle(cancion.title)}
+                    disabled={loading}
+                  />
+                  <label 
+                    htmlFor={`cancion-${cancion.id}`}
+                    style={{ color: '#fff', cursor: 'pointer' }}
+                  >
+                    {cancion.title}
+                  </label>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'flex-end' }}>
+          <button
+            type="button"
+            onClick={onCancel}
+            style={{
+              padding: '0.75rem 1.5rem',
+              borderRadius: '6px',
+              border: '1px solid #666',
+              background: '#333',
+              color: '#fff',
+              cursor: 'pointer'
+            }}
+            disabled={loading}
+          >
             Cancelar
+          </button>
+          <button
+            type="submit"
+            style={{
+              padding: '0.75rem 1.5rem',
+              borderRadius: '6px',
+              border: 'none',
+              background: loading ? '#666' : '#348e91',
+              color: '#fff',
+              cursor: loading ? 'not-allowed' : 'pointer'
+            }}
+            disabled={loading}
+          >
+            {loading ? (
+              uploadingImage ? '📤 Subiendo imagen...' : '💾 Guardando...'
+            ) : (
+              albumToEdit ? 'Actualizar' : 'Crear Álbum'
+            )}
           </button>
         </div>
       </form>

@@ -1,8 +1,11 @@
 <template>
   <header class="header">
     <div class="logo">
-      <router-link to="/">
-        
+      <router-link to="/" v-if="!isAuthenticated">
+        <span>RawBeats</span>
+        <img :src="logoUrl" alt="Logo" />
+      </router-link>
+      <router-link to="/dashboard" v-if="isAuthenticated">
         <span>RawBeats</span>
         <img :src="logoUrl" alt="Logo" />
       </router-link>

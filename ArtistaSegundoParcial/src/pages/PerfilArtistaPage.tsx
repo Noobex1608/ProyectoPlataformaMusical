@@ -1,24 +1,53 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import PerfilArtistaList from "../components/PerfilArtistaList";
-import type { PerfilArtista } from "../types/PerfilArtista";
-import type { Artista } from "../types/Artista";
+import { useArtistaActual } from "../hooks/useArtistaActual";
+import { useEstadisticas } from "../hooks/useEstadisticas";
 
 const PerfilArtistaPage = () => {
-  const storedArtistas = JSON.parse(localStorage.getItem("artistas") || "[]") as Artista[];
-  const artista = storedArtistas[0]; // Asumes que hay solo un artista por usuario
-
-  const [perfil] = useState<PerfilArtista>({
-    iinfoartista: artista,
-    reproducciones: 123,
-    likes: 45,
-    seguidores: 78
-  });
+  const { artista, loading: loadingArtista, error: errorArtista } = useArtistaActual();
+  const { 
+    estadisticas, 
+    estadisticasDetalladas, 
+    loading: loadingEstadisticas, 
+    error: errorEstadisticas,
+    cargarEstadisticas 
+  } = useEstadisticas();
 
   useEffect(() => {
-    // En el futuro puedes cargar estas métricas reales
-    localStorage.setItem("perfilEstadistica", JSON.stringify(perfil));
-  }, [perfil]);
+    if (artista?.id) {
+      console.log('Cargando estadísticas para artista:', artista.id);
+      cargarEstadisticas(artista.id);
+    }
+  }, [artista]);
+
+  const loading = loadingArtista || loadingEstadisticas;
+  const error = errorArtista || errorEstadisticas;
+
+  if (loading) {
+    return (
+      <section className="dashboard">
+        <div className="empty-state">
+          <div className="loading-spinner"></div>
+          <p>Cargando perfil y estadísticas...</p>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="dashboard">
+        <div className="empty-state">
+          <h3>⚠️ Error</h3>
+          <p>{error}</p>
+          <Link to="/artista" className="btn btn-primary">
+            Configurar Perfil
+          </Link>
+        </div>
+      </section>
+    );
+  }
 
   if (!artista) {
     return (
@@ -52,12 +81,51 @@ const PerfilArtistaPage = () => {
         ← Volver al Dashboard
       </Link>
 
-      <h2 style={{ color: '#348e91', marginBottom: '2rem' }}>
-        📈 Estadísticas del Artista
-      </h2>
+      <div className="perfil-header">
+        <h2 className="perfil-nombre">
+          📈 Estadísticas de {artista.nombre_artistico}
+        </h2>
+        
+        {artista.imagen_url && (
+          <img 
+            src={artista.imagen_url} 
+            alt={artista.nombre_artistico}
+            className="perfil-avatar"
+          />
+        )}
+        
+        <p className="perfil-bio">
+          {artista.biografia || 'Artista musical'}
+        </p>
+        
+        {artista.generos_musicales && artista.generos_musicales.length > 0 && (
+          <div className="perfil-generos">
+            {artista.generos_musicales.map((genero, index) => (
+              <span key={index} className="genero-tag">
+                {genero}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
 
-      <div style={{ width: '100%', maxWidth: '800px' }}>
-        <PerfilArtistaList perfil={perfil} />
+      <div style={{ width: '100%', maxWidth: '1000px', margin: '0 auto' }}>
+        <PerfilArtistaList 
+          estadisticas={estadisticas || undefined} 
+          estadisticasDetalladas={estadisticasDetalladas || undefined}
+          loading={loadingEstadisticas}
+          error={errorEstadisticas || undefined}
+        />
+      </div>
+
+      <div style={{ textAlign: "center", marginTop: "2rem" }}>
+        <button 
+          onClick={() => artista?.id && cargarEstadisticas(artista.id)}
+          className="actualizar-btn"
+          disabled={loadingEstadisticas}
+        >
+          {loadingEstadisticas ? "Actualizando..." : "🔄 Actualizar Estadísticas"}
+        </button>
       </div>
     </section>
   );

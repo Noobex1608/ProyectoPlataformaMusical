@@ -43,7 +43,7 @@
       
       <div class="login-link">
         <p>¿Ya tienes cuenta? 
-          <router-link to="/user-type-login">
+          <router-link to="/login-tipo">
             Inicia sesión aquí
           </router-link>
         </p>
