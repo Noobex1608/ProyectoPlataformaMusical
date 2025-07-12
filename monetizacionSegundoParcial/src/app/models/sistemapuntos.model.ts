@@ -1,4 +1,9 @@
-export interface SistemaPuntos {
+
+export interface Punto {
+    id: number;
     usuarioId: number;
-    puntos: number;
+    tipo: string;
+    cantidad: number;
+    fecha: string;
 }
+  

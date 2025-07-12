@@ -6,22 +6,16 @@ import { Suscripcion } from '../models/suscripcion.model';
 @Injectable({ providedIn: 'root' })
 export class SuscripcionService {
     private suscripciones: Suscripcion[] = [];
-
-    private suscripcionesSubject = new BehaviorSubject<Suscripcion[]>(this.suscripciones);
+    private suscripcionesSubject = new BehaviorSubject<Suscripcion[]>([]);
 
     obtenerSuscripciones(): Observable<Suscripcion[]> {
         return this.suscripcionesSubject.asObservable();
     }
 
-    agregarSuscripcion(suscripcion: Suscripcion): Observable<void> {
-        suscripcion.id = Date.now();
-        suscripcion.fechaInicio = new Date();
+    agregarSuscripcion(suscripcion: Suscripcion): Observable<Suscripcion> {
+        suscripcion.id = Date.now(); // ID único temporal
         this.suscripciones.push(suscripcion);
         this.suscripcionesSubject.next([...this.suscripciones]);
-        return of();
-    }
-
-    obtenerPorUsuario(usuarioId: number): Suscripcion[] {
-        return this.suscripciones.filter(s => s.usuarioId === usuarioId);
+        return of(suscripcion); // ← Aquí devuelves la suscripción real
     }
 }

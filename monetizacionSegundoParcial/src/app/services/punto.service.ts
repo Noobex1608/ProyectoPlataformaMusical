@@ -1,56 +1,41 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { SistemaPuntos } from '../models/sistemapuntos.model';
-import { of } from 'rxjs'; 
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Punto } from '../models/sistemapuntos.model';
 
 @Injectable({ providedIn: 'root' })
-export class PuntosService {
-    private puntosPorUsuario: SistemaPuntos[] = [
-        { usuarioId: 201, puntos: 50 },
-        { usuarioId: 202, puntos: 30 }
-    ];
+export class PuntoService {
+    private puntos: Punto[] = [];
+    private puntosSubject = new BehaviorSubject<Punto[]>([]);
 
-    private puntosSubject = new BehaviorSubject<SistemaPuntos[]>(this.puntosPorUsuario);
-
-    obtenerPuntos(): Observable<SistemaPuntos[]> {
+    /**
+     * Retorna los puntos en forma de Observable
+     */
+    obtenerPuntos(): Observable<Punto[]> {
         return this.puntosSubject.asObservable();
     }
 
-    obtenerPuntosDeUsuario(usuarioId: number): number {
-        const usuario = this.puntosPorUsuario.find(u => u.usuarioId === usuarioId);
-        return usuario ? usuario.puntos : 0;
+    /**
+     * Agrega un nuevo punto para un usuario
+     */
+    agregarPunto(punto: Punto): Observable<boolean> {
+        punto.id = Math.floor(Math.random() * 100000); // ID único simulado
+        this.puntos.push(punto);
+        this.puntosSubject.next([...this.puntos]);
+        return of(true);
     }
 
-    agregarPuntos(usuarioId: number, cantidad: number): Observable<boolean> {
-        const usuario = this.puntosPorUsuario.find(u => u.usuarioId === usuarioId);
-        if (usuario) {
-            usuario.puntos += cantidad;
-        } else {
-            this.puntosPorUsuario.push({ usuarioId, puntos: cantidad });
-        }
-        this.puntosSubject.next([...this.puntosPorUsuario]);
-        return of(true); // ✅ devuelve un Observable
+    /**
+     * Calcula estadísticas de puntos de un usuario
+     */
+    calcularEstadisticas(usuarioId: number): {
+        total: number;
+        canjeados: number;
+        disponibles: number;
+    } {
+        const userPuntos = this.puntos.filter(p => p.usuarioId === usuarioId);
+        const total = userPuntos.reduce((acc, p) => acc + p.cantidad, 0);
+        const canjeados = 800; // Valor fijo de ejemplo
+        const disponibles = Math.max(0, total - canjeados);
+        return { total, canjeados, disponibles };
     }
-    restarPuntos(usuarioId: number, cantidad: number): Observable<boolean> {
-        const usuario = this.puntosPorUsuario.find(u => u.usuarioId === usuarioId);
-        if (usuario && usuario.puntos >= cantidad) {
-            usuario.puntos -= cantidad;
-            this.puntosSubject.next([...this.puntosPorUsuario]);
-            return of(true);
-        }
-        return of(false); // devuelve false si no tenía suficientes
-    }
-    
-
-    resetearPuntos(usuarioId: number): Observable<boolean> {
-        const usuario = this.puntosPorUsuario.find(u => u.usuarioId === usuarioId);
-        if (usuario) {
-            usuario.puntos = 0;
-            this.puntosSubject.next([...this.puntosPorUsuario]);
-            return of(true);
-        }
-        return of(false);
-    }
-    
-    }
-
+}

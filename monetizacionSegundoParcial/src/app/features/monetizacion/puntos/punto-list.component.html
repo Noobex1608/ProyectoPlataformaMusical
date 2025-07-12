@@ -1,8 +1,22 @@
-<h2>Puntos del usuario</h2>
+<div class="puntos-container">
+    <div class="formas-ganar card">
+        <h2>Formas de Ganar Puntos</h2>
+        <div *ngFor="let forma of formas" class="forma">
+            <span>{{ forma.nombre }}</span>
+            <button (click)="reclamar(forma.tipo, forma.puntos)">+{{ forma.puntos }} pts</button>
+        </div>
+    </div>
 
-<div *ngFor="let punto of puntos" class="card">
-    <p><strong>Usuario:</strong> {{ punto.usuarioId }}</p>
-    <p><strong>Cantidad:</strong> {{ punto.cantidad }}</p>
-    <p><strong>Motivo:</strong> {{ punto.motivo }}</p>
-    <p><strong>Fecha:</strong> {{ punto.fecha | date }}</p>
+    <div class="estadisticas card">
+        <h2>Estadísticas</h2>
+        <p><strong>Puntos totales ganados:</strong> {{ estadisticas.total }}</p>
+        <p><strong>Puntos canjeados:</strong> {{ estadisticas.canjeados }}</p>
+        <p><strong>Puntos disponibles:</strong> {{ estadisticas.disponibles }}</p>
+
+        <div class="barra-progreso">
+            <div class="relleno" [style.width.%]="estadisticas.disponibles / estadisticas.total * 100"></div>
+        </div>
+        <p *ngIf="estadisticas.total"> {{ 1000 - estadisticas.disponibles }} puntos para el siguiente nivel </p>
+    </div>
 </div>
+  

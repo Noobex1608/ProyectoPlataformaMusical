@@ -1,29 +1,26 @@
-<ul class="space-y-4">
-    <li *ngFor="let p of propinas" class="border p-4 rounded shadow-md bg-white">
-        <p><strong>Artista ID:</strong> {{ p.artistaId }}</p>
-        <p><strong>Cantidad:</strong> {{ p.cantidad }}</p>
-        <p><strong>Fecha:</strong> {{ p.fecha | date }}</p>
-        <p *ngIf="p.mensaje"><strong>Mensaje:</strong> {{ p.mensaje }}</p>
-    </li>
+<h2>💸 Enviar una Propina</h2>
+
+<form (ngSubmit)="enviar()">
+    <label>Monto:
+        <input type="number" [(ngModel)]="nuevaPropina.monto" name="monto" required />
+    </label>
+    <br />
+    <label>Mensaje:
+        <input type="text" [(ngModel)]="nuevaPropina.mensaje" name="mensaje" required />
+    </label>
+    <br />
+    <button type="submit">Enviar Propina</button>
+</form>
+
+<hr />
+
+<h3>📜 Historial de Propinas</h3>
+<ul *ngIf="propinas.length > 0; else noPropinas">
     <li *ngFor="let p of propinas">
-        <p>Fan: {{ p.nombreFan }}</p>
-        <p>Monto: {{ p.cantidad}}</p>
-        <p>Mensaje: {{ p.mensaje }}</p>
+        💰 {{ p.monto }} - "{{ p.mensaje }}"
     </li>
-      
 </ul>
-<h2>💸 Propinas</h2>
 
-<div *ngFor="let propina of propinas" class="card">
-    <p><strong>Artista ID:</strong> {{ propina.artistaId }}</p>
-    <p><strong>Cantidad:</strong> ${{ propina.cantidad }}</p>
-    <p><strong>Mensaje:</strong> {{ propina.mensaje }}</p>
-    <p><strong>Fecha:</strong> {{ propina.fecha | date }}</p>
-</div><h2>💸 Propinas</h2>
-
-<div *ngFor="let propina of propinas" class="card">
-    <p><strong>Artista ID:</strong> {{ propina.artistaId }}</p>
-    <p><strong>Cantidad:</strong> ${{ propina.cantidad }}</p>
-    <p><strong>Mensaje:</strong> {{ propina.mensaje }}</p>
-    <p><strong>Fecha:</strong> {{ propina.fecha | date }}</p>
-</div>
+<ng-template #noPropinas>
+    <p>No has enviado ninguna propina aún.</p>
+</ng-template>

@@ -1,9 +1,34 @@
-ul {
-    list-style: none;
-    padding: 0;
+.puntos-container {
+    display: flex;
+    gap: 2rem;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
 
-    li {
-        padding: 0.5rem;
-        border-bottom: 1px solid #ddd;
-    }
+.card {
+    background-color: #181818;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    flex: 1;
+    min-width: 300px;
+}
+
+.forma {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.75rem 0;
+}
+
+.barra-progreso {
+    height: 10px;
+    background-color: #555;
+    border-radius: 5px;
+    overflow: hidden;
+    margin: 1rem 0;
+}
+
+.relleno {
+    height: 100%;
+    background-color: #f5c518;
 }

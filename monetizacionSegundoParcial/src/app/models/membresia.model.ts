@@ -6,4 +6,4 @@ export interface Membresia {
     duracionDias: number;
     beneficios: string[];
 }
-  
+    

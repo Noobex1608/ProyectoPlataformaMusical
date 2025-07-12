@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Transaccion } from '../models/transaccion.model';
 import { Membresia } from '../models/membresia.model';
 import { Propina } from '../models/propina.model';
+import { Recompensa } from '../models/recompensa.model';
 
 @Injectable({ providedIn: 'root' })
 export class TransaccionService {
@@ -21,14 +22,17 @@ export class TransaccionService {
         };
 
         const propinaEjemplo: Propina = {
-            id: 2,
-            artistaId: 101,
+            id: 1,
             usuarioId: 201,
             monto: 5,
-            fecha: new Date(),
-            nombreFan: 'Laura',
-            mensaje: 'Sigue así 🎶',
-            cantidad: 5
+            mensaje: '¡Gracias por tu música!'
+        };
+
+        const recompensaEjemplo: Recompensa = {
+            id: 'r1',
+            nombre: 'Sticker Pack',
+            descripcion: 'Paquete de stickers',
+            costoPuntos: 100
         };
 
         this.transacciones = [
@@ -48,6 +52,15 @@ export class TransaccionService {
                 tipo: propinaEjemplo,
                 descripcion: 'Propina enviada',
                 monto: propinaEjemplo.monto,
+                fecha: new Date()
+            },
+            {
+                id: 3,
+                usuarioId: 202,
+                usuario: { id: 202, nombre: 'Carlos' },
+                tipo: recompensaEjemplo,
+                descripcion: 'Canje de recompensa',
+                monto: -recompensaEjemplo.costoPuntos,
                 fecha: new Date()
             }
         ];

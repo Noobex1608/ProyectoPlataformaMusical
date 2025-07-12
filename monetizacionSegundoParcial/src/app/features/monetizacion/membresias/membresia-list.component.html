@@ -1,64 +1,31 @@
-<div class="dashboard">
-    <!-- RESUMEN -->
-    <div class="resumen-grid">
-        <div class="card resumen">
-            <h4>Ganancias Totales</h4>
-            <p class="valor">$2847.5</p>
-            <p class="cambio positivo">+12% desde el mes pasado</p>
-        </div>
-        <div class="card resumen">
-            <h4>Suscriptores</h4>
-            <p class="valor">1234</p>
-            <p class="cambio positivo">+8% esta semana</p>
-        </div>
-        <div class="card resumen">
-            <h4>Propinas</h4>
-            <p class="valor">$456.75</p>
-            <p class="cambio positivo">+25% esta semana</p>
-        </div>
-        <div class="card resumen">
-            <h4>Puntos de Fidelidad</h4>
-            <p class="valor">8950</p>
-            <p class="nivel">Nivel: Gold</p>
-        </div>
-    </div>
+<div class="max-w-5xl mx-auto mt-10">
+    <h2 class="text-2xl font-bold mb-2">Elige tu Membresía</h2>
+    <p class="mb-6 text-gray-500">Desbloquea más funciones y obtén beneficios exclusivos</p>
 
-    <!-- PROGRESO DEL MES -->
-    <div class="card progreso">
-        <h3>Progreso del Mes</h3>
-        <p>Meta de Suscriptores: 1234 / 1500</p>
-        <progress value="1234" max="1500"></progress>
-        <p>Meta de Ingresos: $2847 / $3000</p>
-        <progress value="2847" max="3000"></progress>
-        <p>Engagement: 78%</p>
-        <progress value="78" max="100"></progress>
-    </div>
+    <div class="grid md:grid-cols-3 gap-6">
+        <div *ngFor="let m of membresias" class="relative border rounded-xl p-6 shadow bg-white transition duration-300"
+            [ngClass]="{ 'border-blue-600 ring-2 ring-blue-400': esActiva(m), 'hover:shadow-lg': true }"
+            (click)="activarMembresia(m)">
+            <h3 class="text-xl font-semibold mb-1">{{ m.nombre }}</h3>
+            <p class="text-gray-700 mb-4">${{ m.precio }}/mes</p>
 
-    <!-- SECCIÓN ORIGINAL: MEMBRESÍAS -->
-    <div class="monetizacion">
-        <h2>Membresías disponibles</h2>
-        <div *ngFor="let m of membresias" class="card">
-            <h3>{{ m.nombre }}</h3>
-            <p>{{ m.descripcion }}</p>
-            <p><strong>Precio:</strong> ${{ m.precio }}</p>
-            <p><strong>Duración:</strong> {{ m.duracionDias }} días</p>
-            <ul>
-                <li *ngFor="let beneficio of m.beneficios">✅ {{ beneficio }}</li>
+            <ul class="mb-4 space-y-1 text-sm">
+                <li *ngFor="let b of m.beneficios" class="flex items-center gap-2">
+                    <span class="text-green-600">✔</span> {{ b }}
+                </li>
             </ul>
-            <button (click)="eliminarMembresia(m.id)">Eliminar</button>
+
+            <button class="w-full py-2 rounded font-semibold transition" [ngClass]="{
+                'bg-gray-400 text-white cursor-not-allowed': esActiva(m),
+                'bg-blue-600 text-white hover:bg-blue-700': !esActiva(m)
+              }" [disabled]="esActiva(m)">
+                {{ esActiva(m) ? 'Membresía seleccionada' : 'Seleccionar Membresía' }}
+            </button>
+
+            <div *ngIf="esActiva(m)"
+                class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-blue-500 text-white text-xs px-3 py-1 rounded-full">
+                Seleccionada
+            </div>
         </div>
-
-        <hr />
-
-        <h2>Propinas recibidas</h2>
-        <div *ngFor="let p of propinas" class="card">
-            <p><strong>Fan:</strong> {{ p.nombreFan }}</p>
-            <p><strong>Monto:</strong> ${{ p.cantidad }}</p>
-            <p><strong>Mensaje:</strong> {{ p.mensaje }}</p>
-        </div>
-
-        <hr />
-        <button routerLink="/membresias">Ver solo membresías</button>
     </div>
 </div>
-  

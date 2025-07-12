@@ -1,8 +1,28 @@
-<h2>Recompensas disponibles</h2>
+<div class="flex items-center justify-between mb-4">
+    <h2 class="text-2xl font-bold">🎁 Recompensas Disponibles</h2>
+    <a routerLink="/recompensas/nueva">
+        <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+            ➕ Nueva Recompensa
+        </button>
+    </a>
+</div>
 
-<div *ngFor="let r of recompensas" class="card">
-    <h3>{{ r.nombre }}</h3>
-    <p>{{ r.descripcion }}</p>
-    <p><strong>Tipo:</strong> {{ r.tipo }}</p>
-    <p *ngIf="r.valorMinimo">Mínimo requerido: ${{ r.valorMinimo }}</p>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="bg-white shadow-lg rounded-2xl p-4 border border-gray-200" *ngFor="let recompensa of recompensas">
+        <div class="flex items-center justify-between">
+            <h3 class="text-xl font-semibold">{{ recompensa.nombre }}</h3>
+            <span class="text-yellow-600 font-bold">
+                {{ recompensa.costoPuntos }} pts
+            </span>
+        </div>
+
+        <p class="text-gray-600 mt-2 mb-4">
+            {{ recompensa.descripcion }}
+        </p>
+
+        <button (click)="canjear(recompensa)"
+            class="w-full bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg font-medium transition">
+            🎉 Canjear
+        </button>
+    </div>
 </div>

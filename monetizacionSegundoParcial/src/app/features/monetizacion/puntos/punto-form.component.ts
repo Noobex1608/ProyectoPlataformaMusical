@@ -1,55 +1,33 @@
+// src/app/features/monetizacion/puntos/punto-form.component.ts
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { PropinaService } from '../../../services/propina.service';
-import { PuntosService } from '../../../services/punto.service';
+import { PuntoService } from '../../../services/punto.service';
+import { Punto } from '../../../models/sistemapuntos.model';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
 @Component({
-    selector: 'app-propina-form',
+    selector: 'app-punto-form',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule],
+    imports: [CommonModule, FormsModule],
     templateUrl: './punto-form.component.html',
-    styleUrls: ['./punto-form.component.scss'],
-    providers: [PropinaService]
+    styleUrls: ['./punto-form.component.scss']
 })
-export class PropinaFormComponent {
-    form: FormGroup;
+export class PuntoFormComponent {
+    punto: Punto = {
+        id: 0,
+        usuarioId: 1, // Usuario fijo por ahora
+        tipo: 'manual',
+        cantidad: 0,
+        fecha: new Date().toISOString()
+    };
 
-    constructor(
-        private fb: FormBuilder,
-        private propinaService: PropinaService,
-        private puntosService: PuntosService,
-        private router: Router
-    ) {
-        this.form = this.fb.group({
-            remitente: ['', Validators.required],
-            monto: [0, [Validators.required, Validators.min(1)]],
-            mensaje: [''],
-            usuarioId: ['', Validators.required]
+    constructor(private puntoService: PuntoService, private router: Router) { }
+
+    guardar() {
+        this.puntoService.agregarPunto(this.punto).subscribe(() => {
+            alert('Punto agregado correctamente');
+            this.router.navigate(['/puntos']);
         });
-    }
-
-    enviar(): void {
-        if (this.form.valid) {
-            const datos = this.form.value;
-
-            // Agregar propina (sin subscribe)
-            this.propinaService.agregarPropina({
-                id: Date.now(),
-                artistaId: 1, // Puedes reemplazarlo según tu lógica
-                usuarioId: datos.usuarioId,
-                monto: datos.monto,
-                fecha: new Date(),
-                nombreFan: datos.remitente,
-                mensaje: datos.mensaje,
-                cantidad: datos.monto
-            });
-
-            // Agregar puntos (sin subscribe)
-            this.puntosService.agregarPuntos(datos.usuarioId, datos.monto * 10);
-
-            // Redirigir
-            this.router.navigate(['/propinas']);
-        }
     }
 }

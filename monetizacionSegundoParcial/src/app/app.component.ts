@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MonetizacionComponent } from './features/monetizacion/monetizacion.component'; // Asegúrate que esta ruta sea correcta
+import { RouterOutlet } from '@angular/router'; 
 
 @Component({
     selector: 'app-root',
     standalone: true,
-    imports: [CommonModule, MonetizacionComponent],
-    template: '<app-monetizacion></app-monetizacion>',
+    imports: [RouterOutlet],
+    template: '<router-outlet></router-outlet>',
 })
 export class AppComponent { }
+    

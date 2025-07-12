@@ -1,21 +1,30 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TransaccionService } from '@services/transaccion.service';
-import { Transaccion } from '@models/transaccion.model';
+import { RouterModule } from '@angular/router';
+import { TransaccionService } from '../../../services/transaccion.service';
+import { Transaccion } from '../../../models/transaccion.model';
 
 @Component({
     selector: 'app-transaccion-list',
     standalone: true,
-    imports: [CommonModule],
-    templateUrl: './transaccion-list.component.html',
-    styleUrls: ['./transaccion-list.component.scss']
+    imports: [CommonModule, RouterModule],
+    templateUrl: './transaccion-list.component.html'
 })
-export class TransaccionListComponent {
+export class TransaccionListComponent implements OnInit {
     transacciones: Transaccion[] = [];
 
-    constructor(private transaccionService: TransaccionService) {
-        this.transaccionService.obtenerTransacciones().subscribe(data => {
+    constructor(private servicio: TransaccionService) { }
+
+    ngOnInit(): void {
+        this.servicio.obtenerTransacciones().subscribe(data => {
             this.transacciones = data;
         });
+    }
+
+    tipoDesconocido(tipo: any): string {
+        if (!tipo) return 'Sin tipo';
+        if ('nombre' in tipo) return tipo.nombre;
+        if ('mensaje' in tipo) return 'Propina';
+        return 'Tipo desconocido';
     }
 }
