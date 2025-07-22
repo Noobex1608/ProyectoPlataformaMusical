@@ -1,6 +1,6 @@
 // src/app/features/monetizacion/monetizacion.component.ts
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // Servicios
@@ -8,7 +8,6 @@ import { MembresiaService } from '../../services/membresia.service';
 import { PropinaService } from '../../services/propina.service';
 import { TransaccionService } from '../../services/transaccion.service';
 import { RecompensaService } from '../../services/recompensa.service';
-import { PuntosService } from '../../services/punto.service';
 import { SuscripcionService } from '../../services/suscripcion.service'; // <--- IMPORTANTE
 
 // Modelos
@@ -16,33 +15,31 @@ import { Membresia } from '../../models/membresia.model';
 import { Propina } from '../../models/propina.model';
 import { Transaccion } from '../../models/transaccion.model';
 import { Recompensa } from '../../models/recompensa.model';
-import { SistemaPuntos } from '../../models/sistemapuntos.model';
+// import { SistemaPuntos } from '../../models/sistemapuntos.model'; // ELIMINADO - funcionalidad integrada
 import { Suscripcion } from '../../models/suscripcion.model';
-import { RouterOutlet } from '@angular/router';
 
 @Component({
     selector: 'app-monetizacion',
     standalone: true,
-    imports: [CommonModule, RouterOutlet],
+    imports: [CommonModule],
     providers: [
         MembresiaService,
         PropinaService,
         TransaccionService,
         RecompensaService,
-        PuntosService,
         SuscripcionService
     ],
     templateUrl: './monetizacion.component.html',
     styleUrls: ['./monetizacion.component.scss']
 })
 export class MonetizacionComponent implements OnInit {
-    vistaActual: 'resumen' | 'membresias' | 'propinas' | 'transacciones' | 'recompensas' | 'puntos' | 'suscripciones' = 'resumen';
+    @Input() vistaActual: 'resumen' | 'membresias' | 'propinas' | 'transacciones' | 'recompensas' | 'puntos' | 'suscripciones' = 'resumen';
 
     membresias: Membresia[] = [];
     propinas: Propina[] = [];
     transacciones: Transaccion[] = [];
     recompensas: Recompensa[] = [];
-    puntos: SistemaPuntos[] = [];
+    // puntos: SistemaPuntos[] = []; // ELIMINADO - funcionalidad integrada en configuración
     suscripciones: Suscripcion[] = [];
 
     promedioPropinas = 0;
@@ -54,7 +51,6 @@ export class MonetizacionComponent implements OnInit {
         private propinaService: PropinaService,
         private transaccionService: TransaccionService,
         private recompensaService: RecompensaService,
-        private puntosService: PuntosService,
         private suscripcionService: SuscripcionService // <--- Ahora sí INYECTADO bien
     ) { }
 
@@ -86,9 +82,9 @@ export class MonetizacionComponent implements OnInit {
             this.recompensas = r;
         });
 
-        this.puntosService.obtenerPuntos().subscribe((p: SistemaPuntos[]) => {
-            this.puntos = p;
-        });
+        // this.puntosService.obtenerPuntos().subscribe((p: SistemaPuntos[]) => {
+        //     this.puntos = p;
+        // }); // ELIMINADO - funcionalidad integrada en configuración
     }
 
     eliminarMembresia(id: number): void {
@@ -105,7 +101,7 @@ export class MonetizacionComponent implements OnInit {
 
     calcularPromedioDuracion(): void {
         if (this.membresias.length > 0) {
-            const suma = this.membresias.reduce((acc, m) => acc + m.duracionDias, 0);
+            const suma = this.membresias.reduce((acc, m) => acc + m.duracion_dias, 0);
             this.promedioDuracion = suma / this.membresias.length;
         }
     }
@@ -115,14 +111,35 @@ export class MonetizacionComponent implements OnInit {
     }
 
     suscribirse(membresiaId: number): void {
+        const membresia = this.membresias.find(m => m.id === membresiaId);
+        if (!membresia) return;
+
+        const fechaInicio = new Date();
+        const fechaFin = new Date();
+        fechaFin.setDate(fechaFin.getDate() + 30); // 30 días de suscripción
+
         const nuevaSuscripcion: Suscripcion = {
             id: 0,
             usuarioId: 201, // ID fijo de fan simulado
             membresiaId,
-            fechaInicio: new Date()
+            artistaId: membresia.artista_id,
+            fechaInicio,
+            fechaFin,
+            activa: true,
+            renovacionAutomatica: false,
+            estadoPago: 'pagado',
+            metodoPago: 'tarjeta',
+            montoTotal: membresia.precio,
+            montoComision: membresia.precio * 0.1, // 10% de comisión
+            montoNeto: membresia.precio * 0.9,
+            beneficiosUsados: {
+                fotosExclusivas: 0,
+                avancesCanciones: 0,
+                mensajesPrivados: 0
+            }
         };
 
-        this.suscripcionService.agregarSuscripcion(nuevaSuscripcion).subscribe(() => {
+        this.suscripcionService.crearSuscripcion(nuevaSuscripcion).subscribe(() => {
             alert('¡Te has suscrito con éxito!');
             this.suscripcionService.obtenerSuscripciones().subscribe((s) => {
                 this.suscripciones = s;

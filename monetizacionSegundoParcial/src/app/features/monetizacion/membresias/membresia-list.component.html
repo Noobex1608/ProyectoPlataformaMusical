@@ -41,7 +41,7 @@
             <h3>{{ m.nombre }}</h3>
             <p>{{ m.descripcion }}</p>
             <p><strong>Precio:</strong> ${{ m.precio }}</p>
-            <p><strong>Duración:</strong> {{ m.duracionDias }} días</p>
+            <p><strong>Duración:</strong> {{ m.duracion_dias }} días</p>
             <ul>
                 <li *ngFor="let beneficio of m.beneficios">✅ {{ beneficio }}</li>
             </ul>
@@ -52,7 +52,7 @@
 
         <h2>Propinas recibidas</h2>
         <div *ngFor="let p of propinas" class="card">
-            <p><strong>Fan:</strong> {{ p.nombreFan }}</p>
+            <p><strong>Fan:</strong> {{ p.nombre_fan }}</p>
             <p><strong>Monto:</strong> ${{ p.cantidad }}</p>
             <p><strong>Mensaje:</strong> {{ p.mensaje }}</p>
         </div>

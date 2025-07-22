@@ -7,6 +7,7 @@ import EventoPage from './pages/EventoPage';
 import SongPage from './pages/SongPage';
 import AlbumPage from './pages/AlbumPage';
 import AlbumDetailPage from './pages/AlbumDetailPage';
+import MonetizacionSelector from './pages/MonetizacionPage';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/canciones" element={<SongPage />} />
           <Route path="/albumes" element={<AlbumPage />} />
           <Route path="/albumes/:id" element={<AlbumDetailPage />} />
+          <Route path="/monetizacion" element={<MonetizacionSelector />} />
         </Routes>
       </main>
     </Router>

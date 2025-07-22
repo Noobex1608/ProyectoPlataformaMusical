@@ -862,3 +862,39 @@ audio {
     height: 100px;
   }
 }
+
+/* === Estilos para Monetización === */
+.dashboard-card.monetizacion-highlight {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  transform: scale(1.02);
+}
+
+.dashboard-card.monetizacion-highlight:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+}
+
+.dashboard-card.monetizacion-highlight span {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  font-size: 1.8rem;
+}
+
+.dashboard-card.monetizacion-highlight h3 {
+  color: white;
+  font-weight: 700;
+}
+
+.dashboard-card.monetizacion-highlight p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.1rem;
+}

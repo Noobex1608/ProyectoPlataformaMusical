@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PropinaService } from '../../../services/propina.service';
-import { PuntosService } from '../../../services/punto.service';
+import { RecompensaService } from '../../../services/recompensa.service';
 @Component({
     selector: 'app-propina-form',
     standalone: true,
@@ -18,7 +18,7 @@ export class PropinaFormComponent {
     constructor(
         private fb: FormBuilder,
         private propinaService: PropinaService,
-        private puntosService: PuntosService,
+        private recompensaService: RecompensaService,
         private router: Router
     ) {
         this.form = this.fb.group({
@@ -33,20 +33,21 @@ export class PropinaFormComponent {
         if (this.form.valid) {
             const datos = this.form.value;
 
-            // Agregar propina (sin subscribe)
-            this.propinaService.agregarPropina({
-                id: Date.now(),
-                artistaId: 1, // Puedes reemplazarlo según tu lógica
-                usuarioId: datos.usuarioId,
+            // Enviar propina (sin subscribe)
+            this.propinaService.enviarPropina({
+                artista_id: 'artista-001', // Puedes reemplazarlo según tu lógica
+                fan_id: datos.usuarioId,
                 monto: datos.monto,
-                fecha: new Date(),
-                nombreFan: datos.remitente,
+                nombre_fan: datos.remitente,
                 mensaje: datos.mensaje,
-                cantidad: datos.monto
+                cantidad: datos.monto,
+                metodo_pago: 'tarjeta',
+                publico_en_feed: true
             });
 
             // Agregar puntos (sin subscribe)
-            this.puntosService.agregarPuntos(datos.usuarioId, datos.monto * 10);
+            // TODO: Adaptar para recompensas service
+            // this.recompensaService.agregarPuntos(datos.usuarioId, datos.monto * 10);
 
             // Redirigir
             this.router.navigate(['/propinas']);

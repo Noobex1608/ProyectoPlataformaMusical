@@ -12,12 +12,13 @@ ALTER TABLE eventos DISABLE ROW LEVEL SECURITY;
 ALTER TABLE playlists DISABLE ROW LEVEL SECURITY;
 ALTER TABLE radios DISABLE ROW LEVEL SECURITY;
 ALTER TABLE club_fans DISABLE ROW LEVEL SECURITY;
+ALTER TABLE contenido_exclusivo_artista DISABLE ROW LEVEL SECURITY;
 
 -- Verificar que RLS está deshabilitado
 SELECT schemaname, tablename, rowsecurity 
 FROM pg_tables 
 WHERE schemaname = 'public' 
-AND tablename IN ('usuarios', 'artistas', 'canciones', 'albumes', 'eventos', 'playlists', 'radios', 'club_fans');
+AND tablename IN ('usuarios', 'artistas', 'canciones', 'albumes', 'eventos', 'playlists', 'radios', 'club_fans', 'contenido_exclusivo_artista');
 
 -- Este script deshabilitará temporalmente RLS para permitir el registro
 -- Una vez que todo funcione, puedes volver a habilitar RLS con políticas específicas

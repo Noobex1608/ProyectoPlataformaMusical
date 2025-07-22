@@ -23,7 +23,7 @@ export class RecompensaFormComponent {
             nombre: ['', Validators.required],
             descripcion: [''],
             tipo: ['propina', Validators.required],
-            valorMinimo: [null]
+            precio: [null]
         });
     }
 

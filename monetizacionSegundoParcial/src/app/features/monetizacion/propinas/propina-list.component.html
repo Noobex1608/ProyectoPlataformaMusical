@@ -1,28 +1,8 @@
-<ul class="space-y-4">
-    <li *ngFor="let p of propinas" class="border p-4 rounded shadow-md bg-white">
-        <p><strong>Artista ID:</strong> {{ p.artistaId }}</p>
-        <p><strong>Cantidad:</strong> {{ p.cantidad }}</p>
-        <p><strong>Fecha:</strong> {{ p.fecha | date }}</p>
-        <p *ngIf="p.mensaje"><strong>Mensaje:</strong> {{ p.mensaje }}</p>
-    </li>
-    <li *ngFor="let p of propinas">
-        <p>Fan: {{ p.nombreFan }}</p>
-        <p>Monto: {{ p.cantidad}}</p>
-        <p>Mensaje: {{ p.mensaje }}</p>
-    </li>
-      
-</ul>
 <h2>💸 Propinas</h2>
 
 <div *ngFor="let propina of propinas" class="card">
-    <p><strong>Artista ID:</strong> {{ propina.artistaId }}</p>
-    <p><strong>Cantidad:</strong> ${{ propina.cantidad }}</p>
-    <p><strong>Mensaje:</strong> {{ propina.mensaje }}</p>
-    <p><strong>Fecha:</strong> {{ propina.fecha | date }}</p>
-</div><h2>💸 Propinas</h2>
-
-<div *ngFor="let propina of propinas" class="card">
-    <p><strong>Artista ID:</strong> {{ propina.artistaId }}</p>
+    <p><strong>Artista ID:</strong> {{ propina.artista_id }}</p>
+    <p><strong>Fan:</strong> {{ propina.nombre_fan }}</p>
     <p><strong>Cantidad:</strong> ${{ propina.cantidad }}</p>
     <p><strong>Mensaje:</strong> {{ propina.mensaje }}</p>
     <p><strong>Fecha:</strong> {{ propina.fecha | date }}</p>

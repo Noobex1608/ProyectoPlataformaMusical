@@ -1,3 +1,31 @@
-<main style="padding: 24px;">
-    <router-outlet></router-outlet>
-</main>
+<div class="layout-container">
+    <!-- Navigation -->
+    <nav class="main-navigation">
+        <div class="nav-brand">
+            <h2>🎵 Monetización Fan</h2>
+        </div>
+        
+        <div class="nav-links">
+            <a routerLink="/fan/dashboard" routerLinkActive="active" class="nav-link">
+                📊 Dashboard
+            </a>
+            <a routerLink="/fan/explorar-artistas" routerLinkActive="active" class="nav-link">
+                🔍 Explorar
+            </a>
+            <a routerLink="/fan/suscripciones" routerLinkActive="active" class="nav-link">
+                💳 Suscripciones
+            </a>
+            <a routerLink="/fan/propinas" routerLinkActive="active" class="nav-link">
+                💰 Propinas
+            </a>
+            <a routerLink="/fan/contenido-exclusivo" routerLinkActive="active" class="nav-link">
+                ⭐ Contenido
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <router-outlet></router-outlet>
+    </main>
+</div>

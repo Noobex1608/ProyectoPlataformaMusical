@@ -27,7 +27,7 @@ export class PropinaFormComponent {
     }
     enviar(): void {
         if (this.form.valid) {
-            this.propinaService.agregarPropina(this.form.value).subscribe(() => {
+            this.propinaService.enviarPropina(this.form.value).subscribe(() => {
                 this.router.navigate(['/propinas']);
             });
         }

@@ -34,7 +34,7 @@ export class TransaccionFormComponent {
                 fecha: new Date().toISOString()
             };
 
-            this.transaccionService.agregarTransaccion(transaccion);
+            this.transaccionService.crearTransaccion(transaccion);
             this.router.navigate(['/transacciones']);
         }
     }

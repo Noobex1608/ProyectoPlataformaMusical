@@ -37,6 +37,12 @@ function Dashboard() {
           <h3>Álbumes</h3>
           <p>Organiza tus canciones en colecciones</p>
         </Link>
+
+        <Link to="/monetizacion" className="dashboard-card monetizacion-highlight">
+          <span>💰</span>
+          <h3>Monetización</h3>
+          <p>Gestiona ingresos y contenido exclusivo para fanáticos</p>
+        </Link>
       </div>
     </main>
   );

@@ -8,7 +8,7 @@
     /* === GLOBAL RESET Y SCROLL FIX === */
     html {
       height: 100%;
-      overflow-y: auto !important;
+      overflow-y: hidden !important;
       overflow-x: hidden;
     }
 
@@ -20,18 +20,15 @@
         sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-      min-height: 100vh;
       height: 100%;
       width: 100%;
-      overflow-x: hidden;
-      overflow-y: auto !important;
+      overflow: hidden;
       position: relative;
     }
 
     /* === SINGLE-SPA CONTAINER FIX === */
     #single-spa-application {
-      min-height: 100vh;
-      height: auto !important;
+      height: 100vh;
       width: 100%;
       position: relative !important;
       margin: 0;
@@ -48,8 +45,7 @@
       height: auto !important;
       min-height: auto !important;
       max-height: none !important;
-      overflow-y: visible !important;
-      overflow-x: hidden;
+      overflow: visible !important;
       position: relative !important;
     }
 
@@ -128,9 +124,8 @@
     <h1>🎵 Plataforma Musical</h1>
     <nav>
       <a href="/" id="nav-home">Inicio</a>
-      <a href="/artista" id="nav-artista">Artista</a>
-      <a href="/comunidad-v2" id="nav-comunidad">Comunidad</a>
-      <a href="/monetizacion" id="nav-monetizacion">Monetización</a>
+      <a href="/artista-v2" id="nav-artista">Artista</a>
+      <a href="/monetizacion-v2" id="nav-monetizacion">Monetización</a>
     </nav>
   </div>
 

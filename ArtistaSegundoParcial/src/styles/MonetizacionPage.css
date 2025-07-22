@@ -1,0 +1,297 @@
+/* Estilos para el Selector de Monetización - Alineado con ArtistaSegundoParcial */
+
+.monetizacion-selector {
+  padding: 2rem;
+  background: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #222;
+  /* FIXED: Remove min-height to prevent scroll conflicts */
+  overflow: visible;
+  height: auto;
+  position: relative;
+}
+
+/* Sección de bienvenida */
+.welcome-section {
+  text-align: center;
+  margin-bottom: 3rem;
+  max-width: 700px;
+  background: #fff;
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(52, 142, 145, 0.08);
+  border: 1px solid rgba(52, 142, 145, 0.1);
+}
+
+.welcome-section h1 {
+  color: #348e91;
+  font-size: 2.8rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.welcome-section .subtitle {
+  color: #348e91;
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.welcome-section .description {
+  color: #222;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+
+.welcome-section .description strong {
+  color: #348e91;
+  font-weight: 600;
+}
+
+/* Grid de opciones */
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* Cards de opciones */
+.option-card {
+  background: #fff;
+  border: 2px solid #e9ecef;
+  border-radius: 16px;
+  padding: 2rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  text-align: left;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(52, 142, 145, 0.05);
+}
+
+.option-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(52, 142, 145, 0.15);
+  border-color: #348e91;
+}
+
+.option-card:active {
+  transform: translateY(-4px);
+}
+
+/* Iconos de opciones */
+.option-icon {
+  font-size: 2.5rem;
+  flex-shrink: 0;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #348e91, #2a7174);
+  border-radius: 16px;
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(52, 142, 145, 0.3);
+}
+
+/* Contenido de opciones */
+.option-content {
+  flex: 1;
+}
+
+.option-content h3 {
+  margin: 0 0 0.8rem 0;
+  font-size: 1.4rem;
+  color: #222;
+  font-weight: 600;
+}
+
+.option-content p {
+  margin: 0;
+  color: #666;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* Cards específicas por tipo */
+.option-card.dashboard .option-icon {
+  background: linear-gradient(135deg, #348e91, #2a7174);
+}
+
+.option-card.contenido .option-icon {
+  background: linear-gradient(135deg, #e67e22, #d35400);
+}
+
+.option-card.fanaticos .option-icon {
+  background: linear-gradient(135deg, #9b59b6, #8e44ad);
+}
+
+.option-card.reportes .option-icon {
+  background: linear-gradient(135deg, #27ae60, #229954);
+}
+
+.option-card.configuracion .option-icon {
+  background: linear-gradient(135deg, #34495e, #2c3e50);
+}
+
+/* Sección de información */
+.info-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+  width: 100%;
+  max-width: 800px;
+}
+
+.info-card {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  border-left: 4px solid #348e91;
+  box-shadow: 0 2px 10px rgba(52, 142, 145, 0.05);
+}
+
+.info-card h4 {
+  color: #348e91;
+  font-size: 1.2rem;
+  margin: 0 0 1rem 0;
+  font-weight: 600;
+}
+
+.info-card p {
+  color: #222;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Sección de botón de regreso */
+.back-section {
+  margin-top: 2rem;
+}
+
+.back-button {
+  background: #348e91;
+  color: #fff;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.back-button:hover {
+  background: #2a7174;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(52, 142, 145, 0.3);
+}
+
+/* Efecto de animación para las cards */
+.option-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(52, 142, 145, 0.1), transparent);
+  transition: left 0.6s ease;
+}
+
+.option-card:hover::before {
+  left: 100%;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .monetizacion-selector {
+    padding: 1rem;
+  }
+  
+  .welcome-section {
+    padding: 2rem 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .welcome-section h1 {
+    font-size: 2.2rem;
+  }
+  
+  .welcome-section .subtitle {
+    font-size: 1rem;
+  }
+  
+  .options-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .option-card {
+    padding: 1.5rem;
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+  
+  .option-icon {
+    width: 60px;
+    height: 60px;
+    font-size: 2rem;
+    align-self: center;
+  }
+  
+  .info-section {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .info-card {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .welcome-section {
+    padding: 1.5rem 1rem;
+  }
+  
+  .welcome-section h1 {
+    font-size: 1.8rem;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  
+  .option-card {
+    padding: 1.2rem;
+  }
+  
+  .option-content h3 {
+    font-size: 1.2rem;
+  }
+  
+  .option-content p {
+    font-size: 0.9rem;
+  }
+}

@@ -11,6 +11,7 @@ import home from '../views/Home.vue';
 import UserTypeSelection from '../views/UserTypeSelection.vue';
 import LoginTypeSelection from '../views/LoginTypeSelection.vue';
 import RegisterTypeSelection from '../views/RegisterTypeSelection.vue';
+import MonetizacionPage from '../views/MonetizacionPage.vue';
 
 // Función para obtener la base path según el entorno
 const getBasePath = () => {
@@ -81,6 +82,11 @@ const router = createRouter({
             path: '/radio',
             name: 'radio',
             component: radio
+        },
+        {
+            path: '/monetizacion-selector',
+            name: 'monetizacion-selector',
+            component: MonetizacionPage
         }
     ]
 })

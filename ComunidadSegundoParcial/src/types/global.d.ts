@@ -4,6 +4,7 @@ declare global {
     navigateToArtista?: () => void;
     navigateToArtistaV2?: () => void;
     navigateToMonetizacion?: () => void;
+    navigateToMonetizacionV2?: () => void;
     navigateToComunidad?: () => void;
     navigateToHome?: () => void;
     navigateToSPA?: (path: string) => void;

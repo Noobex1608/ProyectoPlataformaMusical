@@ -1,44 +1,98 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 import { Propina } from '../models/propina.model';
-import { of } from 'rxjs';
+import { SupabaseClientService } from './supabase-client.service';
+
 @Injectable({ providedIn: 'root' })
 export class PropinaService {
-    private propinas: Propina[] = [
-        {
-            id: 1,
-            artistaId: 101,
-            usuarioId: 201,
-            monto: 5,
-            fecha: new Date(),
-            nombreFan: 'Laura',
-            mensaje: '¡Gracias por tu música!',
-            cantidad: 5
-        },
-        {
-            id: 2,
-            artistaId: 102,
-            usuarioId: 202,
-            monto: 3,
-            fecha: new Date(),
-            nombreFan: 'Carlos',
-            mensaje: 'Sigue así 💖',
-            cantidad: 3
-        }
-    ];
+    private propinasSubject = new BehaviorSubject<Propina[]>([]);
 
-    private propinasSubject = new BehaviorSubject<Propina[]>(this.propinas);
+    constructor(private supabaseClient: SupabaseClientService) {
+        this.loadPropinas();
+    }
+
+    private loadPropinas(): void {
+        this.supabaseClient.getRecords<Propina>('propinas').subscribe(
+            propinas => this.propinasSubject.next(propinas)
+        );
+    }
 
     obtenerPropinas(): Observable<Propina[]> {
         return this.propinasSubject.asObservable();
     }
 
-agregarPropina(p: Propina): Observable<Propina> {
-    p.id = Date.now();
-    p.fecha = new Date();
-    this.propinas.push(p);
-    this.propinasSubject.next([...this.propinas]);
-    return of(p); // ⬅️ devuelve Observable para que puedas usar .subscribe()
-}
+    obtenerPropinasPorArtista(artistaId: string): Observable<Propina[]> {
+        return this.supabaseClient.getRecords<Propina>('propinas', { 
+            artista_id: artistaId 
+        });
+    }
 
+    obtenerPropinasPorFan(fanId: string): Observable<Propina[]> {
+        return this.supabaseClient.getRecords<Propina>('propinas', { 
+            fan_id: fanId 
+        });
+    }
+
+    enviarPropina(propina: Omit<Propina, 'id' | 'fecha' | 'estado' | 'comision' | 'monto_neto' | 'created_at'>): Observable<Propina> {
+        const nuevaPropina = {
+            ...propina,
+            fecha: new Date().toISOString(),
+            estado: 'pendiente' as const,
+            // La comisión y monto neto se calculan automáticamente por el trigger de la DB
+            created_at: new Date().toISOString()
+        };
+        
+        return this.supabaseClient.createRecord<Propina>('propinas', nuevaPropina);
+    }
+
+    procesarPropina(id: number): Observable<Propina> {
+        return this.supabaseClient.updateRecord<Propina>('propinas', id, {
+            estado: 'procesada'
+        });
+    }
+
+    obtenerEstadisticasPropinas(artistaId: string): Observable<{
+        totalRecaudado: number;
+        propinasPendientes: number;
+        propinasDelMes: number;
+        comisionTotal: number;
+    }> {
+        return this.supabaseClient.getRecords<Propina>('propinas', { 
+            artista_id: artistaId 
+        }).pipe(
+            map(propinas => {
+                const currentMonth = new Date().getMonth();
+                const currentYear = new Date().getFullYear();
+                
+                return {
+                    totalRecaudado: propinas.reduce((total, p) => total + p.monto_neto, 0),
+                    propinasPendientes: propinas.filter(p => p.estado === 'pendiente').length,
+                    propinasDelMes: propinas.filter(p => {
+                        const propinaDate = new Date(p.fecha);
+                        return propinaDate.getMonth() === currentMonth && 
+                               propinaDate.getFullYear() === currentYear;
+                    }).length,
+                    comisionTotal: propinas.reduce((total, p) => total + p.comision, 0)
+                };
+            }),
+            catchError(error => {
+                console.error('Error obteniendo estadísticas de propinas:', error);
+                return of({
+                    totalRecaudado: 0,
+                    propinasPendientes: 0,
+                    propinasDelMes: 0,
+                    comisionTotal: 0
+                });
+            })
+        );
+    }
+
+    actualizarEstadoPropina(id: number, estado: 'pendiente' | 'procesada' | 'rechazada'): Observable<Propina> {
+        return this.supabaseClient.updateRecord<Propina>('propinas', id, { estado });
+    }
+
+    obtenerPropinaPorId(id: number): Observable<Propina | null> {
+        return this.supabaseClient.getRecordById<Propina>('propinas', id);
+    }
 }

@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
     standalone: true,
     selector: 'app-layout-base',
-    imports: [CommonModule, RouterOutlet],
+    imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive],
     templateUrl: './layout-base.component.html',
     styleUrls: ['./layout-base.component.css']
 })

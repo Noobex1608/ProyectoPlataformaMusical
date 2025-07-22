@@ -4,7 +4,9 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:spa": "ng serve --port 5179",
     "build": "ng build",
+    "build:spa": "ng build --configuration=production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:independienteappartistas": "node dist/independienteappartistas/server/server.mjs"
@@ -19,10 +21,13 @@
     "@angular/platform-server": "^20.0.0",
     "@angular/router": "^20.0.0",
     "@angular/ssr": "^20.0.3",
-    "@supabase/supabase-js": "^2.50.3",
+    "@supabase/supabase-js": "^2.52.0",
     "express": "^5.1.0",
     "rxjs": "~7.8.0",
-    "tslib": "^2.3.0"
+    "single-spa": "^6.0.3",
+    "single-spa-angular": "^9.2.0",
+    "tslib": "^2.3.0",
+    "zone.js": "^0.15.1"
   },
   "devDependencies": {
     "@angular/build": "^20.0.3",

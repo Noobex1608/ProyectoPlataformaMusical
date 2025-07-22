@@ -28,6 +28,12 @@
         <h3>Clubes</h3>
         <p>Mira los clubes a los que estás unido (próximamente)</p>
       </div>
+      
+      <div class="dashboard-card" @click="goToMonetizacion">
+        <span>💰</span>
+        <h3>Monetización</h3>
+        <p>Gestiona tus ingresos y estrategias de monetización</p>
+      </div>
     </div>
   </main>
 </template>
@@ -54,6 +60,12 @@ function goToRadio() {
 
 function goToClubes() {
   router.push("/clubes");
+}
+
+function goToMonetizacion() {
+  console.log('💰 Navegando al selector inteligente de monetización para fans');
+  console.log('🎵 Usuario de comunidad accediendo a opciones de monetización');
+  router.push("/monetizacion-selector");
 }
 
 </script>
