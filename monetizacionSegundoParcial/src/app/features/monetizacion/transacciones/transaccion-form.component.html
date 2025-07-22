@@ -1,24 +1,23 @@
-<div class="card formulario">
-    <h2>Crear Nueva Transacción</h2>
-    <form [formGroup]="form" (ngSubmit)="enviar()">
-        <label>Tipo:</label>
-        <select formControlName="tipo">
-            <option value="entrada">Entrada (ingreso)</option>
-            <option value="salida">Salida (retiro)</option>
+<div class="max-w-md mx-auto mt-6">
+    <h2 class="text-2xl font-bold mb-4">➕ Nueva Transacción</h2>
+
+    <form (ngSubmit)="guardar()" class="space-y-4">
+        <input [(ngModel)]="transaccion.descripcion" name="descripcion" class="w-full p-2 border rounded"
+            placeholder="Descripción" required />
+
+        <input [(ngModel)]="transaccion.monto" name="monto" type="number" class="w-full p-2 border rounded"
+            placeholder="Monto" required />
+
+        <select [(ngModel)]="tipoSeleccionado" name="tipoSeleccionado" (change)="setTipo()"
+            class="w-full p-2 border rounded" required>
+            <option value="" disabled selected>Selecciona tipo</option>
+            <option value="membresia">Membresía</option>
+            <option value="propina">Propina</option>
+            <option value="recompensa">Recompensa</option>
         </select>
 
-        <label>Descripción:</label>
-        <input formControlName="descripcion" type="text" />
-
-        <label>Monto:</label>
-        <input formControlName="monto" type="number" />
-
-        <label>ID de Usuario:</label>
-        <input formControlName="usuarioId" type="text" />
-
-        <br /><br />
-        <button type="submit" [disabled]="form.invalid">Registrar Transacción</button>
+        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">
+            Guardar Transacción
+        </button>
     </form>
 </div>
-<button routerLink="/nueva-transaccion">➕ Crear Transacción</button>
-<button routerLink="/crear-recompensa">+ Nueva recompensa</button>

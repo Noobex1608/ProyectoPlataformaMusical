@@ -1,8 +1,23 @@
-<h2>Historial de Transacciones</h2>
-<div *ngFor="let t of transacciones" class="card">
-    <p><strong>Tipo:</strong> {{ t.tipo }}</p>
-    <p><strong>Descripción:</strong> {{ t.descripcion }}</p>
-    <p><strong>Monto:</strong> ${{ t.monto }}</p>
-    <p><strong>Fecha:</strong> {{ t.fecha | date:'medium' }}</p>
-    <!-- <p><strong>Usuario ID:</strong> {{ t.usuarioId }}</p> -->
+<div class="max-w-4xl mx-auto mt-8">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold">📒 Transacciones</h2>
+        <a routerLink="/transacciones/nueva"
+            class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+            ➕ Nueva Transacción
+        </a>
+    </div>
+
+    <div *ngFor="let t of transacciones" class="p-4 border rounded-lg shadow mb-4 bg-white">
+        <div class="flex justify-between">
+            <div>
+                <p class="font-semibold">{{ t.descripcion }}</p>
+                <p class="text-sm text-gray-600">Usuario: {{ t.usuario?.nombre || 'Desconocido' }}</p>
+                <p class="text-sm italic">{{ tipoDesconocido(t.tipo) }}</p>
+            </div>
+            <div [ngClass]="{ 'text-green-600': t.monto > 0, 'text-red-600': t.monto < 0 }" class="text-lg font-bold">
+                {{ t.monto | currency:'USD' }}
+            </div>
+        </div>
+        <p class="text-sm text-gray-500">{{ t.fecha | date:'medium' }}</p>
+    </div>
 </div>

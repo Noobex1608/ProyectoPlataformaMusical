@@ -1,43 +1,37 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MembresiaService } from '@services/membresia.service';
-import { PropinaService } from '@services/propina.service';
-import { Membresia } from '@models/membresia.model';
-import { Propina } from '@models/propina.model';
+import { MembresiaService } from '../../../services/membresia.service';
+import { Membresia } from '../../../models/membresia.model';
 
 @Component({
     selector: 'app-membresia-list',
-    templateUrl: './membresia-list.component.html',
-    styleUrls: ['./membresia-list.component.scss'],
     standalone: true,
     imports: [CommonModule],
+    templateUrl: './membresia-list.component.html',
 })
-export class MembresiaListComponent {
+export class MembresiaListComponent implements OnInit {
     membresias: Membresia[] = [];
-    propinas: Propina[] = [];
+    membresiaActivaId: number | null = null;
+    propinas: any[] = []; // Agregada para el template
 
-    private membresiaService = inject(MembresiaService);
-    private propinaService = inject(PropinaService);
+    constructor(private membresiaService: MembresiaService) { }
 
-    constructor() {
-        this.obtenerMembresias();
-        this.obtenerPropinas();
-    }
-
-    obtenerMembresias(): void {
-        this.membresiaService.obtenerMembresias().subscribe((data: Membresia[]) => {
+    ngOnInit(): void {
+        this.membresiaService.obtenerMembresias().subscribe(data => {
             this.membresias = data;
         });
     }
 
-    obtenerPropinas(): void {
-        this.propinaService.obtenerPropinas().subscribe((data: Propina[]) => {
-            this.propinas = data;
-        });
+    activarMembresia(m: Membresia): void {
+        this.membresiaActivaId = m.id;
+    }
+
+    esActiva(m: Membresia): boolean {
+        return this.membresiaActivaId === m.id;
     }
 
     eliminarMembresia(id: number): void {
         this.membresiaService.eliminarMembresia(id);
-        this.obtenerMembresias(); // recarga la lista actualizada
+        this.membresias = this.membresias.filter(m => m.id !== id);
     }
 }

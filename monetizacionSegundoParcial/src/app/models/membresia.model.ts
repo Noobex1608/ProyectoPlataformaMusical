@@ -36,4 +36,4 @@ export interface MembresiaLegacy {
     activa: boolean;
     fechaCreacion: Date; // Mapea a created_at
 }
-  
+    

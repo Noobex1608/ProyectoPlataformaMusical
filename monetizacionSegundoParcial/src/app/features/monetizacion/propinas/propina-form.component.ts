@@ -1,18 +1,23 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PropinaService } from '../../../services/propina.service';
+import { Propina } from '../../../models/propina.model';
 
 @Component({
     selector: 'app-propina-form',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule],
+    imports: [CommonModule, FormsModule, ReactiveFormsModule],
     templateUrl: './propina-form.component.html',
     styleUrls: ['./propina-form.component.scss']
 })
 export class PropinaFormComponent {
     form: FormGroup;
+    nuevaPropina: Partial<Propina> = {
+        monto: 0,
+        mensaje: ''
+    };
 
     constructor(
         private fb: FormBuilder,
@@ -25,6 +30,12 @@ export class PropinaFormComponent {
             mensaje: ['']
         });
     }
+
+    enviarPropina(): void {
+        console.log('Enviando propina:', this.nuevaPropina);
+        // Lógica para enviar propina
+    }
+
     enviar(): void {
         if (this.form.valid) {
             this.propinaService.enviarPropina(this.form.value).subscribe(() => {

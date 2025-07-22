@@ -1,33 +1,44 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Membresia } from '../../../models/membresia.model';
+import { MembresiaService } from '../../../services/membresia.service';
 
-export interface Membresia {
-    id: number;
-    nombre: string;
-    descripcion: string;
-    precio: number;
-    duracionDias: number;
-}
-
-@Injectable({
-    providedIn: 'root'
+@Component({
+    standalone: true,
+    selector: 'app-membresia-form',
+    imports: [CommonModule, FormsModule],
+    templateUrl: './membresia-form.component.html'
 })
 export class MembresiaFormComponent {
-    private membresias: Membresia[] = [];
-    private membresiasSubject = new BehaviorSubject<Membresia[]>([]);
+    membresia: Membresia = {
+        id: 0,
+        nombre: '',
+        descripcion: '',
+        precio: 0,
+        duracion_dias: 0,
+        beneficios: [],
+        artista_id: '',
+        activa: true,
+        created_at: '',
+        updated_at: ''
+    };
 
-    obtenerMembresias(): Observable<Membresia[]> {
-        return this.membresiasSubject.asObservable();
+    beneficioTemporal = '';
+
+    constructor(private membresiaService: MembresiaService, private router: Router) { }
+
+    agregarBeneficio() {
+        if (this.beneficioTemporal.trim()) {
+            this.membresia.beneficios.push(this.beneficioTemporal.trim());
+            this.beneficioTemporal = '';
+        }
     }
 
-    agregarMembresia(membresia: Membresia): void {
-        membresia.id = Date.now();
-        this.membresias.push(membresia);
-        this.membresiasSubject.next(this.membresias);
-    }
-
-    eliminarMembresia(id: number): void {
-        this.membresias = this.membresias.filter(m => m.id !== id);
-        this.membresiasSubject.next(this.membresias);
+    guardar() {
+        this.membresiaService.agregarMembresia(this.membresia).subscribe(() => {
+            this.router.navigate(['/membresias']);
+        });
     }
 }

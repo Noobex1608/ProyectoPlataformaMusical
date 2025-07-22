@@ -1,13 +1,35 @@
-<h2>Enviar Propina</h2>
-<form [formGroup]="form" (ngSubmit)="enviar()">
-    <label>Artista:</label>
-    <input formControlName="artista" /><br />
+<h2>➕ Nueva Membresía</h2>
 
-    <label>Monto:</label>
-    <input type="number" formControlName="monto" /><br />
+<form (ngSubmit)="guardar()" #form="ngForm">
+    <label>Nombre:
+        <input type="text" [(ngModel)]="membresia.nombre" name="nombre" required />
+    </label>
+    <br />
 
-    <label>Mensaje (opcional):</label>
-    <textarea formControlName="mensaje"></textarea><br />
+    <label>Descripción:
+        <input type="text" [(ngModel)]="membresia.descripcion" name="descripcion" required />
+    </label>
+    <br />
 
-    <button type="submit">Enviar</button>
+    <label>Precio:
+        <input type="number" [(ngModel)]="membresia.precio" name="precio" required />
+    </label>
+    <br />
+
+    <label>Duración (días):
+        <input type="number" [(ngModel)]="membresia.duracion_dias" name="duracion_dias" required />
+    </label>
+    <br />
+
+    <label>Beneficio:
+        <input type="text" [(ngModel)]="beneficioTemporal" name="beneficio" />
+        <button type="button" (click)="agregarBeneficio()">➕</button>
+    </label>
+
+    <ul>
+        <li *ngFor="let b of membresia.beneficios">{{ b }}</li>
+    </ul>
+
+    <br />
+    <button type="submit">Guardar Membresía</button>
 </form>
