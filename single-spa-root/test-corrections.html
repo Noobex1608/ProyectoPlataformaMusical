@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Shell - Navegación y Footer</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+        }
+        .test-info {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-info h2 {
+            color: #348e91;
+            margin-top: 0;
+        }
+        .test-status {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .status-item {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .status-fixed {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-info">
+        <h2>🔧 Correcciones Aplicadas al Shell</h2>
+        
+        <h3>✅ Problema 1: Footer no visible en ComunidadSegundoParcial</h3>
+        <div class="test-status">
+            <span class="status-item status-fixed">SOLUCIONADO</span>
+        </div>
+        <p><strong>Causa:</strong> El CSS de App.vue usaba <code>position: fixed</code> cubriendo toda la pantalla.</p>
+        <p><strong>Solución:</strong> Cambiado a <code>min-height: calc(100vh - 110px)</code> para dejar espacio al footer del shell.</p>
+        
+        <h3>✅ Problema 2: Navegación incorrecta en footer</h3>
+        <div class="test-status">
+            <span class="status-item status-fixed">SOLUCIONADO</span>
+        </div>
+        <p><strong>Mejoras implementadas:</strong></p>
+        <ul>
+            <li>🔄 <strong>Logout automático</strong> antes de cambiar de módulo</li>
+            <li>🎯 <strong>Navegación contextual</strong> para monetización</li>
+            <li>💾 <strong>Guardado de contexto</strong> en localStorage</li>
+            <li>⏳ <strong>Loading states</strong> durante navegación</li>
+            <li>🎨 <strong>Iconos y estilos</strong> mejorados</li>
+        </ul>
+        
+        <h3>🎨 Mejoras Adicionales de Estilo</h3>
+        <div class="test-status">
+            <span class="status-item status-fixed">APLICADAS</span>
+        </div>
+        <ul>
+            <li>🎨 <strong>Paleta de colores</strong> del proyecto aplicada (#348e91, #4facfe)</li>
+            <li>🌈 <strong>Gradientes</strong> en header y footer</li>
+            <li>✨ <strong>Transiciones suaves</strong> y hover effects</li>
+            <li>📱 <strong>Diseño responsive</strong> mejorado</li>
+        </ul>
+        
+        <h3>🧭 Lógica de Navegación</h3>
+        <p><strong>Comunidad → Artista:</strong></p>
+        <ol>
+            <li>Detecta usuario autenticado</li>
+            <li>Hace logout automáticamente</li>
+            <li>Navega a /artista-v2</li>
+            <li>Muestra loading durante transición</li>
+        </ol>
+        
+        <p><strong>Cualquier módulo → Monetización:</strong></p>
+        <ol>
+            <li>Detecta contexto actual (artista/comunidad)</li>
+            <li>Guarda contexto en localStorage</li>
+            <li>Hace logout si hay usuario autenticado</li>
+            <li>Navega a /monetizacion-v2 con parámetros</li>
+        </ol>
+        
+        <h3>🔍 Archivos Modificados</h3>
+        <ul>
+            <li><code>single-spa-root/src/main.js</code> - Función toggleNavbar agregada</li>
+            <li><code>single-spa-root/src/layout.js</code> - Navegación inteligente y estilos</li>
+            <li><code>ComunidadSegundoParcial/src/App.vue</code> - CSS corregido</li>
+        </ul>
+        
+        <h3>🧪 Cómo Probar</h3>
+        <ol>
+            <li>Iniciar shell: <code>cd single-spa-root && npm run dev</code></li>
+            <li>Iniciar ComunidadSegundoParcial: <code>cd ComunidadSegundoParcial && npm run dev</code></li>
+            <li>Verificar que el footer se vea en la página de comunidad</li>
+            <li>Hacer clic en "Gestión de Artista" desde el footer</li>
+            <li>Verificar logout automático y navegación</li>
+            <li>Hacer clic en "Monetización" y verificar contexto</li>
+        </ol>
+    </div>
+    
+    <script>
+        console.log('🔧 Test de correcciones del Shell cargado');
+        console.log('📋 Cambios aplicados:');
+        console.log('  ✅ Footer visible en ComunidadSegundoParcial');
+        console.log('  ✅ Navegación inteligente con logout automático');
+        console.log('  ✅ Contexto para monetización');
+        console.log('  ✅ Paleta de colores del proyecto aplicada');
+        console.log('  ✅ Función toggleNavbar agregada');
+    </script>
+</body>
+</html>

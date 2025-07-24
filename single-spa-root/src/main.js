@@ -1,32 +1,100 @@
 import { registerApplication, start, navigateToUrl } from 'single-spa';
+import authService from './auth.js';
+import globalState from './globalState.js';
+import shellLayout from './layout.js';
+// Importar desde archivos JS compilados
+import { globalStateManager } from './state/index.js';
+import { createStateMigration } from './state/migration.js';
 
-// Función para manejar la visibilidad del navbar (simplificada)
-function toggleNavbar(show) {
-  // No necesitamos hacer nada ya que el navbar siempre está oculto
-  // Mantener la función por compatibilidad
-}
+// === INICIALIZACIÓN DEL SHELL ===
+console.log('🚀 Inicializando Shell de Plataforma Musical...');
 
-// Configuración de los microfrontends
+// Configurar migración entre sistemas de estado
+const migrationAPI = createStateMigration(globalState, authService, globalStateManager);
+
+// Exponer servicios globalmente para que los microfrontends puedan acceder
+window.shellServices = {
+  auth: authService,
+  globalState: globalState,
+  layout: shellLayout,
+  
+  // NUEVO: StateManager avanzado
+  stateManager: globalStateManager,
+  migration: migrationAPI,
+  
+  // Métodos de conveniencia (mantenemos compatibilidad)
+  getUser: () => authService.getUser(),
+  isAuthenticated: () => authService.isUserAuthenticated(),
+  login: (userData) => migrationAPI.login(userData.user, userData.token, userData.refreshToken),
+  logout: () => migrationAPI.logout(),
+  
+  // Estado global (legacy + nuevo)
+  getGlobalState: () => globalState.getState(),
+  updateGlobalState: (newState) => globalState.updateState(newState),
+  subscribeToGlobalState: (callback) => globalState.subscribe(callback),
+  
+  // NUEVO: Métodos del StateManager mejorado
+  getState: () => globalStateManager.getState(),
+  setState: (key, value) => globalStateManager.setState(key, value),
+  subscribe: (key, callback) => globalStateManager.subscribe(key, callback),
+  
+  // Métodos mejorados de UI
+  setTheme: (theme) => migrationAPI.setTheme(theme),
+  setLanguage: (language) => migrationAPI.setLanguage(language),
+  addNotification: (notification) => migrationAPI.addNotification(notification),
+  
+  // Layout
+  showLoading: (message) => shellLayout.showLoading(message),
+  hideLoading: () => shellLayout.hideLoading(),
+  navigate: (route) => shellLayout.navigate(route)
+};
+
+console.log('✅ Servicios del Shell disponibles globalmente:', window.shellServices);
+
+// Configuración de los microfrontends con servicios del Shell
 const microfrontends = [
   {
     name: '@plataforma/artista',
-    app: () => import('http://localhost:5173/src/main.js'),
+    app: () => {
+      shellLayout.showLoading('Cargando módulo de Artista...');
+      return import('http://localhost:5173/src/main.js')
+        .then(module => {
+          shellLayout.hideLoading();
+          globalState.registerModule('artista', { version: '1.0', framework: 'React' });
+          return module;
+        })
+        .catch(error => {
+          shellLayout.hideLoading();
+          console.error('❌ Error cargando Artista v1:', error);
+          throw error;
+        });
+    },
     activeWhen: ['/artista'],
     customProps: {
       domElement: '#single-spa-application',
-      hideNavbar: true
+      hideNavbar: true,
+      shellServices: window.shellServices
     }
   },
   {
     name: '@plataforma/artista-segundo-parcial',
     app: () => {
       console.log('🎸 Cargando ArtistaSegundoParcial...');
+      shellLayout.showLoading('Cargando módulo de Gestión de Artista...');
+      
       return import('http://localhost:5178/src/main.js')
         .then(module => {
           console.log('✅ ArtistaSegundoParcial cargado:', module);
+          shellLayout.hideLoading();
+          globalState.registerModule('artista-v2', { 
+            version: '2.0', 
+            framework: 'React', 
+            features: ['perfil', 'canciones', 'albums', 'eventos'] 
+          });
           return module;
         })
         .catch(error => {
+          shellLayout.hideLoading();
           console.error('❌ Error cargando ArtistaSegundoParcial:', error);
           throw error;
         });
@@ -34,16 +102,31 @@ const microfrontends = [
     activeWhen: ['/artista-v2'],
     customProps: {
       domElement: '#single-spa-application',
-      hideNavbar: true
+      hideNavbar: true,
+      shellServices: window.shellServices
     }
   },
   {
     name: '@plataforma/comunidad',
-    app: () => import('http://localhost:5174/src/main.js'),
+    app: () => {
+      shellLayout.showLoading('Cargando módulo de Comunidad...');
+      return import('http://localhost:5174/src/main.js')
+        .then(module => {
+          shellLayout.hideLoading();
+          globalState.registerModule('comunidad', { version: '1.0', framework: 'Vue' });
+          return module;
+        })
+        .catch(error => {
+          shellLayout.hideLoading();
+          console.error('❌ Error cargando Comunidad v1:', error);
+          throw error;
+        });
+    },
     activeWhen: ['/comunidad'],
     customProps: {
       domElement: '#single-spa-application',
-      hideNavbar: true
+      hideNavbar: true,
+      shellServices: window.shellServices
     }
   },
   {
@@ -81,7 +164,8 @@ const microfrontends = [
     ], // HOME y rutas específicas de ComunidadSegundoParcial
     customProps: {
       domElement: '#single-spa-application',
-      hideNavbar: true
+      hideNavbar: true,
+      shellServices: window.shellServices
     }
   },
   {
@@ -223,6 +307,16 @@ document.addEventListener('DOMContentLoaded', () => {
   // Escuchar cambios de ruta
   window.addEventListener('single-spa:routing-event', updateActiveLink);
 });
+
+// === FUNCIONES UTILITARIAS ===
+
+// Función para manejar la visibilidad del navbar
+function toggleNavbar(isVisible) {
+  const navbar = document.querySelector('.shell-navbar');
+  if (navbar) {
+    navbar.style.display = isVisible ? 'block' : 'none';
+  }
+}
 
 // Escuchar eventos de cambio de aplicación para manejar el navbar
 window.addEventListener('single-spa:before-app-change', (event) => {
