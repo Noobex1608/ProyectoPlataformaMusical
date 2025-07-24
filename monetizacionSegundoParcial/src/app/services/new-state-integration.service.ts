@@ -4,7 +4,7 @@
  * Servicio que reemplaza o complementa el sistema de integración existente
  */
 
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { takeUntil, map, distinctUntilChanged } from 'rxjs/operators';
 
@@ -52,12 +52,11 @@ const getStateManager = () => {
   throw new Error('StateManager no disponible - ¿está corriendo en el shell?');
 };
 
-// Crear servicios de Angular básicos
+// Crear servicios de Angular básicos - Simplificado sin herencia
 const createBasicAngularService = () => {
-  abstract class StateAwareComponent {
+  // Helper class sin decorador - solo para tipado
+  class StateHelpers {
     protected destroy$ = new Subject<void>();
-
-    constructor(protected globalState: any) {}
 
     protected subscribeWithCleanup<T>(
       observable: Observable<T>,
@@ -68,13 +67,13 @@ const createBasicAngularService = () => {
         .subscribe(callback);
     }
 
-    ngOnDestroy(): void {
+    protected cleanupDestroy(): void {
       this.destroy$.next();
       this.destroy$.complete();
     }
   }
 
-  return { StateAwareComponent };
+  return { StateHelpers };
 };
 
 const stateManager = getStateManager();
@@ -83,10 +82,11 @@ const angularServices = createBasicAngularService();
 @Injectable({
   providedIn: 'root'
 })
-export class NewStateIntegrationService extends angularServices.StateAwareComponent {
+export class NewStateIntegrationService implements OnDestroy {
+  private destroy$ = new Subject<void>();
   
   constructor(private zone: NgZone) {
-    super(null as any); // Pasamos null porque usaremos nuestro propio StateManager
+    this.init();
   }
 
   // Propiedades reactivas específicas para monetización
@@ -285,11 +285,27 @@ export class NewStateIntegrationService extends angularServices.StateAwareCompon
   }
 
   // Cleanup
-  public override ngOnDestroy(): void {
-    super.ngOnDestroy();
+  public cleanup(): void {
     this.monetizationContext$.complete();
     this.selectedArtist$.complete();
     this.earnings$.complete();
+  }
+
+  // Implementación de OnDestroy para Angular
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+    this.cleanup();
+  }
+
+  // Helper para suscripciones con limpieza automática
+  private subscribeWithCleanup<T>(
+    observable: Observable<T>,
+    callback: (value: T) => void
+  ): void {
+    observable
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(callback);
   }
 }
 
