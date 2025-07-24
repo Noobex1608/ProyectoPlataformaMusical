@@ -26,7 +26,7 @@
       <div class="dashboard-card" @click="goToClubes">
         <span>♣️</span>
         <h3>Clubes</h3>
-        <p>Mira los clubes a los que estás unido (próximamente)</p>
+        <p>Mira los clubes a los que estás unido o crea uno de tu artista preferido</p>
       </div>
       
       <div class="dashboard-card" @click="goToMonetizacion">

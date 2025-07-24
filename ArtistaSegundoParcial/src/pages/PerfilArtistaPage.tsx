@@ -4,6 +4,7 @@ import PerfilArtistaList from "../components/PerfilArtistaList";
 import { useArtistaActual } from "../hooks/useArtistaActual";
 import { useEstadisticas } from "../hooks/useEstadisticas";
 
+
 const PerfilArtistaPage = () => {
   const { artista, loading: loadingArtista, error: errorArtista } = useArtistaActual();
   const { 
@@ -82,7 +83,7 @@ const PerfilArtistaPage = () => {
       </Link>
 
       <div className="perfil-header">
-        <h2 className="perfil-nombre">
+        <h2 className="perfil-nombre" style={{ color: "#eff0f0ff" }}>
           📈 Estadísticas de {artista.nombre_artistico}
         </h2>
         
@@ -94,9 +95,11 @@ const PerfilArtistaPage = () => {
           />
         )}
         
-        <p className="perfil-bio">
+        <h2 className="perfil-bio" style={{ color: "#ffffffff", fontFamily: "Segoe Ui, Tahoma, Geneva, Verdana, sans-serif",
+          fontSize: "20px"
+         }}>
           {artista.biografia || 'Artista musical'}
-        </p>
+        </h2>
         
         {artista.generos_musicales && artista.generos_musicales.length > 0 && (
           <div className="perfil-generos">

@@ -67,6 +67,7 @@ const microfrontends = [
                path.startsWith('/playlist') || 
                path.startsWith('/radio') || 
                path.startsWith('/clubes') ||
+               path.startsWith('/club/') ||  // ✅ Nueva ruta agregada para club detail
                path.startsWith('/login') ||
                path.startsWith('/registro') ||
                path.startsWith('/user-type-selection') ||

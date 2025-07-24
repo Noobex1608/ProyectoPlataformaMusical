@@ -18,6 +18,7 @@ const ArtistaList = ({ artistas, onEditar, onEliminar }: Props) => {
               imageUrl={a.imagen}
               size={120}
               name={a.nombre}
+
             />
             
             <div className="perfil-info">

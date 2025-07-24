@@ -24,20 +24,77 @@ const EventoList = ({ eventos }: Props) => {
     });
   };
 
+  const formatPrice = (price?: number) => {
+    if (!price) return 'Entrada libre';
+    return new Intl.NumberFormat('es-MX', {
+      style: 'currency',
+      currency: 'MXN'
+    }).format(price);
+  };
+
   return (
     <div className="evento-list">
-      {eventos.map(e => (
-        <div key={e.id} className="evento-card">
-          <div className="evento-date">
-            📅 {formatDate(e.fecha)}
+      {eventos.map(evento => (
+        <div key={evento.id} className="evento-card" style={{
+          border: '1px solid #e0e0e0',
+          borderRadius: '8px',
+          padding: '1.5rem',
+          marginBottom: '1rem',
+          backgroundColor: '#fff',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
+            <div>
+              <h3 style={{ margin: '0 0 0.5rem 0', color: '#333' }}>{evento.nombre}</h3>
+            </div>
           </div>
-          <h3>{e.nombre}</h3>
-          <div className="evento-location">
-            📍 {e.ubicacion}
+          
+          <div className="evento-details" style={{ display: 'grid', gap: '0.75rem' }}>
+            <div className="evento-date" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <span>📅</span>
+              <strong>{formatDate(evento.fecha)}</strong>
+            </div>
+            
+            <div className="evento-location" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <span>📍</span>
+              <span>{evento.ubicacion}</span>
+            </div>
+            
+            {evento.descripcion && (
+              <div className="evento-description" style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
+                <span>📝</span>
+                <span style={{ color: '#666', fontSize: '0.9rem' }}>{evento.descripcion}</span>
+              </div>
+            )}
+            
+            <div style={{ display: 'flex', gap: '2rem', marginTop: '0.5rem' }}>
+              <div className="evento-price" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <span>💰</span>
+                <span style={{ fontWeight: '500', color: '#348e91' }}>
+                  {formatPrice(evento.precio)}
+                </span>
+              </div>
+              
+              {evento.capacidad && (
+                <div className="evento-capacity" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <span>👥</span>
+                  <span>{evento.capacidad} personas</span>
+                </div>
+              )}
+            </div>
           </div>
-          <p style={{ color: '#348e91', fontWeight: '500', marginTop: '1rem' }}>
-            ¡No olvides promocionar este evento!
-          </p>
+          
+          {evento.created_at && (
+            <div style={{ 
+              marginTop: '1rem', 
+              paddingTop: '1rem', 
+              borderTop: '1px solid #f0f0f0',
+              fontSize: '0.8rem',
+              color: '#888'
+            }}>
+              Creado el {new Date(evento.created_at).toLocaleDateString('es-ES')}
+            </div>
+          )}
         </div>
       ))}
     </div>

@@ -59,7 +59,7 @@ const SongList: React.FC<Props> = ({ songs, onEdit, onDelete }) => {
                 </div>
 
                 {song.lyrics && (
-                  <div className="song-lyrics">
+                  <div className="song-lyrics" style={{ fontFamily: 'Segoe UI'  }}>
                     {song.lyrics}
                   </div>
                 )}

@@ -1,20 +1,20 @@
 /* CSS Module para ProfileImage - Estilos optimizados para imagen circular */
 .profileImageContainer {
-  /* Los estilos principales se manejan inline, esto es solo refuerzo */
+  /* Reforzar estilos del contenedor con máxima especificidad */
   border-radius: 50% !important;
   overflow: hidden !important;
-  flex-shrink: 0 !important;
-  /* Reset de propiedades que pueden ser afectadas por estilos globales */
   position: relative !important;
+  display: block !important;
   box-sizing: border-box !important;
 }
 
-.profileImage {
+/* SELECTOR MUY ESPECÍFICO PARA ANULAR TODOS LOS ESTILOS GLOBALES */
+.profileImageContainer.profileImageContainer .profileImage {
   width: 100% !important;
   height: 100% !important;
-  object-fit: cover !important;
+  object-fit: cover !important; /* Llena el círculo completo manteniendo proporciones */
   object-position: center center !important;
-  border-radius: 0 !important;
+  border-radius: 0 !important; /* El contenedor maneja el border-radius */
   /* Reset completo para evitar interferencias */
   margin: 0 !important;
   padding: 0 !important;
@@ -24,6 +24,48 @@
   box-shadow: none !important;
   transform: none !important;
   display: block !important;
+  /* Anular posicionamiento absoluto que puede venir de otros estilos */
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  z-index: auto !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  max-width: none !important;
+  max-height: none !important;
+  /* CRUCIAL: Anular los estilos de .perfil-artista-container img */
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.profileImage {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important; /* Llena el círculo completo manteniendo proporciones */
+  object-position: center center !important;
+  border-radius: 0 !important; /* El contenedor maneja el border-radius */
+  /* Reset completo para evitar interferencias */
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  outline: none !important;
+  background: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+  display: block !important;
+  /* Anular posicionamiento absoluto que puede venir de otros estilos */
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  z-index: auto !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  max-width: none !important;
+  max-height: none !important;
 }
 
 .profileImagePlaceholder {
@@ -32,6 +74,7 @@
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+  border-radius: 0 !important; /* El contenedor maneja el border-radius */
   /* Reset completo */
   margin: 0 !important;
   padding: 0 !important;
@@ -39,4 +82,11 @@
   outline: none !important;
   box-shadow: none !important;
   transform: none !important;
+  /* Anular posicionamiento absoluto que puede venir de otros estilos */
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  z-index: auto !important;
 }

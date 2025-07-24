@@ -4,6 +4,7 @@ import perfil from '../views/perfil.vue'
 import registro from '../views/registro.vue';
 import dashboard from '../views/dashboard.vue';
 import clubes from '../views/clubes.vue';
+import ClubDetail from '../views/ClubDetail.vue';
 import playlist from '../views/playlist.vue';
 import playlistDetail from '../views/playlistDetail.vue';
 import radio from '../views/radio.vue';
@@ -67,6 +68,12 @@ const router = createRouter({
             path: '/clubes',
             name: 'clubes',
             component: clubes
+        },
+        {
+            path: '/club/:id',
+            name: 'club-detail',
+            component: ClubDetail,
+            props: true
         },
         {
             path: '/playlist',

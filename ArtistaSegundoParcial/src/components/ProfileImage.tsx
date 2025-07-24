@@ -19,26 +19,20 @@ const ProfileImage: React.FC<ProfileImageProps> = ({
   const containerStyle: React.CSSProperties = {
     width: `${size}px`,
     height: `${size}px`,
-    borderRadius: '50%', // Completamente circular
+    borderRadius: '50%',
     overflow: 'hidden',
-    border: '4px solid #6c5ce7',
+    border: '4px solid white',
     backgroundColor: '#f8f9fa',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    margin: '0 auto 20px auto',
-    position: 'relative',
-    boxShadow: '0 4px 12px rgba(108, 92, 231, 0.3)',
-    boxSizing: 'border-box',
+    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
     flexShrink: 0
   };
 
   const imageStyle: React.CSSProperties = {
     width: '100%',
     height: '100%',
-    objectFit: 'cover', // Recorta la imagen para llenar el contenedor manteniendo proporciones
+    objectFit: 'cover', // Llena el círculo completo manteniendo proporciones
     objectPosition: 'center center',
-    borderRadius: '0',
+    borderRadius: '0', // El contenedor ya maneja el border-radius
     margin: 0,
     padding: 0,
     border: 'none',
@@ -56,7 +50,8 @@ const ProfileImage: React.FC<ProfileImageProps> = ({
     color: '#6c5ce7',
     margin: 0,
     padding: 0,
-    border: 'none'
+    border: 'none',
+    borderRadius: '0' // El contenedor ya maneja el border-radius
   };
 
   return (
